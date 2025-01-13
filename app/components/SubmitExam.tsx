@@ -11,9 +11,6 @@ interface Exam {
   id: number;
   title: string;
   questions: Question[];
-  start_time: string | null;
-  end_time: string | null;
-  duration_minutes: number;
 }
 
 interface QuestionAnswerSubmission {
@@ -25,20 +22,12 @@ interface ExamSubmission {
   answers: QuestionAnswerSubmission[];
 }
 
-interface TimeCheckResponse {
-  remaining_minutes: number;
-  can_start: boolean;
-  message: string;
-}
-
 const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [exam, setExam] = useState<Exam | null>(null);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [remainingTime, setRemainingTime] = useState<number>(0);
-  const [canStart, setCanStart] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchExam = async () => {
@@ -60,29 +49,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       }
     };
 
-    const checkTime = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam/${examId}/time-check`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-
-        const data: TimeCheckResponse = await response.json();
-        setRemainingTime(data.remaining_minutes);
-        setCanStart(data.can_start);
-        setMessage(data.message);
-      } catch (error) {
-        console.error('Error checking time:', error);
-      }
-    };
-
     fetchExam();
-    checkTime();
-    const timer = setInterval(checkTime, 60000); // Her dakika başı kalan süreyi kontrol et
-
-    return () => clearInterval(timer); // Temizleme
   }, [examId]);
 
   const handleOptionChange = (questionId: number, optionId: number) => {
@@ -134,32 +101,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
-  const handleStartExam = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setExam((prevExam) => ({
-          ...prevExam!,
-          start_time: data.start_time,
-          end_time: data.end_time,
-        }));
-        setMessage('Sınav başarıyla başlatıldı');
-      } else {
-        throw new Error(data.detail || 'Error starting exam');
-      }
-    } catch (error) {
-      setError('Error starting exam');
-    }
-  };
-
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
   if (!exam) return <div>Loading...</div>;
@@ -169,16 +110,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   return (
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
-      <div className={styles.timeContainer}>
-        {canStart ? (
-          <div>
-            <button onClick={handleStartExam}>Sınavı Başlat</button>
-            <div>{message}</div>
-          </div>
-        ) : (
-          <div>Kalan Süre: {remainingTime} dakika</div>
-        )}
-      </div>
       <div className={styles.questionContainer}>
         <h3>{currentQuestion.text}</h3>
         {currentQuestion.options.map((option, index) => (
