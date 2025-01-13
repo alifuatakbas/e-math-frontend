@@ -64,7 +64,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         },
       });
       if (!response.ok) {
-        throw new Error('Error starting exam');
+        const data = await response.json();
+        throw new Error(data.detail || 'Error starting exam');
       }
       const data = await response.json();
       setExamStarted(true);
