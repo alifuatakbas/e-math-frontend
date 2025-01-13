@@ -22,7 +22,7 @@ const Login: React.FC = () => {
     formData.append('password', password);
 
     try {
-      const response = await fetch('${process.env.NEXT_PUBLIC_API_URL}/token', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token`, {
         method: 'POST',
         body: formData
       });
