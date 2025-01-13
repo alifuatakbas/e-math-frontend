@@ -11,6 +11,7 @@ interface Exam {
   id: number;
   title: string;
   questions: Question[];
+  has_been_taken: boolean;  // Sınavın daha önce alınıp alınmadığını kontrol edeceğiz
 }
 
 interface QuestionAnswerSubmission {
@@ -32,44 +33,34 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
+        // Sınav verisini al
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
+
         if (!response.ok) {
           throw new Error('Error fetching exam');
         }
+
         const data = await response.json();
+
+        // Sınavı zaten çözmüşse hata mesajı göster
+        if (data.has_been_taken) {
+          setError('Bu sınav zaten çözülmüş.');
+          return;
+        }
+
         setExam(data);
       } catch (error) {
         console.error('Error fetching exam:', error);
-        setError('Error fetching exam.');
+        setError('Sınav verisi yüklenirken bir hata oluştu.');
       }
     };
 
-    const checkSubmissionStatus = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}/submission-status`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        const data = await response.json();
-        if (data.hasSubmitted) {
-          setError('Bu sınav zaten çözülmüş');
-        } else {
-          fetchExam();
-        }
-      } catch (error) {
-        console.error('Error checking submission status:', error);
-        setError('Error checking submission status.');
-      }
-    };
-
-    checkSubmissionStatus();
+    fetchExam();
   }, [examId]);
 
   const handleOptionChange = (questionId: number, optionId: number) => {
@@ -117,7 +108,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       setMessage(`Sınav başarıyla tamamlandı. Doğru Cevaplar: ${data.correct_answers}, Yanlış cevaplar: ${data.incorrect_answers}`);
       setAnswers({});
     } catch (error) {
-      setError('Error submitting exam');
+      setError('Sınav gönderilirken bir hata oluştu.');
     }
   };
 
