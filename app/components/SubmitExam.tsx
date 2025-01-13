@@ -22,12 +22,20 @@ interface ExamSubmission {
   answers: QuestionAnswerSubmission[];
 }
 
+interface TimeCheckResponse {
+  remaining_minutes: number;
+  can_start: boolean;
+  message: string;
+}
+
 const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [exam, setExam] = useState<Exam | null>(null);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [remainingTime, setRemainingTime] = useState<number>(0);
+  const [canStart, setCanStart] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchExam = async () => {
@@ -49,7 +57,29 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       }
     };
 
+    const checkTime = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam/${examId}/time-check`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        const data: TimeCheckResponse = await response.json();
+        setRemainingTime(data.remaining_minutes);
+        setCanStart(data.can_start);
+        setMessage(data.message);
+      } catch (error) {
+        console.error('Error checking time:', error);
+      }
+    };
+
     fetchExam();
+    checkTime();
+    const timer = setInterval(checkTime, 60000); // Her dakika başı kalan süreyi kontrol et
+
+    return () => clearInterval(timer); // Temizleme
   }, [examId]);
 
   const handleOptionChange = (questionId: number, optionId: number) => {
@@ -110,6 +140,13 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   return (
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
+      <div className={styles.timeContainer}>
+        {canStart ? (
+          <div>Başlamadınız. Lütfen sınavı başlatın.</div>
+        ) : (
+          <div>Kalan Süre: {remainingTime} dakika</div>
+        )}
+      </div>
       <div className={styles.questionContainer}>
         <h3>{currentQuestion.text}</h3>
         {currentQuestion.options.map((option, index) => (
