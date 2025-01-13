@@ -1,33 +1,23 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-
-interface AddQuestionProps {
-  examId?: number;
-}
-
-const AddQuestion: React.FC<AddQuestionProps> = ({ examId: propExamId }) => {
+const AddQuestion: React.FC = () => {
   const [exams, setExams] = useState<{ id: number; title: string }[]>([]);
-  const [selectedExamId, setSelectedExamId] = useState<number | null>(propExamId || null);
+  const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [text, setText] = useState('');
   const [options, setOptions] = useState(['', '', '', '', '']);
   const [correctOptionIndex, setCorrectOptionIndex] = useState(0);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (propExamId) {
-      setSelectedExamId(propExamId);
-    }
-  }, [propExamId]);
-
+  // Fetch exams when the component mounts
   useEffect(() => {
     const fetchExams = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
         });
         if (!response.ok) {
           throw new Error('Sınavlar alınırken bir hata oluştu');
@@ -54,20 +44,24 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId: propExamId }) => {
     setMessage('');
     setError('');
 
+    // Check if a exam is selected
     if (selectedExamId === null) {
       setError('Lütfen bir sınav seçin.');
       return;
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-question/${selectedExamId}?text=${encodeURIComponent(text)}&correct_option_index=${correctOptionIndex}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(options)
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/add-question/${selectedExamId}?text=${encodeURIComponent(text)}&correct_option_index=${correctOptionIndex}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify(options),
+        }
+      );
 
       const data = await response.json();
 
@@ -79,7 +73,6 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId: propExamId }) => {
       setText('');
       setOptions(['', '', '', '', '']);
       setCorrectOptionIndex(0);
-      if (!propExamId) setSelectedExamId(null);
     } catch (error: any) {
       setError(error.message || 'Bir hata oluştu');
     }
@@ -93,23 +86,24 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId: propExamId }) => {
       {message && <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">{message}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {!propExamId && (
-          <div>
-            <label htmlFor="exam-select" className="block mb-2 text-sm font-medium">Sınav Seçin</label>
-            <select
-              id="exam-select"
-              value={selectedExamId || ''}
-              onChange={(e) => setSelectedExamId(Number(e.target.value))}
-              required
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="" disabled>Bir sınav seçin</option>
-              {exams.map((exam) => (
-                <option key={exam.id} value={exam.id}>{exam.title}</option>
-              ))}
-            </select>
-          </div>
-        )}
+        {/* Sınav seçimi */}
+        <div>
+          <label htmlFor="exam-select" className="block mb-2 text-sm font-medium">Sınav Seçin</label>
+          <select
+            id="exam-select"
+            value={selectedExamId || ''}
+            onChange={(e) => setSelectedExamId(Number(e.target.value))}
+            required
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" disabled>Bir sınav seçin</option>
+            {exams.map((exam) => (
+              <option key={exam.id} value={exam.id}>{exam.title}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Soru metni */}
         <div>
           <label htmlFor="question-text" className="block mb-2 text-sm font-medium">Soru Metni</label>
           <input
@@ -122,6 +116,8 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId: propExamId }) => {
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+
+        {/* Seçenekler */}
         {options.map((option, index) => (
           <div key={index}>
             <label htmlFor={`option-${index}`} className="block mb-2 text-sm font-medium">Seçenek {index + 1}</label>
@@ -136,6 +132,8 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId: propExamId }) => {
             />
           </div>
         ))}
+
+        {/* Doğru seçenek */}
         <div>
           <label htmlFor="correct-option" className="block mb-2 text-sm font-medium">Doğru Seçenek</label>
           <select
@@ -149,6 +147,8 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId: propExamId }) => {
             ))}
           </select>
         </div>
+
+        {/* Gönderme butonu */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
