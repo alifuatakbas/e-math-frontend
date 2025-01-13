@@ -12,7 +12,7 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await fetch('${process.env.NEXT_PUBLIC_API_URL}/exams', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`, // Token ile yetkilendirme
