@@ -49,7 +49,27 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       }
     };
 
-    fetchExam();
+    const checkSubmissionStatus = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}/submission-status`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        const data = await response.json();
+        if (data.hasSubmitted) {
+          setError('Bu sınav zaten çözülmüş');
+        } else {
+          fetchExam();
+        }
+      } catch (error) {
+        console.error('Error checking submission status:', error);
+        setError('Error checking submission status.');
+      }
+    };
+
+    checkSubmissionStatus();
   }, [examId]);
 
   const handleOptionChange = (questionId: number, optionId: number) => {
