@@ -11,6 +11,7 @@ interface Exam {
   id: number;
   title: string;
   questions: Question[];
+  ends_at: string; // Add this field to get the end time of the exam
 }
 
 interface QuestionAnswerSubmission {
@@ -28,6 +29,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchExam = async () => {
@@ -43,6 +45,11 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         }
         const data = await response.json();
         setExam(data);
+
+        // Calculate remaining time
+        const endTime = new Date(data.ends_at).getTime();
+        const now = new Date().getTime();
+        setRemainingTime(Math.max(0, endTime - now));
       } catch (error) {
         console.error('Error fetching exam:', error);
         setError('Error fetching exam.');
@@ -51,6 +58,16 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
 
     fetchExam();
   }, [examId]);
+
+  useEffect(() => {
+    if (remainingTime !== null) {
+      const timer = setInterval(() => {
+        setRemainingTime((prev) => (prev !== null ? prev - 1000 : null));
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [remainingTime]);
 
   const handleOptionChange = (questionId: number, optionId: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
@@ -107,9 +124,19 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
 
   const currentQuestion = exam.questions[currentQuestionIndex];
 
+  const formatTime = (milliseconds: number) => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
   return (
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
+      <div className={styles.timerContainer}>
+        <h2>Kalan Süre: {remainingTime !== null ? formatTime(remainingTime) : '00:00'}</h2>
+      </div>
       <div className={styles.questionContainer}>
         <h3>{currentQuestion.text}</h3>
         {currentQuestion.options.map((option, index) => (
