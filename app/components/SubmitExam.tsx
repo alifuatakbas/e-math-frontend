@@ -23,11 +23,7 @@ interface ExamSubmission {
   answers: QuestionAnswerSubmission[];
 }
 
-interface SubmitExamProps {
-  examId: number;
-}
-
-const SubmitExam: React.FC<SubmitExamProps> = ({ examId }) => {
+const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [exam, setExam] = useState<Exam | null>(null);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
