@@ -1,0 +1,86 @@
+/* SubmitExam.module.css */
+.submitExamContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.submitExamContainer h1 {
+  font-size: 2.5em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.questionContainer {
+  margin-bottom: 20px;
+}
+
+.questionContainer h3 {
+  font-size: 1.5em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.questionContainer div {
+  margin: 10px 0;
+}
+
+.questionContainer input[type="radio"] {
+  margin-right: 10px;
+}
+
+.questionContainer label {
+  font-size: 1em;
+  color: #333;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.buttonContainer button {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buttonContainer button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.buttonContainer button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.buttonContainer .submitButton {
+  background-color: #28a745; /* Green color for the submit button */
+}
+
+.buttonContainer .submitButton:hover:not(:disabled) {
+  background-color: #28a745; /* Keep green color on hover */
+}
+
+.errorMessage {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.successMessage {
+  color: green;
+  text-align: center;
+  margin-top: 20px;
+}

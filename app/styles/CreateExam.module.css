@@ -1,0 +1,81 @@
+/* styles/CreateExam.module.css */
+.createExamContainer {
+  max-width: 400px;
+  margin: 100px auto; /* Ekranın ortasında konumlandır */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center; /* Başlık ve mesajları ortala */
+}
+
+.createExamContainer h2 {
+  margin-bottom: 20px; /* Başlık ile form arasında boşluk */
+}
+
+.createExamContainer form {
+  display: flex;
+  flex-direction: column;
+}
+
+.createExamContainer label {
+  margin-bottom: 8px;
+}
+
+.createExamContainer input {
+  margin-bottom: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.createExamContainer button {
+  padding: 10px;
+  background-color: #764ba2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.createExamContainer button:hover {
+  background-color: #623a8e;
+}
+
+.createExamContainer .successMessage {
+  color: green;
+  margin-top: 10px; /* Mesaj ile form arasında boşluk */
+}
+
+.createExamContainer .errorMessage {
+  color: red;
+  margin-top: 10px; /* Mesaj ile form arasında boşluk */
+}
+
+/* styles/CreateExam.module.css */
+.createExamContainer {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}

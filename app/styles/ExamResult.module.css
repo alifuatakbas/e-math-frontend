@@ -1,0 +1,35 @@
+.examResultContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.select {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.errorMessage {
+  color: red;
+  margin-top: 10px;
+}
+
+.resultContainer {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
+
+.resultContainer h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.resultContainer p {
+  font-size: 16px;
+}

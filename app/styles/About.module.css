@@ -1,0 +1,161 @@
+/* styles/AboutStyles.module.css */
+
+.aboutContainer {
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    padding: 2rem 1rem;
+}
+
+.heroSection {
+    background: #333;
+    padding: 4rem 2rem;
+    text-align: center;
+    color: white;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.heroTitle {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.heroText {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #f0f2f5;
+}
+
+.sectionContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+}
+
+.cardIcon {
+    color: #333;
+    width: 2rem;
+    height: 2rem;
+}
+
+.cardText {
+    color: #666;
+    line-height: 1.6;
+}
+
+.valuesSection {
+    background-color: white;
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.valueCard {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.valueCard:hover {
+    transform: translateY(-5px);
+}
+
+.valueTitle {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.statText {
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .heroSection {
+        padding: 3rem 1rem;
+    }
+
+    .heroTitle {
+        font-size: 2rem;
+    }
+
+    .gridContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .sectionContainer {
+        padding: 1rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .cardHeader {
+        flex-direction: column;
+        text-align: center;
+    }
+}
