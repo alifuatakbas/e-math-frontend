@@ -23,9 +23,11 @@ interface ExamSubmission {
   answers: QuestionAnswerSubmission[];
 }
 
-const SubmitExam: React.FC = () => {
-  const [exams, setExams] = useState<Exam[]>([]);
-  const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
+interface SubmitExamProps {
+  examId: number;
+}
+
+const SubmitExam: React.FC<SubmitExamProps> = ({ examId }) => {
   const [exam, setExam] = useState<Exam | null>(null);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -35,52 +37,31 @@ const SubmitExam: React.FC = () => {
   const [examStarted, setExamStarted] = useState(false);
 
   useEffect(() => {
-    const fetchExams = async () => {
+    const fetchExam = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
         if (!response.ok) {
-          throw new Error('Error fetching exams');
+          throw new Error('Error fetching exam');
         }
         const data = await response.json();
-        setExams(data);
+        setExam(data);
       } catch (error) {
-        console.error('Error fetching exams:', error);
-        setError('Error fetching exams.');
+        console.error('Error fetching exam:', error);
+        setError('Error fetching exam.');
       }
     };
 
-    fetchExams();
-  }, []);
-
-  const fetchExam = async (examId: number) => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Error fetching exam');
-      }
-      const data = await response.json();
-      setExam(data);
-    } catch (error) {
-      console.error('Error fetching exam:', error);
-      setError('Error fetching exam.');
-    }
-  };
+    fetchExam();
+  }, [examId]);
 
   const startExam = async () => {
-    if (selectedExamId === null) return;
-
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/start-exam/${selectedExamId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -140,7 +121,7 @@ const SubmitExam: React.FC = () => {
     };
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/submit-exam/${selectedExamId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/submit-exam/${examId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -164,22 +145,6 @@ const SubmitExam: React.FC = () => {
 
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
-  if (!examStarted) {
-    return (
-      <div className={styles.submitExamContainer}>
-        <h1>Sınav Seç</h1>
-        <select onChange={(e) => setSelectedExamId(Number(e.target.value))} value={selectedExamId || ''}>
-          <option value="" disabled>Bir sınav seçin</option>
-          {exams.map((exam) => (
-            <option key={exam.id} value={exam.id}>{exam.title}</option>
-          ))}
-        </select>
-        <button onClick={() => selectedExamId && fetchExam(selectedExamId)}>Sınavı Yükle</button>
-        {selectedExamId && <button onClick={startExam}>Sınava Başla</button>}
-      </div>
-    );
-  }
-
   if (!exam) return <div>Loading...</div>;
 
   const currentQuestion = exam.questions[currentQuestionIndex];
@@ -194,37 +159,43 @@ const SubmitExam: React.FC = () => {
   return (
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
-      <div className={styles.timerContainer}>
-        <h2>Kalan Süre: {remainingTime !== null ? formatTime(remainingTime) : '00:00'}</h2>
-      </div>
-      <div className={styles.questionContainer}>
-        <h3>{currentQuestion.text}</h3>
-        {currentQuestion.options.map((option, index) => (
-          <div key={index}>
-            <input
-              type="radio"
-              id={`question-${currentQuestion.id}-option-${index}`}
-              name={`question-${currentQuestion.id}`}
-              value={index}
-              onChange={() => handleOptionChange(currentQuestion.id, index)}
-              checked={answers[currentQuestion.id] === index}
-            />
-            <label htmlFor={`question-${currentQuestion.id}-option-${index}`}>{option}</label>
+      {!examStarted ? (
+        <button onClick={startExam}>Sınava Başla</button>
+      ) : (
+        <>
+          <div className={styles.timerContainer}>
+            <h2>Kalan Süre: {remainingTime !== null ? formatTime(remainingTime) : '00:00'}</h2>
           </div>
-        ))}
-      </div>
-      <div className={styles.buttonContainer}>
-        <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>
-          Önceki Soru
-        </button>
-        <button
-          onClick={handleNextQuestion}
-          className={currentQuestionIndex < (exam.questions.length - 1) ? '' : styles.submitButton}
-        >
-          {currentQuestionIndex < (exam.questions.length - 1) ? 'Sonraki Soru' : 'Sınavı Bitir'}
-        </button>
-      </div>
-      {message && <div className={styles.successMessage}>{message}</div>}
+          <div className={styles.questionContainer}>
+            <h3>{currentQuestion.text}</h3>
+            {currentQuestion.options.map((option, index) => (
+              <div key={index}>
+                <input
+                  type="radio"
+                  id={`question-${currentQuestion.id}-option-${index}`}
+                  name={`question-${currentQuestion.id}`}
+                  value={index}
+                  onChange={() => handleOptionChange(currentQuestion.id, index)}
+                  checked={answers[currentQuestion.id] === index}
+                />
+                <label htmlFor={`question-${currentQuestion.id}-option-${index}`}>{option}</label>
+              </div>
+            ))}
+          </div>
+          <div className={styles.buttonContainer}>
+            <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>
+              Önceki Soru
+            </button>
+            <button
+              onClick={handleNextQuestion}
+              className={currentQuestionIndex < (exam.questions.length - 1) ? '' : styles.submitButton}
+            >
+              {currentQuestionIndex < (exam.questions.length - 1) ? 'Sonraki Soru' : 'Sınavı Bitir'}
+            </button>
+          </div>
+          {message && <div className={styles.successMessage}>{message}</div>}
+        </>
+      )}
     </div>
   );
 };
