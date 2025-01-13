@@ -11,6 +11,9 @@ interface Exam {
   id: number;
   title: string;
   questions: Question[];
+  start_time: string | null;
+  end_time: string | null;
+  duration_minutes: number;
 }
 
 interface QuestionAnswerSubmission {
@@ -131,6 +134,32 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
+  const handleStartExam = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setExam((prevExam) => ({
+          ...prevExam!,
+          start_time: data.start_time,
+          end_time: data.end_time,
+        }));
+        setMessage('Sınav başarıyla başlatıldı');
+      } else {
+        throw new Error(data.detail || 'Error starting exam');
+      }
+    } catch (error) {
+      setError('Error starting exam');
+    }
+  };
+
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
   if (!exam) return <div>Loading...</div>;
@@ -142,7 +171,10 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       <h1>{exam.title}</h1>
       <div className={styles.timeContainer}>
         {canStart ? (
-          <div>Başlamadınız. Lütfen sınavı başlatın.</div>
+          <div>
+            <button onClick={handleStartExam}>Sınavı Başlat</button>
+            <div>{message}</div>
+          </div>
         ) : (
           <div>Kalan Süre: {remainingTime} dakika</div>
         )}
