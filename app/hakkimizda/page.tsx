@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Users, Award, TrendingUp, Medal, Boxes } from 'lucide-react';
+import { Target,Award} from 'lucide-react';
 import styles from '../styles/About.module.css';
 
 const AboutUs = () => {
