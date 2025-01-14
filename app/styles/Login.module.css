@@ -78,3 +78,37 @@
   color: green;
   margin-top: 1rem;
 }
+
+
+/* Mevcut stiller... */
+
+.forgotPasswordContainer {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.forgotPasswordButton {
+  background: none;
+  border: none;
+  color: #4f46e5;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.forgotPasswordButton:hover {
+  color: #4338ca;
+}
+
+.message {
+  color: #059669;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.error {
+  color: #dc2626;
+  margin-top: 1rem;
+  text-align: center;
+}

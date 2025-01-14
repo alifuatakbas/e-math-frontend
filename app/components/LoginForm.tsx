@@ -1,7 +1,8 @@
-// components/Login.tsx
+
 "use client"
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import styles from '../styles/Login.module.css';
 
 const Login: React.FC = () => {
@@ -45,6 +46,33 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Lütfen email adresinizi girin');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email })
+      });
+
+      if (response.ok) {
+        setMessage('Şifre sıfırlama linki email adresinize gönderildi');
+        setError('');
+      } else {
+        const errorData = await response.json();
+        setError(errorData.detail || 'Bir hata oluştu');
+      }
+    } catch (error) {
+      setError('Bir hata oluştu. Lütfen tekrar deneyin.');
+    }
+  };
+
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginBox}>
@@ -74,6 +102,17 @@ const Login: React.FC = () => {
           </div>
           <button type="submit" className={styles.submitButton}>Login</button>
         </form>
+
+        <div className={styles.forgotPasswordContainer}>
+          <button
+            onClick={handleForgotPassword}
+            className={styles.forgotPasswordButton}
+            type="button"
+          >
+            Şifremi Unuttum
+          </button>
+        </div>
+
         {error && <p className={styles.error}>{error}</p>}
         {message && <p className={styles.message}>{message}</p>}
       </div>
