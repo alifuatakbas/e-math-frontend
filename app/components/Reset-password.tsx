@@ -1,17 +1,31 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/Reset-password.module.css';
+import styles from '../styles/ResetPassword.module.css';
 
 export default function ResetPassword() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [token, setToken] = useState<string | null>(null);
     const router = useRouter();
-    const { token } = router.query;
+
+    useEffect(() => {
+        // URL'den token'ı al
+        const params = new URLSearchParams(window.location.search);
+        const tokenParam = params.get('token');
+        setToken(tokenParam);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!token) {
+            setError('Geçersiz veya eksik token');
+            return;
+        }
 
         if (newPassword !== confirmPassword) {
             setError('Şifreler eşleşmiyor');
@@ -44,13 +58,17 @@ export default function ResetPassword() {
 
             // 3 saniye sonra login sayfasına yönlendir
             setTimeout(() => {
-                router.push('/login');
+                window.location.href = '/login';
             }, 3000);
         } catch (err: any) {
             setError(err.message);
             setMessage('');
         }
     };
+
+    if (!token) {
+        return <div className={styles.container}>Token bulunamadı</div>;
+    }
 
     return (
         <div className={styles.container}>
