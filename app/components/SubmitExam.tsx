@@ -11,7 +11,7 @@ interface Exam {
   id: number;
   title: string;
   questions: Question[];
-  has_been_taken: boolean;  // Sınavın daha önce alınıp alınmadığını kontrol edeceğiz
+  has_been_taken: boolean;
 }
 
 interface QuestionAnswerSubmission {
@@ -29,11 +29,12 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [examStarted, setExamStarted] = useState(false);
 
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        // Sınav verisini al
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`, {
           method: 'GET',
           headers: {
@@ -47,7 +48,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
 
         const data = await response.json();
 
-        // Sınavı zaten çözmüşse hata mesajı göster
         if (data.has_been_taken) {
           setError('Bu sınav zaten çözülmüş.');
           return;
@@ -62,6 +62,23 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
 
     fetchExam();
   }, [examId]);
+
+  useEffect(() => {
+    if (examStarted && timeLeft !== null) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime === null || prevTime <= 0) {
+            clearInterval(timer);
+            handleSubmit();
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [examStarted, timeLeft]);
 
   const handleOptionChange = (questionId: number, optionId: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
@@ -112,15 +129,55 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
+  const handleStartExam = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Error starting exam');
+      }
+
+      const data = await response.json();
+      const endTime = new Date(data.end_time).getTime();
+      const currentTime = new Date().getTime();
+      const timeLeftInSeconds = Math.floor((endTime - currentTime) / 1000);
+
+      setTimeLeft(timeLeftInSeconds);
+      setExamStarted(true);
+    } catch (error) {
+      console.error('Error starting exam:', error);
+      setError('Sınav başlatılırken bir hata oluştu.');
+    }
+  };
+
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
   if (!exam) return <div>Loading...</div>;
+
+  if (!examStarted) {
+    return (
+      <div className={styles.submitExamContainer}>
+        <h1>{exam.title}</h1>
+        <button onClick={handleStartExam} className={styles.startButton}>
+          Sınava Başla
+        </button>
+      </div>
+    );
+  }
 
   const currentQuestion = exam.questions[currentQuestionIndex];
 
   return (
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
+      <div className={styles.timer}>
+        Kalan Süre: {Math.floor(timeLeft! / 60)}:{timeLeft! % 60}
+      </div>
       <div className={styles.questionContainer}>
         <h3>{currentQuestion.text}</h3>
         {currentQuestion.options.map((option, index) => (
