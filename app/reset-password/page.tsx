@@ -1,16 +1,29 @@
-'use client';
+"use client"
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+import ResetPassword from './../components/Reset-password';
 
-import dynamic from 'next/dynamic';
+const ResetPasswordPage: React.FC = () => {
+    const [token, setToken] = useState<string | null>(null);
 
-// ResetPassword component'ini dynamic import ile yükle
-const ResetPassword = dynamic(() => import('../components/Reset-password'), {
-    ssr: false // Server-side rendering'i devre dışı bırak
-});
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const tokenParam = searchParams.get('token');
+        setToken(tokenParam);
+    }, []);
 
-export default function ResetPasswordPage() {
     return (
-        <main className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <ResetPassword />
-        </main>
+        <div>
+            <Head>
+                <title>Şifre Sıfırlama</title>
+                <meta name="description" content="Şifre sıfırlama sayfası" />
+            </Head>
+
+            <main>
+                <ResetPassword token={token} />
+            </main>
+        </div>
     );
-}
+};
+
+export default ResetPasswordPage;

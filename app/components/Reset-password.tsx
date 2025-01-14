@@ -1,23 +1,15 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react';
 import styles from '../styles/Reset-password.module.css';
 
-export default function ResetPassword() {
+interface ResetPasswordProps {
+    token: string | null;
+}
+
+const ResetPassword: React.FC<ResetPasswordProps> = ({ token }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-    const [token, setToken] = useState<string | null>(null);
-    const router = useRouter();
-
-    useEffect(() => {
-        // URL'den token'ı al
-        const params = new URLSearchParams(window.location.search);
-        const tokenParam = params.get('token');
-        setToken(tokenParam);
-    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -66,10 +58,6 @@ export default function ResetPassword() {
         }
     };
 
-    if (!token) {
-        return <div className={styles.container}>Token bulunamadı</div>;
-    }
-
     return (
         <div className={styles.container}>
             <h1>Şifre Sıfırlama</h1>
@@ -80,6 +68,7 @@ export default function ResetPassword() {
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Yeni şifre"
                     required
+                    className={styles.input}
                 />
                 <input
                     type="password"
@@ -87,11 +76,16 @@ export default function ResetPassword() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Yeni şifre (tekrar)"
                     required
+                    className={styles.input}
                 />
-                <button type="submit">Şifreyi Güncelle</button>
+                <button type="submit" className={styles.button}>
+                    Şifreyi Güncelle
+                </button>
             </form>
             {message && <p className={styles.success}>{message}</p>}
             {error && <p className={styles.error}>{error}</p>}
         </div>
     );
-}
+};
+
+export default ResetPassword;
