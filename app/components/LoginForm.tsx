@@ -1,8 +1,6 @@
-
 "use client"
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import styles from '../styles/Login.module.css';
 
 const Login: React.FC = () => {
@@ -52,6 +50,13 @@ const Login: React.FC = () => {
       return;
     }
 
+    // Email formatını kontrol et
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Geçerli mail adresi giriniz');
+      return;
+    }
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/forgot-password`, {
         method: 'POST',
@@ -65,11 +70,10 @@ const Login: React.FC = () => {
         setMessage('Şifre sıfırlama linki email adresinize gönderildi');
         setError('');
       } else {
-        const errorData = await response.json();
-        setError(errorData.detail || 'Bir hata oluştu');
+        setError('Geçerli mail adresi giriniz');
       }
     } catch (error) {
-      setError('Bir hata oluştu. Lütfen tekrar deneyin.');
+      setError('Geçerli mail adresi giriniz');
     }
   };
 
