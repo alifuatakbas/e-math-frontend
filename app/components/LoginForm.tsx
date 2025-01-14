@@ -50,14 +50,10 @@ const Login: React.FC = () => {
       return;
     }
 
-    // Email formatını kontrol et
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Geçerli mail adresi giriniz');
-      return;
-    }
-
     try {
+      console.log('Sending request to:', `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`);
+      console.log('With email:', email);
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/forgot-password`, {
         method: 'POST',
         headers: {
@@ -66,14 +62,18 @@ const Login: React.FC = () => {
         body: JSON.stringify({ email })
       });
 
+      const data = await response.json();
+      console.log('Response:', data);
+
       if (response.ok) {
         setMessage('Şifre sıfırlama linki email adresinize gönderildi');
         setError('');
       } else {
-        setError('Geçerli mail adresi giriniz');
+        setError(data.detail || 'Bu email adresi sistemde kayıtlı değil');
       }
     } catch (error) {
-      setError('Geçerli mail adresi giriniz');
+      console.error('Error:', error);
+      setError('Bir hata oluştu, lütfen tekrar deneyin');
     }
   };
 
