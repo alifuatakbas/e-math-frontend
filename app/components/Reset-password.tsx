@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/ResetPassword.module.css';
+import styles from '../styles/Reset-password.module.css';
 
 export default function ResetPassword() {
     const [newPassword, setNewPassword] = useState('');
