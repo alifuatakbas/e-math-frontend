@@ -183,7 +183,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
-  const handleSubmit = async () => {
+const handleSubmit = async () => {
     try {
       const submission: ExamSubmission = {
         answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
@@ -204,13 +204,24 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         }
       );
 
-      if (!response.ok) throw new Error('Sınav gönderilemedi');
-
       const data = await response.json();
-      setMessage(
-        `Sınav tamamlandı. Doğru: ${data.correct_answers}, Yanlış: ${data.incorrect_answers}, 
-         Başarı Yüzdesi: %${data.score_percentage.toFixed(2)}`
-      );
+
+      if (!response.ok) {
+        // Süre dolmuş olsa bile sonuçları göster
+        if (data.correct_answers !== undefined) {
+          setMessage(
+            `Sınav süresi doldu. Sonuçlar: Doğru: ${data.correct_answers}, Yanlış: ${data.incorrect_answers}, 
+             Başarı Yüzdesi: %${data.score_percentage.toFixed(2)}`
+          );
+        } else {
+          throw new Error(data.detail || 'Sınav gönderilemedi');
+        }
+      } else {
+        setMessage(
+          `Sınav tamamlandı. Doğru: ${data.correct_answers}, Yanlış: ${data.incorrect_answers}, 
+           Başarı Yüzdesi: %${data.score_percentage.toFixed(2)}`
+        );
+      }
 
       // Temizle
       localStorage.removeItem(`exam_${examId}_answers`);
@@ -218,7 +229,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     } catch (error) {
       setError('Sınav gönderilirken bir hata oluştu');
     }
-  };
+};
 
   if (isLoading) return <div>Yükleniyor...</div>;
   if (error) return <div className={styles.errorMessage}>{error}</div>;
