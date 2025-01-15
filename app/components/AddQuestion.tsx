@@ -13,7 +13,7 @@ const AddQuestion: React.FC = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
