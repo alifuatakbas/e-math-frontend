@@ -1,7 +1,7 @@
-// components/Navbar.tsx
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from '../styles/Navbar.module.css';
 
 interface User {
@@ -9,10 +9,31 @@ interface User {
   email: string;
 }
 
+// Korumalı Link componenti
+const ProtectedLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => {
+  const router = useRouter();
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    } else {
+      router.push(href);
+    }
+  };
+
+  return (
+    <Link href={href} onClick={handleClick} className={styles.examDropdownLink}>
+      {children}
+    </Link>
+  );
+};
+
 const Navbar: React.FC = () => {
-  const [isExamMenuOpen, setIsExamMenuOpen] = useState(false); // Sınavlar menüsü için durum
-  const [currentUser, setCurrentUser] = useState<User | null>(null); // Kullanıcı bilgilerini tutacak state
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Kullanıcı menüsü durumu
+  const [isExamMenuOpen, setIsExamMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -38,11 +59,11 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
-    setIsDropdownOpen(false); // Çıkış yapıldığında menüyü kapat
+    setIsDropdownOpen(false);
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen); // Menü açma/kapama
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -68,18 +89,18 @@ const Navbar: React.FC = () => {
                 onMouseEnter={() => setIsExamMenuOpen(true)}
                 onMouseLeave={() => setIsExamMenuOpen(false)}
               >
-                <Link href="/sinav-olustur" className={styles.examDropdownLink}>
+                <ProtectedLink href="/sinav-olustur">
                   Sınav Oluştur
-                </Link>
-                <Link href="/soru-ekle" className={styles.examDropdownLink}>
+                </ProtectedLink>
+                <ProtectedLink href="/soru-ekle">
                   Soru Ekle
-                </Link>
-                <Link href="/sinav-coz" className={styles.examDropdownLink}>
+                </ProtectedLink>
+                <ProtectedLink href="/sinav-coz">
                   Sınav Çöz
-                </Link>
-                <Link href="/sinav-sonuclari" className={styles.examDropdownLink}>
+                </ProtectedLink>
+                <ProtectedLink href="/sinav-sonuclari">
                   Sınav Sonuçlarına Bak
-                </Link>
+                </ProtectedLink>
               </div>
             )}
           </div>
