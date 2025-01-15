@@ -1,4 +1,4 @@
-// pages/index.tsx
+// sinav-olustur/page.tsx
 import Head from 'next/head';
 import CreateExam from '../components/CreateExam';
 

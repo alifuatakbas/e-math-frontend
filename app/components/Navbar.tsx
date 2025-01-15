@@ -7,21 +7,39 @@ import styles from '../styles/Navbar.module.css';
 interface User {
   full_name: string;
   email: string;
+  role?: string; // role özelliğini ekledik
 }
 
-// Korumalı Link componenti
-const ProtectedLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => {
+// Korumalı Link componenti - admin kontrolü eklendi
+const ProtectedLink: React.FC<{
+  href: string;
+  children: React.ReactNode;
+  adminOnly?: boolean;
+  isAdmin?: boolean;
+}> = ({ href, children, adminOnly, isAdmin }) => {
   const router = useRouter();
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
+
     if (!token) {
       router.push('/login');
-    } else {
-      router.push(href);
+      return;
     }
+
+    if (adminOnly && !isAdmin) {
+      alert('Bu sayfaya erişim yetkiniz yok');
+      return;
+    }
+
+    router.push(href);
   };
+
+  // Eğer link admin'e özelse ve kullanıcı admin değilse linki gösterme
+  if (adminOnly && !isAdmin) {
+    return null;
+  }
 
   return (
     <Link href={href} onClick={handleClick} className={styles.examDropdownLink}>
@@ -34,20 +52,27 @@ const Navbar: React.FC = () => {
   const [isExamMenuOpen, setIsExamMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       const token = localStorage.getItem('token');
       if (token) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (response.ok) {
+            const userData: User = await response.json();
+            setCurrentUser(userData);
+            setIsAdmin(userData.role === 'admin'); // Admin kontrolü
+          } else {
+            localStorage.removeItem('token');
           }
-        });
-        if (response.ok) {
-          const userData: User = await response.json();
-          setCurrentUser(userData);
-        } else {
+        } catch (error) {
+          console.error('Kullanıcı bilgileri alınamadı:', error);
           localStorage.removeItem('token');
         }
       }
@@ -59,6 +84,7 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
+    setIsAdmin(false);
     setIsDropdownOpen(false);
   };
 
@@ -89,12 +115,15 @@ const Navbar: React.FC = () => {
                 onMouseEnter={() => setIsExamMenuOpen(true)}
                 onMouseLeave={() => setIsExamMenuOpen(false)}
               >
-                <ProtectedLink href="/sinav-olustur">
+                {/* Admin-only linkler */}
+                <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
                   Sınav Oluştur
                 </ProtectedLink>
-                <ProtectedLink href="/soru-ekle">
+                <ProtectedLink href="/soru-ekle" adminOnly isAdmin={isAdmin}>
                   Soru Ekle
                 </ProtectedLink>
+
+                {/* Normal kullanıcı linkleri */}
                 <ProtectedLink href="/sinav-coz">
                   Sınav Çöz
                 </ProtectedLink>
@@ -117,13 +146,18 @@ const Navbar: React.FC = () => {
           {currentUser ? (
             <>
               <span className={styles.userName} onClick={toggleDropdown}>
-                {currentUser.full_name}
+                {currentUser.full_name} {isAdmin && '(Admin)'}
               </span>
               {isDropdownOpen && (
                 <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
                   <Link href="/profil" className={styles.userDropdownLink}>
                     Profil
                   </Link>
+                  {isAdmin && (
+                    <Link href="/admin-panel" className={styles.userDropdownLink}>
+                      Admin Panel
+                    </Link>
+                  )}
                   <Link href="/settings" className={styles.userDropdownLink}>
                     Ayarlar
                   </Link>

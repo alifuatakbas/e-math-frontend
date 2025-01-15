@@ -16,7 +16,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
     const fetchExams = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -52,7 +52,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-exam`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
       setSuccess('Sınav başarıyla oluşturuldu');
       setTitle('');
 
-      const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+      const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -96,7 +96,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
     const token = localStorage.getItem('token');
     const newPublishStatus = currentStatus ? 0 : 1;
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}/publish/${newPublishStatus}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${examId}/publish/${newPublishStatus}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -105,7 +105,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
 
       if (response.ok) {
         alert(`Sınav başarıyla ${currentStatus ? 'kaldırıldı' : 'yayınlandı'}.`);
-        const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+        const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

@@ -10,11 +10,10 @@ const AddQuestion: React.FC = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  // Fetch exams when the component mounts
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -44,7 +43,6 @@ const AddQuestion: React.FC = () => {
     setMessage('');
     setError('');
 
-    // Check if a exam is selected
     if (selectedExamId === null) {
       setError('Lütfen bir sınav seçin.');
       return;
@@ -52,14 +50,18 @@ const AddQuestion: React.FC = () => {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/add-question/${selectedExamId}?text=${encodeURIComponent(text)}&correct_option_index=${correctOptionIndex}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${selectedExamId}/questions`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
-          body: JSON.stringify(options),
+          body: JSON.stringify({
+            text,
+            options,
+            correct_option_index: correctOptionIndex
+          }),
         }
       );
 
@@ -69,7 +71,7 @@ const AddQuestion: React.FC = () => {
         throw new Error(data.detail || 'Soru eklenirken bir hata oluştu');
       }
 
-      setMessage(data.message);
+      setMessage('Soru başarıyla eklendi');
       setText('');
       setOptions(['', '', '', '', '']);
       setCorrectOptionIndex(0);
@@ -86,7 +88,6 @@ const AddQuestion: React.FC = () => {
       {message && <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">{message}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Sınav seçimi */}
         <div>
           <label htmlFor="exam-select" className="block mb-2 text-sm font-medium">Sınav Seçin</label>
           <select
@@ -103,7 +104,6 @@ const AddQuestion: React.FC = () => {
           </select>
         </div>
 
-        {/* Soru metni */}
         <div>
           <label htmlFor="question-text" className="block mb-2 text-sm font-medium">Soru Metni</label>
           <input
@@ -117,7 +117,6 @@ const AddQuestion: React.FC = () => {
           />
         </div>
 
-        {/* Seçenekler */}
         {options.map((option, index) => (
           <div key={index}>
             <label htmlFor={`option-${index}`} className="block mb-2 text-sm font-medium">Seçenek {index + 1}</label>
@@ -133,7 +132,6 @@ const AddQuestion: React.FC = () => {
           </div>
         ))}
 
-        {/* Doğru seçenek */}
         <div>
           <label htmlFor="correct-option" className="block mb-2 text-sm font-medium">Doğru Seçenek</label>
           <select
@@ -148,7 +146,6 @@ const AddQuestion: React.FC = () => {
           </select>
         </div>
 
-        {/* Gönderme butonu */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
