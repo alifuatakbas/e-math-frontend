@@ -49,21 +49,25 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     try {
-      const requestData = {
-        text: text,
-        options: options,
-        correct_option_index: correctOptionIndex
-      };
+      // FormData oluştur
+      const formData = new URLSearchParams();
+      formData.append('text', text);
+      formData.append('correct_option_index', correctOptionIndex.toString());
+
+      // Her bir option için ayrı bir parametre ekle
+      options.forEach((option) => {
+        formData.append('options', option);
+      });
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
-          body: JSON.stringify(requestData)
+          body: formData.toString()
         }
       );
 
