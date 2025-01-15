@@ -50,6 +50,13 @@ const Login: React.FC = () => {
       return;
     }
 
+    // Email format kontrolü
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Geçersiz email formatı');
+      return;
+    }
+
     try {
       console.log('Sending request to:', `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`);
       console.log('With email:', email);
@@ -75,7 +82,7 @@ const Login: React.FC = () => {
       console.error('Error:', error);
       setError('Bir hata oluştu, lütfen tekrar deneyin');
     }
-  };
+};
 
   return (
     <div className={styles.loginContainer}>
