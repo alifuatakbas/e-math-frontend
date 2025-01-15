@@ -49,19 +49,21 @@ const AddQuestion: React.FC = () => {
     }
 
     try {
+      // URL'de query parametrelerini kullan
+      const queryParams = new URLSearchParams({
+        text: text,
+        correct_option_index: correctOptionIndex.toString()
+      }).toString();
+
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/{exam_id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}?${queryParams}`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
-          body: JSON.stringify({
-            text,
-            options,
-            correct_option_index: correctOptionIndex
-          }),
+          body: JSON.stringify(options), // Sadece options array'ini gönder
         }
       );
 
