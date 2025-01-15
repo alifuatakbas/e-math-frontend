@@ -38,7 +38,7 @@ const AddQuestion: React.FC = () => {
     setOptions(newOptions);
   };
 
- const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage('');
     setError('');
@@ -49,21 +49,24 @@ const AddQuestion: React.FC = () => {
     }
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-          body: new URLSearchParams({
-            text: text,
-            'options[]': options.join(','), // array'i virgülle ayrılmış string'e çevir
-            correct_option_index: correctOptionIndex.toString()
-          })
+      // URL'yi oluştur
+      const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`);
+
+      // Query parametrelerini ekle
+      url.searchParams.append('text', text);
+      url.searchParams.append('correct_option_index', correctOptionIndex.toString());
+
+      // Her bir option'ı ayrı ayrı ekle
+      options.forEach(option => {
+        url.searchParams.append('options', option);
+      });
+
+      const response = await fetch(url.toString(), {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         }
-      );
+      });
 
       const data = await response.json();
 
