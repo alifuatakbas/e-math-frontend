@@ -54,10 +54,8 @@ const handleSubmit = async (e: React.FormEvent) => {
       formData.append('text', text);
       formData.append('correct_option_index', correctOptionIndex.toString());
 
-      // Her bir option'ı ayrı ayrı ekle
-      options.forEach((option, index) => {
-        formData.append(`options[${index}]`, option);
-      });
+      // Tüm options'ları tek bir parametre olarak gönder
+      formData.append('options', options.join('|')); // Ayırıcı olarak | kullanıyoruz
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
