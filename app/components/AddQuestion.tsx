@@ -49,24 +49,19 @@ const AddQuestion: React.FC = () => {
     }
 
     try {
-      // FormData oluştur
-      const formData = new FormData();
-      formData.append('text', text);
-      formData.append('correct_option_index', correctOptionIndex.toString());
-
-      // Options array'ini string olarak ekle
-      options.forEach((option, index) => {
-        formData.append(`options[${index}]`, option);
-      });
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
         {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
-          body: formData, // FormData kullan
+          body: new URLSearchParams({
+            text: text,
+            'options[]': options.join(','), // array'i virgülle ayrılmış string'e çevir
+            correct_option_index: correctOptionIndex.toString()
+          })
         }
       );
 
@@ -85,6 +80,7 @@ const AddQuestion: React.FC = () => {
       console.error('Hata detayı:', error);
     }
   };
+
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Soru Ekle</h2>
