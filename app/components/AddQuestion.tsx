@@ -54,10 +54,10 @@ const handleSubmit = async (e: React.FormEvent) => {
       formData.append('text', text);
       formData.append('correct_option_index', correctOptionIndex.toString());
 
-      // options'ları tek bir string olarak gönder
-      formData.append('options', JSON.stringify(options));
-
-      console.log('Gönderilen veri:', formData.toString()); // Debug için
+      // Her bir option'ı ayrı ayrı ekle
+      options.forEach((option, index) => {
+        formData.append(`options[${index}]`, option);
+      });
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
@@ -86,7 +86,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       console.error('Hata detayı:', error);
     }
   };
-
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Soru Ekle</h2>
