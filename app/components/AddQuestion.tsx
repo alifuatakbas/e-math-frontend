@@ -38,7 +38,7 @@ const AddQuestion: React.FC = () => {
     setOptions(newOptions);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage('');
     setError('');
@@ -49,21 +49,24 @@ const AddQuestion: React.FC = () => {
     }
 
     try {
-      // URL'de query parametrelerini kullan
-      const queryParams = new URLSearchParams({
-        text: text,
-        correct_option_index: correctOptionIndex.toString()
-      }).toString();
+      // FormData oluştur
+      const formData = new FormData();
+      formData.append('text', text);
+      formData.append('correct_option_index', correctOptionIndex.toString());
+
+      // Options array'ini string olarak ekle
+      options.forEach((option, index) => {
+        formData.append(`options[${index}]`, option);
+      });
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}?${queryParams}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
-          body: JSON.stringify(options), // Sadece options array'ini gönder
+          body: formData, // FormData kullan
         }
       );
 
@@ -79,9 +82,9 @@ const AddQuestion: React.FC = () => {
       setCorrectOptionIndex(0);
     } catch (error: any) {
       setError(error.message || 'Bir hata oluştu');
+      console.error('Hata detayı:', error);
     }
   };
-
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Soru Ekle</h2>
