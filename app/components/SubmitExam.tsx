@@ -137,7 +137,124 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   }, [examStarted, tabSwitchCount, lastSwitchTime, isShowingAlert]);
 
-  const handleSubmit = async () => {
+  // Initial load
+  useEffect(() => {
+    const initializeExam = async () => {
+      try {
+        const statusData = await checkExamStatus();
+
+        const examResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        );
+
+        if (!examResponse.ok) throw new Error('Sınav verileri alınamadı');
+
+        const examData = await examResponse.json();
+
+        if (examData.has_been_taken && !statusData?.is_started) {
+          setError('Bu sınav zaten tamamlanmış.');
+          return;
+        }
+
+        setExam(examData);
+      } catch (error) {
+        console.error('Error initializing exam:', error);
+        setError('Sınav yüklenirken bir hata oluştu');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeExam();
+  }, [examId]);
+
+  // Timer and status check
+  useEffect(() => {
+    if (examStarted && timeLeft !== null) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime === null || prevTime <= 0) {
+            clearInterval(timer);
+            handleSubmit();
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+
+      const statusCheck = setInterval(async () => {
+        const status = await checkExamStatus();
+        if (status?.remaining_minutes === 0) {
+          clearInterval(timer);
+          clearInterval(statusCheck);
+          handleSubmit();
+        }
+      }, 30000);
+
+      return () => {
+        clearInterval(timer);
+        clearInterval(statusCheck);
+      };
+    }
+  }, [examStarted, timeLeft]);
+
+  const handleOptionChange = (questionId: number, optionId: number) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
+    localStorage.setItem(`exam_${examId}_answers`, JSON.stringify({
+      ...answers,
+      [questionId]: optionId
+    }));
+  };
+
+  const handleStartExam = async () => {
+    const confirmed = window.confirm(
+      'Önemli Uyarı:\n\n' +
+      '1. Sınav sırasında başka sekmeye veya uygulamaya geçmek yasaktır.\n' +
+      '2. 3 kez ihlal durumunda sınavınız otomatik olarak sonlandırılacaktır.\n' +
+      '3. Lütfen sınav süresince bu sekmede kalın.\n\n' +
+      'Sınavı başlatmak istiyor musunuz?'
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error('Sınav başlatılamadı');
+
+      const data = await response.json();
+      setTimeLeft(data.remaining_minutes * 60);
+      setExamStarted(true);
+      setTabSwitchCount(0);
+      setLastSwitchTime(0);
+      setIsShowingAlert(false);
+
+      const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
+      if (savedAnswers) {
+        setAnswers(JSON.parse(savedAnswers));
+      }
+    } catch (error) {
+      console.error('Error starting exam:', error);
+      setError('Sınav başlatılırken bir hata oluştu');
+    }
+  };
+
+    const handleSubmit = async () => {
     try {
       const submission: ExamSubmission = {
         answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
