@@ -42,7 +42,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
   const [lastSwitchTime, setLastSwitchTime] = useState(0);
-  const [isShowingAlert, setIsShowingAlert] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isExamTerminated, setIsExamTerminated] = useState(false);
 
   // Sınav durumunu kontrol et
   const checkExamStatus = async () => {
@@ -79,50 +80,54 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   };
 
   // Sekme değişimi ve pencere odak kontrolü için useEffect
-   useEffect(() => {
-    let isMounted = true; // Component mount durumunu takip et
+  useEffect(() => {
+    if (examStarted && !isExamTerminated) {
+      let timeoutId: NodeJS.Timeout;
 
-    if (examStarted) {
       const handleFocusChange = async () => {
-        if (!isMounted) return; // Component unmount olduysa işlem yapma
-
-        // Eğer zaten alert gösteriliyorsa veya son uyarıdan bu yana 1 saniye geçmediyse işlem yapma
-        if (isShowingAlert || Date.now() - lastSwitchTime < 1000) {
+        // Eğer sınav sonlandırılmışsa veya alert açıksa işlem yapma
+        if (isExamTerminated || isAlertOpen) {
           return;
         }
 
         // Sayfa odağını kaybettiğinde
         if (!document.hasFocus()) {
-          const newCount = tabSwitchCount + 1;
-
-          // İlk ihlal değilse devam et
-          if (newCount > 1) {
-            setIsShowingAlert(true);
-            setTabSwitchCount(newCount);
-            setLastSwitchTime(Date.now());
-
-            alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
-            setIsShowingAlert(false);
-
-            if (newCount >= 3) {
-              alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
-              await handleSubmit();
-
-              // Event listener'ları kaldır
-              window.removeEventListener('blur', handleFocusChange);
-              document.removeEventListener('visibilitychange', handleFocusChange);
-
-              // Sınav durumunu güncelle
-              setExamStarted(false);
-            }
-          } else {
-            // İlk ihlalde sadece sayacı artır ve uyarı ver
-            setTabSwitchCount(newCount);
-            setLastSwitchTime(Date.now());
-            setIsShowingAlert(true);
-            alert('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
-            setIsShowingAlert(false);
+          // Son uyarıdan bu yana yeterli süre geçmemişse işlem yapma
+          if (Date.now() - lastSwitchTime < 1000) {
+            return;
           }
+
+          const newCount = tabSwitchCount + 1;
+          setTabSwitchCount(newCount);
+          setLastSwitchTime(Date.now());
+          setIsAlertOpen(true);
+
+          if (newCount === 1) {
+            await new Promise<void>((resolve) => {
+              alert('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
+              resolve();
+            });
+          } else if (newCount < 3) {
+            await new Promise<void>((resolve) => {
+              alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
+              resolve();
+            });
+          } else if (newCount === 3) {
+            await new Promise<void>((resolve) => {
+              alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
+              resolve();
+            });
+            setIsExamTerminated(true);
+            await handleSubmit();
+            return;
+          }
+
+          setIsAlertOpen(false);
+
+          // Alert kapandıktan sonra kısa bir süre bekle
+          timeoutId = setTimeout(() => {
+            setLastSwitchTime(Date.now());
+          }, 500);
         }
       };
 
@@ -130,12 +135,12 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       document.addEventListener('visibilitychange', handleFocusChange);
 
       return () => {
-        isMounted = false; // Component unmount olduğunda flag'i güncelle
         window.removeEventListener('blur', handleFocusChange);
         document.removeEventListener('visibilitychange', handleFocusChange);
+        if (timeoutId) clearTimeout(timeoutId);
       };
     }
-  }, [examStarted, tabSwitchCount, lastSwitchTime, isShowingAlert]);
+  }, [examStarted, tabSwitchCount, lastSwitchTime, isAlertOpen, isExamTerminated]);
 
   // Initial load
   useEffect(() => {
@@ -242,7 +247,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       setExamStarted(true);
       setTabSwitchCount(0);
       setLastSwitchTime(0);
-      setIsShowingAlert(false);
+      setIsAlertOpen(false);
+      setIsExamTerminated(false);
 
       const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
       if (savedAnswers) {
@@ -254,7 +260,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
-    const handleSubmit = async () => {
+  const handleSubmit = async () => {
     try {
       const submission: ExamSubmission = {
         answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
@@ -293,16 +299,14 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         );
       }
 
-      // Sınavı sonlandır ve event listener'ları kaldır
+      // Sınavı sonlandır ve tüm state'leri sıfırla
       setExamStarted(false);
-      localStorage.removeItem(`exam_${examId}_answers`);
-      setAnswers({});
-
-      // Tab switch sayacını sıfırla
+      setIsExamTerminated(true);
       setTabSwitchCount(0);
       setLastSwitchTime(0);
-      setIsShowingAlert(false);
-
+      setIsAlertOpen(false);
+      localStorage.removeItem(`exam_${examId}_answers`);
+      setAnswers({});
     } catch (error) {
       setError('Sınav gönderilirken bir hata oluştu');
     }
@@ -312,7 +316,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   if (error) return <div className={styles.errorMessage}>{error}</div>;
   if (!exam) return <div>Sınav bulunamadı</div>;
 
-  return (
+ return (
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
 
