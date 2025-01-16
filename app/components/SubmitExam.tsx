@@ -83,10 +83,11 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   useEffect(() => {
     if (examStarted && !isExamTerminated) {
       let timeoutId: NodeJS.Timeout;
+      let alertShowing = false; // Alert durumunu takip etmek için
 
       const handleFocusChange = async () => {
-        // Eğer sınav sonlandırılmışsa veya alert açıksa işlem yapma
-        if (isExamTerminated || isAlertOpen) {
+        // Eğer sınav sonlandırılmışsa işlem yapma
+        if (isExamTerminated) {
           return;
         }
 
@@ -97,36 +98,52 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
             return;
           }
 
-          const newCount = tabSwitchCount + 1;
-          setTabSwitchCount(newCount);
-          setLastSwitchTime(Date.now());
-          setIsAlertOpen(true);
+          // Eğer önceki alert hala gösteriliyorsa, yeni ihlali say ve mevcut alert'i kapat
+          if (alertShowing) {
+            const newCount = tabSwitchCount + 2; // Mevcut ihlal + önceki yanıtlanmamış ihlal
+            setTabSwitchCount(newCount);
+            setLastSwitchTime(Date.now());
 
-          if (newCount === 1) {
-            await new Promise<void>((resolve) => {
-              alert('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
-              resolve();
-            });
-          } else if (newCount < 3) {
-            await new Promise<void>((resolve) => {
-              alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
-              resolve();
-            });
-          } else if (newCount === 3) {
-            await new Promise<void>((resolve) => {
+            if (newCount >= 3) {
               alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
-              resolve();
-            });
-            setIsExamTerminated(true);
-            await handleSubmit();
-            return;
-          }
+              setIsExamTerminated(true);
+              await handleSubmit();
+              return;
+            }
+          } else {
+            const newCount = tabSwitchCount + 1;
+            setTabSwitchCount(newCount);
+            setLastSwitchTime(Date.now());
+            alertShowing = true;
 
-          setIsAlertOpen(false);
+            if (newCount === 1) {
+              await new Promise<void>((resolve) => {
+                alert('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
+                alertShowing = false;
+                resolve();
+              });
+            } else if (newCount < 3) {
+              await new Promise<void>((resolve) => {
+                alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
+                alertShowing = false;
+                resolve();
+              });
+            } else if (newCount >= 3) {
+              await new Promise<void>((resolve) => {
+                alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
+                alertShowing = false;
+                resolve();
+              });
+              setIsExamTerminated(true);
+              await handleSubmit();
+              return;
+            }
+          }
 
           // Alert kapandıktan sonra kısa bir süre bekle
           timeoutId = setTimeout(() => {
             setLastSwitchTime(Date.now());
+            alertShowing = false;
           }, 500);
         }
       };
@@ -140,8 +157,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         if (timeoutId) clearTimeout(timeoutId);
       };
     }
-  }, [examStarted, tabSwitchCount, lastSwitchTime, isAlertOpen, isExamTerminated]);
-
+  }, [examStarted, tabSwitchCount, lastSwitchTime, isExamTerminated]);
   // Initial load
   useEffect(() => {
     const initializeExam = async () => {
