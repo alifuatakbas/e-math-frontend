@@ -52,7 +52,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams/create`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
