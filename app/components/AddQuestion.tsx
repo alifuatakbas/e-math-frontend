@@ -49,26 +49,26 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     try {
-      // URL'yi oluştur
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`;
-
-      // FormData oluştur
-      const formData = new FormData();
-      formData.append('text', text);
-      formData.append('correct_option_index', correctOptionIndex.toString());
-
-      // Her bir option için ayrı bir formData append işlemi yap
-      options.forEach((option) => {
-        formData.append('options', option);
+      // Query parametrelerini hazırla
+      const queryParams = new URLSearchParams({
+        text,
+        correct_option_index: correctOptionIndex.toString()
       });
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: formData  // FormData direkt gönder
+      // Her bir option için query parametresi ekle
+      options.forEach(option => {
+        queryParams.append('options', option);
       });
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}?${queryParams.toString()}`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          }
+        }
+      );
 
       const data = await response.json();
 
