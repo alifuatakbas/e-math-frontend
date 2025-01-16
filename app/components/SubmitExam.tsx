@@ -67,7 +67,7 @@ const ExamCompletionScreen: React.FC<{
           <div className={styles.scoreLabel}>Başarı</div>
         </div>
 
-        <Link href="/dashboard" className={styles.returnButton}>
+        <Link href="/" className={styles.returnButton}>
           Ana Sayfaya Dön
         </Link>
       </div>
