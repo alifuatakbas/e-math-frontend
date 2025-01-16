@@ -79,9 +79,13 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   };
 
   // Sekme değişimi ve pencere odak kontrolü için useEffect
-  useEffect(() => {
+   useEffect(() => {
+    let isMounted = true; // Component mount durumunu takip et
+
     if (examStarted) {
       const handleFocusChange = async () => {
+        if (!isMounted) return; // Component unmount olduysa işlem yapma
+
         // Eğer zaten alert gösteriliyorsa veya son uyarıdan bu yana 1 saniye geçmediyse işlem yapma
         if (isShowingAlert || Date.now() - lastSwitchTime < 1000) {
           return;
@@ -103,6 +107,13 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
             if (newCount >= 3) {
               alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
               await handleSubmit();
+
+              // Event listener'ları kaldır
+              window.removeEventListener('blur', handleFocusChange);
+              document.removeEventListener('visibilitychange', handleFocusChange);
+
+              // Sınav durumunu güncelle
+              setExamStarted(false);
             }
           } else {
             // İlk ihlalde sadece sayacı artır ve uyarı ver
@@ -119,128 +130,12 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       document.addEventListener('visibilitychange', handleFocusChange);
 
       return () => {
+        isMounted = false; // Component unmount olduğunda flag'i güncelle
         window.removeEventListener('blur', handleFocusChange);
         document.removeEventListener('visibilitychange', handleFocusChange);
       };
     }
   }, [examStarted, tabSwitchCount, lastSwitchTime, isShowingAlert]);
-
-  // Initial load
-  useEffect(() => {
-    const initializeExam = async () => {
-      try {
-        const statusData = await checkExamStatus();
-
-        const examResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        );
-
-        if (!examResponse.ok) throw new Error('Sınav verileri alınamadı');
-
-        const examData = await examResponse.json();
-
-        if (examData.has_been_taken && !statusData?.is_started) {
-          setError('Bu sınav zaten tamamlanmış.');
-          return;
-        }
-
-        setExam(examData);
-      } catch (error) {
-        console.error('Error initializing exam:', error);
-        setError('Sınav yüklenirken bir hata oluştu');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeExam();
-  }, [examId]);
-
-  // Timer and status check
-  useEffect(() => {
-    if (examStarted && timeLeft !== null) {
-      const timer = setInterval(() => {
-        setTimeLeft((prevTime) => {
-          if (prevTime === null || prevTime <= 0) {
-            clearInterval(timer);
-            handleSubmit();
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
-
-      const statusCheck = setInterval(async () => {
-        const status = await checkExamStatus();
-        if (status?.remaining_minutes === 0) {
-          clearInterval(timer);
-          clearInterval(statusCheck);
-          handleSubmit();
-        }
-      }, 30000);
-
-      return () => {
-        clearInterval(timer);
-        clearInterval(statusCheck);
-      };
-    }
-  }, [examStarted, timeLeft]);
-
-  const handleOptionChange = (questionId: number, optionId: number) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
-    localStorage.setItem(`exam_${examId}_answers`, JSON.stringify({
-      ...answers,
-      [questionId]: optionId
-    }));
-  };
-
-  const handleStartExam = async () => {
-    const confirmed = window.confirm(
-      'Önemli Uyarı:\n\n' +
-      '1. Sınav sırasında başka sekmeye veya uygulamaya geçmek yasaktır.\n' +
-      '2. 3 kez ihlal durumunda sınavınız otomatik olarak sonlandırılacaktır.\n' +
-      '3. Lütfen sınav süresince bu sekmede kalın.\n\n' +
-      'Sınavı başlatmak istiyor musunuz?'
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
-
-      if (!response.ok) throw new Error('Sınav başlatılamadı');
-
-      const data = await response.json();
-      setTimeLeft(data.remaining_minutes * 60);
-      setExamStarted(true);
-      setTabSwitchCount(0);
-      setLastSwitchTime(0);
-      setIsShowingAlert(false);
-
-      const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
-      if (savedAnswers) {
-        setAnswers(JSON.parse(savedAnswers));
-      }
-    } catch (error) {
-      console.error('Error starting exam:', error);
-      setError('Sınav başlatılırken bir hata oluştu');
-    }
-  };
 
   const handleSubmit = async () => {
     try {
@@ -281,9 +176,16 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         );
       }
 
+      // Sınavı sonlandır ve event listener'ları kaldır
       setExamStarted(false);
       localStorage.removeItem(`exam_${examId}_answers`);
       setAnswers({});
+
+      // Tab switch sayacını sıfırla
+      setTabSwitchCount(0);
+      setLastSwitchTime(0);
+      setIsShowingAlert(false);
+
     } catch (error) {
       setError('Sınav gönderilirken bir hata oluştu');
     }
