@@ -49,23 +49,24 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     try {
-      // URLSearchParams kullanarak form verilerini oluştur
-      const formData = new URLSearchParams();
-      formData.append('text', text);
-      formData.append('correct_option_index', correctOptionIndex.toString());
+      // Query parametrelerini hazırla
+      const queryParams = new URLSearchParams({
+        text,
+        correct_option_index: correctOptionIndex.toString()
+      });
 
-      // options array'ini string olarak gönder
-      formData.append('options', JSON.stringify(options));
+      // Body için options array'ini hazırla
+      const bodyData = options;
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}?${queryParams.toString()}`,
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
-          body: formData.toString()
+          body: JSON.stringify(bodyData)
         }
       );
 
