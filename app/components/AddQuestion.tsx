@@ -49,20 +49,19 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     try {
-      // Query parametrelerini URL'ye ekle
-      const queryParams = new URLSearchParams({
-        text: text,
-        options: options.join(','), // Array'i virgülle ayrılmış string'e çevir
-        correct_option_index: correctOptionIndex.toString()
-      }).toString();
-
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}?${queryParams}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}`,
         {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          }
+          },
+          body: JSON.stringify({
+            text,
+            options,
+            correct_option_index: correctOptionIndex
+          }),
         }
       );
 
