@@ -31,6 +31,20 @@ interface ExamTimeResponse {
   end_time?: string;
 }
 
+const WarningModal: React.FC<{
+  message: string;
+  onClose: () => void;
+}> = ({ message, onClose }) => {
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <p>{message}</p>
+        <button onClick={onClose}>Tamam</button>
+      </div>
+    </div>
+  );
+};
+
 const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [exam, setExam] = useState<Exam | null>(null);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
@@ -42,10 +56,11 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
   const [lastSwitchTime, setLastSwitchTime] = useState(0);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isExamTerminated, setIsExamTerminated] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
+  const [pendingViolation, setPendingViolation] = useState(false);
 
-  // Sınav durumunu kontrol et
   const checkExamStatus = async () => {
     try {
       const response = await fetch(
@@ -79,72 +94,35 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
-  // Sekme değişimi ve pencere odak kontrolü için useEffect
   useEffect(() => {
     if (examStarted && !isExamTerminated) {
-      let timeoutId: NodeJS.Timeout;
-      let alertShowing = false; // Alert durumunu takip etmek için
-
       const handleFocusChange = async () => {
-        // Eğer sınav sonlandırılmışsa işlem yapma
-        if (isExamTerminated) {
-          return;
-        }
+        if (isExamTerminated) return;
 
-        // Sayfa odağını kaybettiğinde
         if (!document.hasFocus()) {
-          // Son uyarıdan bu yana yeterli süre geçmemişse işlem yapma
-          if (Date.now() - lastSwitchTime < 1000) {
+          if (Date.now() - lastSwitchTime < 1000) return;
+
+          if (showWarning) {
+            setPendingViolation(true);
             return;
           }
 
-          // Eğer önceki alert hala gösteriliyorsa, yeni ihlali say ve mevcut alert'i kapat
-          if (alertShowing) {
-            const newCount = tabSwitchCount + 2; // Mevcut ihlal + önceki yanıtlanmamış ihlal
-            setTabSwitchCount(newCount);
-            setLastSwitchTime(Date.now());
+          const newCount = tabSwitchCount + 1;
+          setTabSwitchCount(newCount);
+          setLastSwitchTime(Date.now());
 
-            if (newCount >= 3) {
-              alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
-              setIsExamTerminated(true);
-              await handleSubmit();
-              return;
-            }
+          if (newCount === 1) {
+            setWarningMessage('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
+            setShowWarning(true);
+          } else if (newCount < 3) {
+            setWarningMessage(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
+            setShowWarning(true);
           } else {
-            const newCount = tabSwitchCount + 1;
-            setTabSwitchCount(newCount);
-            setLastSwitchTime(Date.now());
-            alertShowing = true;
-
-            if (newCount === 1) {
-              await new Promise<void>((resolve) => {
-                alert('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
-                alertShowing = false;
-                resolve();
-              });
-            } else if (newCount < 3) {
-              await new Promise<void>((resolve) => {
-                alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
-                alertShowing = false;
-                resolve();
-              });
-            } else if (newCount >= 3) {
-              await new Promise<void>((resolve) => {
-                alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
-                alertShowing = false;
-                resolve();
-              });
-              setIsExamTerminated(true);
-              await handleSubmit();
-              return;
-            }
+            setWarningMessage('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
+            setShowWarning(true);
+            setIsExamTerminated(true);
+            await handleSubmit();
           }
-
-          // Alert kapandıktan sonra kısa bir süre bekle
-          timeoutId = setTimeout(() => {
-            setLastSwitchTime(Date.now());
-            alertShowing = false;
-          }, 500);
         }
       };
 
@@ -154,47 +132,11 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       return () => {
         window.removeEventListener('blur', handleFocusChange);
         document.removeEventListener('visibilitychange', handleFocusChange);
-        if (timeoutId) clearTimeout(timeoutId);
       };
     }
-  }, [examStarted, tabSwitchCount, lastSwitchTime, isExamTerminated]);
-  // Initial load
-  useEffect(() => {
-    const initializeExam = async () => {
-      try {
-        const statusData = await checkExamStatus();
+  }, [examStarted, tabSwitchCount, lastSwitchTime, isExamTerminated, showWarning]);
 
-        const examResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        );
-
-        if (!examResponse.ok) throw new Error('Sınav verileri alınamadı');
-
-        const examData = await examResponse.json();
-
-        if (examData.has_been_taken && !statusData?.is_started) {
-          setError('Bu sınav zaten tamamlanmış.');
-          return;
-        }
-
-        setExam(examData);
-      } catch (error) {
-        console.error('Error initializing exam:', error);
-        setError('Sınav yüklenirken bir hata oluştu');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeExam();
-  }, [examId]);
-
-  // Timer and status check
+  // Timer and status check useEffect
   useEffect(() => {
     if (examStarted && timeLeft !== null) {
       const timer = setInterval(() => {
@@ -223,16 +165,54 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       };
     }
   }, [examStarted, timeLeft]);
+useEffect(() => {
+    const initializeExam = async () => {
+      try {
+        const statusData = await checkExamStatus();
 
-  const handleOptionChange = (questionId: number, optionId: number) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
-    localStorage.setItem(`exam_${examId}_answers`, JSON.stringify({
-      ...answers,
-      [questionId]: optionId
-    }));
-  };
+        const examResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        );
 
-  const handleStartExam = async () => {
+        if (!examResponse.ok) throw new Error('Sınav verileri alınamadı');
+
+        const examData = await examResponse.json();
+
+        if (examData.has_been_taken && !statusData?.is_started) {
+          setError('Bu sınav zaten tamamlanmış.');
+          return;
+        }
+
+        setExam(examData);
+
+        // Eğer sınav başlamışsa, kaydedilmiş cevapları yükle
+        if (statusData?.is_started) {
+          setExamStarted(true);
+          if (statusData.remaining_minutes !== null) {
+            setTimeLeft(statusData.remaining_minutes * 60);
+          }
+          const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
+          if (savedAnswers) {
+            setAnswers(JSON.parse(savedAnswers));
+          }
+        }
+
+      } catch (error) {
+        console.error('Error initializing exam:', error);
+        setError('Sınav yüklenirken bir hata oluştu');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeExam();
+  }, [examId]);
+  const   handleStartExam = async () => {
     const confirmed = window.confirm(
       'Önemli Uyarı:\n\n' +
       '1. Sınav sırasında başka sekmeye veya uygulamaya geçmek yasaktır.\n' +
@@ -263,8 +243,9 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       setExamStarted(true);
       setTabSwitchCount(0);
       setLastSwitchTime(0);
-      setIsAlertOpen(false);
       setIsExamTerminated(false);
+      setShowWarning(false);
+      setPendingViolation(false);
 
       const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
       if (savedAnswers) {
@@ -274,6 +255,33 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       console.error('Error starting exam:', error);
       setError('Sınav başlatılırken bir hata oluştu');
     }
+  };
+
+  const handleWarningClose = () => {
+    setShowWarning(false);
+    if (pendingViolation) {
+      setPendingViolation(false);
+      const newCount = tabSwitchCount + 1;
+      setTabSwitchCount(newCount);
+
+      if (newCount >= 3) {
+        setWarningMessage('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
+        setShowWarning(true);
+        setIsExamTerminated(true);
+        handleSubmit();
+      } else {
+        setWarningMessage(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
+        setShowWarning(true);
+      }
+    }
+  };
+
+  const handleOptionChange = (questionId: number, optionIndex: number) => {
+    setAnswers(prev => {
+      const newAnswers = { ...prev, [questionId]: optionIndex };
+      localStorage.setItem(`exam_${examId}_answers`, JSON.stringify(newAnswers));
+      return newAnswers;
+    });
   };
 
   const handleSubmit = async () => {
@@ -315,12 +323,12 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         );
       }
 
-      // Sınavı sonlandır ve tüm state'leri sıfırla
       setExamStarted(false);
       setIsExamTerminated(true);
       setTabSwitchCount(0);
       setLastSwitchTime(0);
-      setIsAlertOpen(false);
+      setShowWarning(false);
+      setPendingViolation(false);
       localStorage.removeItem(`exam_${examId}_answers`);
       setAnswers({});
     } catch (error) {
@@ -332,7 +340,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   if (error) return <div className={styles.errorMessage}>{error}</div>;
   if (!exam) return <div>Sınav bulunamadı</div>;
 
- return (
+  return (
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
 
@@ -389,6 +397,13 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
             </button>
           </div>
         </>
+      )}
+
+      {showWarning && (
+        <WarningModal
+          message={warningMessage}
+          onClose={handleWarningClose}
+        />
       )}
 
       {message && <div className={styles.successMessage}>{message}</div>}
