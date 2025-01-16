@@ -41,6 +41,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [examStarted, setExamStarted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
+  const [lastSwitchTime, setLastSwitchTime] = useState(0);
+  const [isShowingAlert, setIsShowingAlert] = useState(false);
 
   // Sınav durumunu kontrol et
   const checkExamStatus = async () => {
@@ -80,15 +82,35 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   useEffect(() => {
     if (examStarted) {
       const handleFocusChange = async () => {
+        // Eğer zaten alert gösteriliyorsa veya son uyarıdan bu yana 1 saniye geçmediyse işlem yapma
+        if (isShowingAlert || Date.now() - lastSwitchTime < 1000) {
+          return;
+        }
+
+        // Sayfa odağını kaybettiğinde
         if (!document.hasFocus()) {
           const newCount = tabSwitchCount + 1;
-          setTabSwitchCount(newCount);
 
-          alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
+          // İlk ihlal değilse devam et
+          if (newCount > 1) {
+            setIsShowingAlert(true);
+            setTabSwitchCount(newCount);
+            setLastSwitchTime(Date.now());
 
-          if (newCount >= 3) {
-            alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
-            await handleSubmit();
+            alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
+            setIsShowingAlert(false);
+
+            if (newCount >= 3) {
+              alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
+              await handleSubmit();
+            }
+          } else {
+            // İlk ihlalde sadece sayacı artır ve uyarı ver
+            setTabSwitchCount(newCount);
+            setLastSwitchTime(Date.now());
+            setIsShowingAlert(true);
+            alert('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
+            setIsShowingAlert(false);
           }
         }
       };
@@ -101,7 +123,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         document.removeEventListener('visibilitychange', handleFocusChange);
       };
     }
-  }, [examStarted, tabSwitchCount]);
+  }, [examStarted, tabSwitchCount, lastSwitchTime, isShowingAlert]);
 
   // Initial load
   useEffect(() => {
@@ -207,6 +229,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       setTimeLeft(data.remaining_minutes * 60);
       setExamStarted(true);
       setTabSwitchCount(0);
+      setLastSwitchTime(0);
+      setIsShowingAlert(false);
 
       const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
       if (savedAnswers) {
