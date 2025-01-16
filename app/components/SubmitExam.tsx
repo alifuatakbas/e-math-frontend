@@ -40,6 +40,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [examStarted, setExamStarted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [tabSwitchCount, setTabSwitchCount] = useState(0);
 
   // Sınav durumunu kontrol et
   const checkExamStatus = async () => {
@@ -60,7 +61,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       if (data.is_started) {
         setExamStarted(true);
         if (data.remaining_minutes !== null) {
-          setTimeLeft(data.remaining_minutes * 60); // Convert minutes to seconds
+          setTimeLeft(data.remaining_minutes * 60);
         }
         if (data.remaining_minutes === 0) {
           handleSubmit();
@@ -75,14 +76,39 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
+  // Sekme değişimi ve pencere odak kontrolü için useEffect
+  useEffect(() => {
+    if (examStarted) {
+      const handleFocusChange = async () => {
+        if (!document.hasFocus()) {
+          const newCount = tabSwitchCount + 1;
+          setTabSwitchCount(newCount);
+
+          alert(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
+
+          if (newCount >= 3) {
+            alert('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
+            await handleSubmit();
+          }
+        }
+      };
+
+      window.addEventListener('blur', handleFocusChange);
+      document.addEventListener('visibilitychange', handleFocusChange);
+
+      return () => {
+        window.removeEventListener('blur', handleFocusChange);
+        document.removeEventListener('visibilitychange', handleFocusChange);
+      };
+    }
+  }, [examStarted, tabSwitchCount]);
+
   // Initial load
   useEffect(() => {
     const initializeExam = async () => {
       try {
-        // Sınav durumunu kontrol et
         const statusData = await checkExamStatus();
 
-        // Sınav verilerini getir
         const examResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`,
           {
@@ -116,7 +142,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   // Timer and status check
   useEffect(() => {
     if (examStarted && timeLeft !== null) {
-      // Timer for UI update
       const timer = setInterval(() => {
         setTimeLeft((prevTime) => {
           if (prevTime === null || prevTime <= 0) {
@@ -128,7 +153,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         });
       }, 1000);
 
-      // Periodic server check for time
       const statusCheck = setInterval(async () => {
         const status = await checkExamStatus();
         if (status?.remaining_minutes === 0) {
@@ -136,7 +160,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
           clearInterval(statusCheck);
           handleSubmit();
         }
-      }, 30000); // Her 30 saniyede bir kontrol et
+      }, 30000);
 
       return () => {
         clearInterval(timer);
@@ -147,7 +171,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
 
   const handleOptionChange = (questionId: number, optionId: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
-    // LocalStorage'a kaydet
     localStorage.setItem(`exam_${examId}_answers`, JSON.stringify({
       ...answers,
       [questionId]: optionId
@@ -155,6 +178,18 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   };
 
   const handleStartExam = async () => {
+    const confirmed = window.confirm(
+      'Önemli Uyarı:\n\n' +
+      '1. Sınav sırasında başka sekmeye veya uygulamaya geçmek yasaktır.\n' +
+      '2. 3 kez ihlal durumunda sınavınız otomatik olarak sonlandırılacaktır.\n' +
+      '3. Lütfen sınav süresince bu sekmede kalın.\n\n' +
+      'Sınavı başlatmak istiyor musunuz?'
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`,
@@ -171,8 +206,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       const data = await response.json();
       setTimeLeft(data.remaining_minutes * 60);
       setExamStarted(true);
+      setTabSwitchCount(0);
 
-      // Önceki cevapları varsa yükle
       const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
       if (savedAnswers) {
         setAnswers(JSON.parse(savedAnswers));
@@ -183,7 +218,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   };
 
-const handleSubmit = async () => {
+  const handleSubmit = async () => {
     try {
       const submission: ExamSubmission = {
         answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
@@ -207,10 +242,9 @@ const handleSubmit = async () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // Süre dolmuş olsa bile sonuçları göster
         if (data.correct_answers !== undefined) {
           setMessage(
-            `Sınav süresi doldu. Sonuçlar: Doğru: ${data.correct_answers}, Yanlış: ${data.incorrect_answers}, 
+            `Sınav sonlandırıldı. Sonuçlar: Doğru: ${data.correct_answers}, Yanlış: ${data.incorrect_answers}, 
              Başarı Yüzdesi: %${data.score_percentage.toFixed(2)}`
           );
         } else {
@@ -223,13 +257,13 @@ const handleSubmit = async () => {
         );
       }
 
-      // Temizle
+      setExamStarted(false);
       localStorage.removeItem(`exam_${examId}_answers`);
       setAnswers({});
     } catch (error) {
       setError('Sınav gönderilirken bir hata oluştu');
     }
-};
+  };
 
   if (isLoading) return <div>Yükleniyor...</div>;
   if (error) return <div className={styles.errorMessage}>{error}</div>;
