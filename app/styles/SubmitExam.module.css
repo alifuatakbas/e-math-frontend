@@ -360,3 +360,138 @@
     color: white;
   }
 }
+
+/* ... mevcut stiller ... */
+
+.completionContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f3f4f6;
+}
+
+.completionCard {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.completionHeader {
+  margin-bottom: 32px;
+}
+
+.completionHeader h2 {
+  font-size: 2rem;
+  color: #2563eb;
+  margin-bottom: 8px;
+}
+
+.completionHeader p {
+  color: #4b5563;
+  font-size: 1.1rem;
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 32px;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2563eb;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.scoreCircle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #2563eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 32px auto;
+  color: white;
+}
+
+.scoreValue {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.scoreLabel {
+  font-size: 0.9rem;
+}
+
+.returnButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.returnButton:hover {
+  background-color: #1d4ed8;
+}
+
+/* Karanlık mod desteği */
+@media (prefers-color-scheme: dark) {
+  .completionContainer {
+    background-color: #1f2937;
+  }
+
+  .completionCard {
+    background-color: #111827;
+  }
+
+  .completionHeader h2 {
+    color: #60a5fa;
+  }
+
+  .completionHeader p {
+    color: #9ca3af;
+  }
+
+  .statValue {
+    color: #60a5fa;
+  }
+
+  .statLabel {
+    color: #9ca3af;
+  }
+
+  .scoreCircle {
+    background: #60a5fa;
+  }
+
+  .returnButton {
+    background-color: #60a5fa;
+  }
+
+  .returnButton:hover {
+    background-color: #3b82f6;
+  }
+}

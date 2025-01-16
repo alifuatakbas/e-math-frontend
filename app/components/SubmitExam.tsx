@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/SubmitExam.module.css';
+import Link from 'next/link';
 
 interface Question {
   id: number;
@@ -30,6 +31,49 @@ interface ExamTimeResponse {
   start_time?: string;
   end_time?: string;
 }
+const ExamCompletionScreen: React.FC<{
+  correctAnswers: number;
+  incorrectAnswers: number;
+  totalQuestions: number;
+  scorePercentage: number;
+}> = ({ correctAnswers, incorrectAnswers, totalQuestions, scorePercentage }) => {
+  return (
+    <div className={styles.completionContainer}>
+      <div className={styles.completionCard}>
+        <div className={styles.completionHeader}>
+          <h2>Tebrikler! 🎉</h2>
+          <p>Sınavı başarıyla tamamladınız</p>
+        </div>
+
+        <div className={styles.statsContainer}>
+          <div className={styles.statItem}>
+            <div className={styles.statValue}>{correctAnswers}</div>
+            <div className={styles.statLabel}>Doğru</div>
+          </div>
+          <div className={styles.statItem}>
+            <div className={styles.statValue}>{incorrectAnswers}</div>
+            <div className={styles.statLabel}>Yanlış</div>
+          </div>
+          <div className={styles.statItem}>
+            <div className={styles.statValue}>{totalQuestions}</div>
+            <div className={styles.statLabel}>Toplam Soru</div>
+          </div>
+        </div>
+
+        <div className={styles.scoreCircle}>
+          <div className={styles.scoreValue}>
+            %{scorePercentage.toFixed(1)}
+          </div>
+          <div className={styles.scoreLabel}>Başarı</div>
+        </div>
+
+        <Link href="/dashboard" className={styles.returnButton}>
+          Ana Sayfaya Dön
+        </Link>
+      </div>
+    </div>
+  );
+};
 
 const WarningModal: React.FC<{
   message: string;
@@ -60,6 +104,13 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
   const [pendingViolation, setPendingViolation] = useState(false);
+    const [examCompleted, setExamCompleted] = useState(false);
+  const [examResults, setExamResults] = useState<{
+    correctAnswers: number;
+    incorrectAnswers: number;
+    totalQuestions: number;
+    scorePercentage: number;
+  } | null>(null);
 
   const checkExamStatus = async () => {
     try {
@@ -284,7 +335,7 @@ useEffect(() => {
     });
   };
 
-  const handleSubmit = async () => {
+   const handleSubmit = async () => {
     try {
       const submission: ExamSubmission = {
         answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
@@ -307,38 +358,44 @@ useEffect(() => {
 
       const data = await response.json();
 
-      if (!response.ok) {
-        if (data.correct_answers !== undefined) {
-          setMessage(
-            `Sınav sonlandırıldı. Sonuçlar: Doğru: ${data.correct_answers}, Yanlış: ${data.incorrect_answers}, 
-             Başarı Yüzdesi: %${data.score_percentage.toFixed(2)}`
-          );
-        } else {
-          throw new Error(data.detail || 'Sınav gönderilemedi');
-        }
-      } else {
-        setMessage(
-          `Sınav tamamlandı. Doğru: ${data.correct_answers}, Yanlış: ${data.incorrect_answers}, 
-           Başarı Yüzdesi: %${data.score_percentage.toFixed(2)}`
-        );
+      if (!response.ok && !data.correct_answers) {
+        throw new Error(data.detail || 'Sınav gönderilemedi');
       }
 
+      // Sonuçları state'e kaydet
+      setExamResults({
+        correctAnswers: data.correct_answers,
+        incorrectAnswers: data.incorrect_answers,
+        totalQuestions: data.total_questions,
+        scorePercentage: data.score_percentage
+      });
+
+      // Sınavı tamamlandı olarak işaretle
+      setExamCompleted(true);
       setExamStarted(false);
       setIsExamTerminated(true);
-      setTabSwitchCount(0);
-      setLastSwitchTime(0);
-      setShowWarning(false);
-      setPendingViolation(false);
+
+      // Temizlik işlemleri
       localStorage.removeItem(`exam_${examId}_answers`);
       setAnswers({});
+      setShowWarning(false);
+      setPendingViolation(false);
+      setTabSwitchCount(0);
+      setLastSwitchTime(0);
     } catch (error) {
       setError('Sınav gönderilirken bir hata oluştu');
     }
   };
 
+  // Yükleme ve hata durumları
   if (isLoading) return <div>Yükleniyor...</div>;
   if (error) return <div className={styles.errorMessage}>{error}</div>;
   if (!exam) return <div>Sınav bulunamadı</div>;
+
+  // Sınav tamamlandıysa sonuç ekranını göster
+  if (examCompleted && examResults) {
+    return <ExamCompletionScreen {...examResults} />;
+  }
 
   return (
     <div className={styles.submitExamContainer}>
