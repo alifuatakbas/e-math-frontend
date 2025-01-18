@@ -114,27 +114,34 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.navContainer}>
-        <Link href="/" className={styles.logo}>
-          LOGO
-        </Link>
-
-        <div className={styles.navLinks}>
-          <Link href="/" className={styles.navLink}>
-            Ana Sayfa
+      <nav className={styles.navbar}>
+        <div className={styles.navContainer}>
+          <Link href="/" className={styles.logo}>
+            LOGO
           </Link>
+
+          {/* Hamburger Menü */}
           <div
-            className={styles.navLink}
-            onMouseEnter={() => setIsExamMenuOpen(true)}
-            onMouseLeave={() => setIsExamMenuOpen(false)}
+              className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
+              onClick={toggleMenu}
           >
-            Sınavlar
-            {isExamMenuOpen && (
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          {/* Navigation Links */}
+          <div className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
+            <Link href="/" className={styles.navLink} onClick={closeMenu}>
+              Ana Sayfa
+            </Link>
+            <div
+                className={styles.navLink}
+                onClick={() => setIsExamMenuOpen(!isExamMenuOpen)} // Mobilde tıklama ile açılsın
+            >
+              Sınavlar
               <div
-                className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
-                onMouseEnter={() => setIsExamMenuOpen(true)}
-                onMouseLeave={() => setIsExamMenuOpen(false)}
+                  className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
               >
                 {/* Admin-only linkler */}
                 <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
@@ -152,56 +159,58 @@ const Navbar: React.FC = () => {
                   Sınav Sonuçlarına Bak
                 </ProtectedLink>
               </div>
-            )}
-          </div>
-          <Link href="/hakkimizda" className={styles.navLink}>
-            Hakkımızda
-          </Link>
-          <Link href="/iletisim" className={styles.navLink}>
-            İletişim
-          </Link>
-          <button className={styles.ctaButton}>Başvuru</button>
-        </div>
+            </div>
+            <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
+              Hakkımızda
+            </Link>
+            <Link href="/iletisim" className={styles.navLink} onClick={closeMenu}>
+              İletişim
+            </Link>
+            <button className={styles.ctaButton} onClick={closeMenu}>
+              Başvuru
+            </button>
 
-        <div className={styles.authButtons}>
-          {currentUser ? (
-            <>
+            {/* Auth Buttons - Mobilde menü içinde göster */}
+            <div className={styles.authButtons}>
+              {currentUser ? (
+                  <>
               <span className={styles.userName} onClick={toggleDropdown}>
                 {currentUser.full_name} {isAdmin && '(Admin)'}
               </span>
-              {isDropdownOpen && (
-                <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
-                  <Link href="/profil" className={styles.userDropdownLink}>
-                    Profil
-                  </Link>
-                  {isAdmin && (
-                    <Link href="/admin-panel" className={styles.userDropdownLink}>
-                      Admin Panel
+                    {isDropdownOpen && (
+                        <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
+                          <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
+                            Profil
+                          </Link>
+                          {isAdmin && (
+                              <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
+                                Admin Panel
+                              </Link>
+                          )}
+                          <Link href="/settings" className={styles.userDropdownLink} onClick={closeMenu}>
+                            Ayarlar
+                          </Link>
+                          <button onClick={handleLogout} className={styles.logoutButton}>
+                            Çıkış
+                          </button>
+                        </div>
+                    )}
+                  </>
+              ) : (
+                  <>
+                    <Link href="/login" className={styles.loginButton} onClick={closeMenu}>
+                      Giriş
                     </Link>
-                  )}
-                  <Link href="/settings" className={styles.userDropdownLink}>
-                    Ayarlar
-                  </Link>
-                  <button onClick={handleLogout} className={styles.logoutButton}>
-                    Çıkış
-                  </button>
-                </div>
+                    <Link href="/register" className={styles.signupButton} onClick={closeMenu}>
+                      Kaydol
+                    </Link>
+                  </>
               )}
-            </>
-          ) : (
-            <>
-              <Link href="/login" className={styles.loginButton}>
-                Giriş
-              </Link>
-              <Link href="/register" className={styles.signupButton}>
-                Kaydol
-              </Link>
-            </>
-          )}
+            </div>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
   );
-};
+}
 
 export default Navbar;
