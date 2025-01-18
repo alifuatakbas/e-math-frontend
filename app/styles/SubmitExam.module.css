@@ -495,3 +495,16 @@
     background-color: #3b82f6;
   }
 }
+
+.questionImage {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.questionImg {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

@@ -6,6 +6,7 @@ interface Question {
   id: number;
   text: string;
   options: string[];
+  image?: string;
 }
 
 interface Exam {
@@ -31,6 +32,7 @@ interface ExamTimeResponse {
   start_time?: string;
   end_time?: string;
 }
+
 const ExamCompletionScreen: React.FC<{
   correctAnswers: number;
   incorrectAnswers: number;
@@ -104,7 +106,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
   const [pendingViolation, setPendingViolation] = useState(false);
-    const [examCompleted, setExamCompleted] = useState(false);
+  const [examCompleted, setExamCompleted] = useState(false);
   const [examResults, setExamResults] = useState<{
     correctAnswers: number;
     incorrectAnswers: number;
@@ -187,7 +189,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   }, [examStarted, tabSwitchCount, lastSwitchTime, isExamTerminated, showWarning]);
 
-  // Timer and status check useEffect
   useEffect(() => {
     if (examStarted && timeLeft !== null) {
       const timer = setInterval(() => {
@@ -216,7 +217,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       };
     }
   }, [examStarted, timeLeft]);
-useEffect(() => {
+
+    useEffect(() => {
     const initializeExam = async () => {
       try {
         const statusData = await checkExamStatus();
@@ -241,7 +243,6 @@ useEffect(() => {
 
         setExam(examData);
 
-        // Eğer sınav başlamışsa, kaydedilmiş cevapları yükle
         if (statusData?.is_started) {
           setExamStarted(true);
           if (statusData.remaining_minutes !== null) {
@@ -263,7 +264,8 @@ useEffect(() => {
 
     initializeExam();
   }, [examId]);
-  const   handleStartExam = async () => {
+
+  const handleStartExam = async () => {
     const confirmed = window.confirm(
       'Önemli Uyarı:\n\n' +
       '1. Sınav sırasında başka sekmeye veya uygulamaya geçmek yasaktır.\n' +
@@ -307,8 +309,7 @@ useEffect(() => {
       setError('Sınav başlatılırken bir hata oluştu');
     }
   };
-
-  const handleWarningClose = () => {
+    const handleWarningClose = () => {
     setShowWarning(false);
     if (pendingViolation) {
       setPendingViolation(false);
@@ -335,7 +336,7 @@ useEffect(() => {
     });
   };
 
-   const handleSubmit = async () => {
+  const handleSubmit = async () => {
     try {
       const submission: ExamSubmission = {
         answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
@@ -362,7 +363,6 @@ useEffect(() => {
         throw new Error(data.detail || 'Sınav gönderilemedi');
       }
 
-      // Sonuçları state'e kaydet
       setExamResults({
         correctAnswers: data.correct_answers,
         incorrectAnswers: data.incorrect_answers,
@@ -370,12 +370,10 @@ useEffect(() => {
         scorePercentage: data.score_percentage
       });
 
-      // Sınavı tamamlandı olarak işaretle
       setExamCompleted(true);
       setExamStarted(false);
       setIsExamTerminated(true);
 
-      // Temizlik işlemleri
       localStorage.removeItem(`exam_${examId}_answers`);
       setAnswers({});
       setShowWarning(false);
@@ -387,12 +385,10 @@ useEffect(() => {
     }
   };
 
-  // Yükleme ve hata durumları
-  if (isLoading) return <div>Yükleniyor...</div>;
+    if (isLoading) return <div>Yükleniyor...</div>;
   if (error) return <div className={styles.errorMessage}>{error}</div>;
   if (!exam) return <div>Sınav bulunamadı</div>;
 
-  // Sınav tamamlandıysa sonuç ekranını göster
   if (examCompleted && examResults) {
     return <ExamCompletionScreen {...examResults} />;
   }
@@ -417,6 +413,18 @@ useEffect(() => {
 
           <div className={styles.questionContainer}>
             <h3>{exam.questions[currentQuestionIndex].text}</h3>
+
+            {/* Soru resmi varsa göster */}
+            {exam.questions[currentQuestionIndex].image && (
+              <div className={styles.questionImage}>
+                <img
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`}
+                  alt="Soru görseli"
+                  className={styles.questionImg}
+                />
+              </div>
+            )}
+
             {exam.questions[currentQuestionIndex].options.map((option, index) => (
               <div key={index} className={styles.optionContainer}>
                 <input
