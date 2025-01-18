@@ -377,7 +377,7 @@
     .examDropdownMenu {
     position: relative;
     width: 100%;
-    margin: -0.5rem 0 0 0; /* Üstteki boşluğu kaldırmak için negatif margin */
+    margin: -1rem 0 0 0; /* Üstteki boşluğu kaldırmak için negatif margin */
     padding: 0;
     background: #f8f9fa;
     border: none;
