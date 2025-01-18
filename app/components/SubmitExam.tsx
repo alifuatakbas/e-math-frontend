@@ -420,16 +420,16 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
             <h3>{exam.questions[currentQuestionIndex].text}</h3>
 
             {/* Soru resmi varsa göster */}
-          {exam.questions[currentQuestionIndex].image && (
+        {exam.questions[currentQuestionIndex].image && (
   <div className={styles.questionImage}>
     <img
-      // Eski hali:
-      // src={`${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`}
-
-      // Yeni hali:
-      src={`${process.env.NEXT_PUBLIC_API_URL}${exam.questions[currentQuestionIndex].image}`}
+      src={`${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`}
       alt="Soru görseli"
       className={styles.questionImg}
+      onError={(e) => {
+        console.error('Resim yükleme hatası:', e);
+        console.log('Denenen URL:', `${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`);
+      }}
     />
   </div>
 )}
