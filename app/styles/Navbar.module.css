@@ -10,11 +10,10 @@
 }
 
 .navContainer {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   position: relative;
 }
@@ -24,12 +23,15 @@
   font-weight: bold;
   color: #764ba2;
   text-decoration: none;
+  flex: 1;
 }
 
 .navLinks {
   display: flex;
   align-items: center;
   gap: 2rem;
+  justify-content: center;
+  flex: 2;
 }
 
 .navLink {
@@ -37,7 +39,7 @@
   color: #333;
   font-weight: 500;
   transition: color 0.3s ease;
-  margin-right: 15px;
+  white-space: nowrap;
 }
 
 .navLink:hover {
@@ -60,6 +62,34 @@
   transform: translateY(-2px);
 }
 
+.authButtons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.loginButton, .signupButton {
+  background: #764ba2;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.loginButton:hover {
+  background: #623a8e;
+}
+
+.signupButton:hover {
+  background: #623a8e;
+  transform: translateY(-2px);
+}
+
 .hamburger {
   display: none;
   flex-direction: column;
@@ -75,44 +105,9 @@
   transition: all 0.3s ease;
 }
 
-.authButtons {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-left: auto;
-}
-
-.loginButton {
-  background: #764ba2;
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 5px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.loginButton:hover {
-  background: rgba(118, 75, 162, 0.1);
-}
-
-.signupButton {
-  background: #764ba2;
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 5px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.signupButton:hover {
-  background: #623a8e;
-  transform: translateY(-2px);
-}
-
 .examDropdownMenu {
   position: absolute;
+  top: 100%;
   background-color: white;
   color: black;
   border-radius: 8px;
@@ -208,65 +203,6 @@
   background-color: #e0e0e0;
 }
 
-@media (max-width: 1024px) {
-  .navContainer {
-    padding: 1rem;
-  }
-
-  .navLinks {
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .hamburger {
-    display: flex;
-  }
-
-  .navLinks {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: white;
-    padding: 2rem;
-    gap: 1.5rem;
-    transform: translateY(-150%);
-    opacity: 0;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .navLinks.active {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .authButtons {
-    position: static;
-    transform: none;
-    margin-left: 0;
-    width: 100%;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .loginButton,
-  .signupButton {
-    width: 100%;
-    text-align: center;
-    padding: 0.8rem;
-  }
-
-  .userDropdownMenu {
-    width: 100%;
-    position: static;
-    box-shadow: none;
-    border-top: 1px solid #e0e0e0;
-  }
-}
-
 .popup {
   position: fixed;
   top: 50%;
@@ -305,4 +241,61 @@
 
 .closeButton:hover {
   background-color: #4c2d70;
+}
+
+@media (max-width: 1024px) {
+  .navContainer {
+    padding: 1rem;
+  }
+
+  .navLinks {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navContainer {
+    justify-content: space-between;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .navLinks {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: white;
+    padding: 2rem;
+    gap: 1.5rem;
+    transform: translateY(-150%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .navLinks.active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .authButtons {
+    flex: none;
+    gap: 0.5rem;
+  }
+
+  .loginButton, .signupButton {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .userDropdownMenu {
+    width: 100%;
+    position: static;
+    box-shadow: none;
+    border-top: 1px solid #e0e0e0;
+  }
 }
