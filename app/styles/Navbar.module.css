@@ -377,7 +377,7 @@
       .examDropdownMenu {
     position: relative !important; /* !important ile diğer stilleri eziyoruz */
     width: 100% !important;
-    margin: 0 !important;
+    margin-top: -0.8rem !important;
     padding: 0 !important;
     background: #f8f9fa !important;
     border: none !important;
