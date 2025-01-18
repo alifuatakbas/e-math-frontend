@@ -514,7 +514,7 @@
   .submitExamContainer {
     padding: 10px;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh; /* height: 100vh yerine min-height kullanıyoruz */
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -526,9 +526,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     background-color: #fff;
-    padding-bottom: 100px;
-    overscroll-behavior: contain; /* Bounce efektini kontrol etmek için */
-    -webkit-overflow-scrolling: touch; /* iOS için smooth scroll */
+    padding-bottom: 150px; /* padding-bottom'u artırdık */
   }
 
   .questionContainer {
@@ -537,6 +535,7 @@
     margin: 10px 0;
     border-radius: 0;
     overflow-y: visible;
+    margin-bottom: 20px; /* Alt margin ekledik */
   }
 
   .timer {
