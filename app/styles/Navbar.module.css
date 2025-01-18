@@ -374,7 +374,7 @@
 
   /* Dropdown menü mobil görünümü */
 
-  .examDropdownMenu {
+   .examDropdownMenu {
     position: relative;
     width: 100%;
     margin: 0;
@@ -382,18 +382,19 @@
     background: #f8f9fa;
     border: none;
     border-radius: 0;
-    left: 0;
-    transform: none;
+    left: 50%; /* Merkeze almak için */
+    transform: translateX(-50%); /* Merkeze almak için */
     box-shadow: none;
     opacity: 1;
     visibility: visible;
     display: none;
   }
 
-
   .examDropdownMenu.show {
-    display: block; /* show class'ı eklendiğinde göster */
+    display: block;
+    transform: translateX(-50%); /* show durumunda da merkezi korumak için */
   }
+
 
   .examDropdownMenu::before {
     display: none;
