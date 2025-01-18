@@ -130,36 +130,39 @@ const Navbar: React.FC = () => {
             <span></span>
           </div>
 
-          {/* Navigation Links */}
-          <div className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
-            <Link href="/" className={styles.navLink} onClick={closeMenu}>
-              Ana Sayfa
-            </Link>
-            <div
-                className={styles.navLink}
-                onClick={() => setIsExamMenuOpen(!isExamMenuOpen)} // Mobilde tıklama ile açılsın
-            >
-              Sınavlar
-              <div
-                  className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
-              >
-                {/* Admin-only linkler */}
-                <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
-                  Sınav Oluştur
-                </ProtectedLink>
-                <ProtectedLink href="/soru-ekle" adminOnly isAdmin={isAdmin}>
-                  Soru Ekle
-                </ProtectedLink>
+         {/* Navigation Links */}
+<div className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
+  <Link href="/" className={styles.navLink} onClick={closeMenu}>
+    Ana Sayfa
+  </Link>
+  <div
+    className={styles.navLink}
+    onMouseEnter={() => setIsExamMenuOpen(true)}
+    onMouseLeave={() => setIsExamMenuOpen(false)}
+  >
+    Sınavlar
+    <div
+      className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
+      onMouseEnter={() => setIsExamMenuOpen(true)}
+      onMouseLeave={() => setIsExamMenuOpen(false)}
+    >
+      {/* Admin-only linkler */}
+      <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
+        Sınav Oluştur
+      </ProtectedLink>
+      <ProtectedLink href="/soru-ekle" adminOnly isAdmin={isAdmin}>
+        Soru Ekle
+      </ProtectedLink>
 
-                {/* Normal kullanıcı linkleri */}
-                <ProtectedLink href="/sinav-coz">
-                  Sınav Çöz
-                </ProtectedLink>
-                <ProtectedLink href="/sinav-sonuclari">
-                  Sınav Sonuçlarına Bak
-                </ProtectedLink>
-              </div>
-            </div>
+      {/* Normal kullanıcı linkleri */}
+      <ProtectedLink href="/sinav-coz">
+        Sınav Çöz
+      </ProtectedLink>
+      <ProtectedLink href="/sinav-sonuclari">
+        Sınav Sonuçlarına Bak
+      </ProtectedLink>
+    </div>
+  </div>
             <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
               Hakkımızda
             </Link>
