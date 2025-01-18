@@ -107,11 +107,8 @@
 }
 
 .hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-  padding: 4px;
+  display: none; /* PC'de gizli */
+  margin-left: auto; /* Sağa yaslamak için */
   z-index: 1001;
 }
 
@@ -304,6 +301,10 @@
 
   .hamburger {
     display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px;
   }
 
   /* Hamburger animasyonu - açık durumda */

@@ -130,21 +130,24 @@ const Navbar: React.FC = () => {
             <span></span>
           </div>
 
-         {/* Navigation Links */}
+      {/* Navigation Links */}
 <div className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
   <Link href="/" className={styles.navLink} onClick={closeMenu}>
     Ana Sayfa
   </Link>
+
+  {/* PC'de hover, mobilde tıklama ile çalışacak */}
   <div
     className={styles.navLink}
-    onMouseEnter={() => setIsExamMenuOpen(true)}
-    onMouseLeave={() => setIsExamMenuOpen(false)}
+    onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+    onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
+    onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
   >
     Sınavlar
     <div
       className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
-      onMouseEnter={() => setIsExamMenuOpen(true)}
-      onMouseLeave={() => setIsExamMenuOpen(false)}
+      onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+      onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
     >
       {/* Admin-only linkler */}
       <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
