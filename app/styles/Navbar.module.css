@@ -36,13 +36,23 @@
 
 
 .navLink {
-  position: relative; /* Dropdown için referans noktası */
+  position: relative;
   text-decoration: none;
   color: #333;
   font-weight: 500;
   transition: color 0.3s ease;
   white-space: nowrap;
   cursor: pointer;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 15px; /* margin-top ile aynı değer */
+  background: transparent;
 }
 
 .navLink:hover {
@@ -114,7 +124,7 @@
 /* Dropdown menü */
 .examDropdownMenu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 15px); /* after ile aynı yükseklik */
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
@@ -127,11 +137,9 @@
   padding: 0.5rem 0;
   opacity: 0;
   visibility: hidden;
-  transform-origin: top;
   transition: all 0.3s ease;
   min-width: 200px;
-  margin-top: 15px; /* Üstten boşluk ekledik */
-  border: 1px solid rgba(0, 0, 0, 0.1); /* İnce bir çerçeve ekledik */
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .examDropdownMenu::before {
