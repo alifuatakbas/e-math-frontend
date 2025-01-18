@@ -54,8 +54,9 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId, onQuestionAdded }) =>
 
     const formData = new FormData();
     formData.append('text', text);
-    options.forEach((opt, index) => {
-      formData.append(`options`, opt);
+    // Backend'in beklediği formatta options gönder
+    options.forEach((opt) => {
+      formData.append('options', opt);
     });
     formData.append('correct_option_index', correctOption.toString());
     if (image) {
@@ -63,6 +64,13 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId, onQuestionAdded }) =>
     }
 
     try {
+      console.log('Gönderilen veriler:', {
+        examId,
+        text,
+        options,
+        correctOption
+      });
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${examId}`,
         {
@@ -74,11 +82,14 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId, onQuestionAdded }) =>
         }
       );
 
+      const data = await response.json();
+      console.log('Backend yanıtı:', data);
+
       if (!response.ok) {
-        throw new Error('Soru eklenirken bir hata oluştu');
+        throw new Error(data.detail || 'Soru eklenirken bir hata oluştu');
       }
 
-      // Formu temizle
+      // Başarılı
       setText('');
       setOptions(['', '', '', '', '']);
       setCorrectOption(0);
@@ -88,9 +99,14 @@ const AddQuestion: React.FC<AddQuestionProps> = ({ examId, onQuestionAdded }) =>
       onQuestionAdded();
 
     } catch (error) {
-      setError('Soru eklenirken bir hata oluştu');
+      console.error('Hata detayı:', error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Soru eklenirken bir hata oluştu');
+      }
     }
-  };
+};
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
