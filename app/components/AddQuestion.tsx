@@ -1,164 +1,152 @@
-"use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import styles from '../styles/AddQuestion.module.css';
 
-const AddQuestion: React.FC = () => {
-  const [exams, setExams] = useState<{ id: number; title: string }[]>([]);
-  const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
+interface AddQuestionProps {
+  examId: number;
+  onQuestionAdded: () => void;
+}
+
+const AddQuestion: React.FC<AddQuestionProps> = ({ examId, onQuestionAdded }) => {
   const [text, setText] = useState('');
   const [options, setOptions] = useState(['', '', '', '', '']);
-  const [correctOptionIndex, setCorrectOptionIndex] = useState(0);
-  const [message, setMessage] = useState('');
+  const [correctOption, setCorrectOption] = useState(0);
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Sınavlar alınırken bir hata oluştu');
-        }
-        const data = await response.json();
-        setExams(data);
-      } catch (error) {
-        console.error('Sınavlar alınırken bir hata oluştu:', error);
-        setError('Sınavlar alınırken bir hata oluştu.');
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        setError('Dosya boyutu 5MB\'dan küçük olmalıdır');
+        return;
       }
-    };
 
-    fetchExams();
-  }, []);
+      if (!file.type.startsWith('image/')) {
+        setError('Lütfen geçerli bir resim dosyası seçin');
+        return;
+      }
 
-  const handleOptionChange = (index: number, value: string) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
+      setImage(file);
+      setError('');
+
+      // Önizleme oluştur
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage('');
-    setError('');
 
-    if (selectedExamId === null) {
-      setError('Lütfen bir sınav seçin.');
+    if (!text.trim()) {
+      setError('Soru metni boş olamaz');
       return;
     }
 
+    if (options.some(opt => !opt.trim())) {
+      setError('Tüm seçenekler doldurulmalıdır');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('text', text);
+    options.forEach((opt, index) => {
+      formData.append(`options`, opt);
+    });
+    formData.append('correct_option_index', correctOption.toString());
+    if (image) {
+      formData.append('image', image);
+    }
+
     try {
-      // Query parametrelerini hazırla
-      const queryParams = new URLSearchParams({
-        text,
-        correct_option_index: correctOptionIndex.toString()
-      });
-
-      // Body için options array'ini hazırla
-      const bodyData = options;
-
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${selectedExamId}?${queryParams.toString()}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/add-question/${examId}`,
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
-          body: JSON.stringify(bodyData)
+          body: formData,
         }
       );
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.detail || 'Soru eklenirken bir hata oluştu');
+        throw new Error('Soru eklenirken bir hata oluştu');
       }
 
-      setMessage('Soru başarıyla eklendi');
+      // Formu temizle
       setText('');
       setOptions(['', '', '', '', '']);
-      setCorrectOptionIndex(0);
-    } catch (error: any) {
-      setError(error.message || 'Bir hata oluştu');
-      console.error('Hata detayı:', error);
+      setCorrectOption(0);
+      setImage(null);
+      setImagePreview(null);
+      setError('');
+      onQuestionAdded();
+
+    } catch (error) {
+      setError('Soru eklenirken bir hata oluştu');
     }
   };
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Soru Ekle</h2>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.formGroup}>
+        <label htmlFor="questionText">Soru Metni:</label>
+        <textarea
+          id="questionText"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          required
+        />
+      </div>
 
-      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
-      {message && <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">{message}</div>}
+      <div className={styles.formGroup}>
+        <label htmlFor="questionImage">Soru Görseli (Opsiyonel):</label>
+        <input
+          type="file"
+          id="questionImage"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
+        {imagePreview && (
+          <div className={styles.imagePreview}>
+            <img src={imagePreview} alt="Soru görseli önizleme" />
+          </div>
+        )}
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="exam-select" className="block mb-2 text-sm font-medium">Sınav Seçin</label>
-          <select
-            id="exam-select"
-            value={selectedExamId || ''}
-            onChange={(e) => setSelectedExamId(Number(e.target.value))}
-            required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="" disabled>Bir sınav seçin</option>
-            {exams.map((exam) => (
-              <option key={exam.id} value={exam.id}>{exam.title}</option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="question-text" className="block mb-2 text-sm font-medium">Soru Metni</label>
+      {options.map((option, index) => (
+        <div key={index} className={styles.optionGroup}>
           <input
-            id="question-text"
             type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Soru metnini girin"
+            value={option}
+            onChange={(e) => {
+              const newOptions = [...options];
+              newOptions[index] = e.target.value;
+              setOptions(newOptions);
+            }}
+            placeholder={`${index + 1}. Seçenek`}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="radio"
+            name="correctOption"
+            checked={correctOption === index}
+            onChange={() => setCorrectOption(index)}
           />
         </div>
+      ))}
 
-        {options.map((option, index) => (
-          <div key={index}>
-            <label htmlFor={`option-${index}`} className="block mb-2 text-sm font-medium">Seçenek {index + 1}</label>
-            <input
-              id={`option-${index}`}
-              type="text"
-              value={option}
-              onChange={(e) => handleOptionChange(index, e.target.value)}
-              placeholder={`Seçenek ${index + 1} girin`}
-              required
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        ))}
+      {error && <div className={styles.error}>{error}</div>}
 
-        <div>
-          <label htmlFor="correct-option" className="block mb-2 text-sm font-medium">Doğru Seçenek</label>
-          <select
-            id="correct-option"
-            value={correctOptionIndex}
-            onChange={(e) => setCorrectOptionIndex(Number(e.target.value))}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            {options.map((_, index) => (
-              <option key={index} value={index}>Seçenek {index + 1}</option>
-            ))}
-          </select>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
-        >
-          Soru Ekle
-        </button>
-      </form>
-    </div>
+      <button type="submit" className={styles.submitButton}>
+        Soru Ekle
+      </button>
+    </form>
   );
 };
 

@@ -1,0 +1,168 @@
+.form {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.formGroup textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+.formGroup input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+}
+
+.imagePreview {
+  margin: 10px 0;
+  max-width: 300px;
+}
+
+.imagePreview img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.optionGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #f9fafb;
+}
+
+.optionGroup input[type="text"] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.optionGroup input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #1d4ed8;
+}
+
+.submitButton:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 10px 0;
+  padding: 12px;
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  border-radius: 6px;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+/* Karanlık mod desteği */
+@media (prefers-color-scheme: dark) {
+  .form {
+    background-color: #1f2937;
+  }
+
+  .formGroup label {
+    color: #e5e7eb;
+  }
+
+  .formGroup textarea,
+  .optionGroup input[type="text"] {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+
+  .formGroup input[type="file"] {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+
+  .optionGroup {
+    background-color: #374151;
+  }
+
+  .submitButton {
+    background-color: #3b82f6;
+  }
+
+  .submitButton:hover {
+    background-color: #2563eb;
+  }
+
+  .submitButton:disabled {
+    background-color: #60a5fa;
+  }
+
+  .error {
+    background-color: #7f1d1d;
+    border-color: #dc2626;
+    color: #fecaca;
+  }
+}
+
+/* Mobil uyumluluk */
+@media (max-width: 640px) {
+  .form {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .optionGroup {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .optionGroup input[type="radio"] {
+    align-self: flex-start;
+  }
+}
