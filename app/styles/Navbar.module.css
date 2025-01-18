@@ -126,16 +126,30 @@
   flex-direction: column;
   padding: 0.5rem 0;
   opacity: 0;
-  visibility: hidden; /* Görünürlüğü gizle */
+  visibility: hidden;
   transform-origin: top;
   transition: all 0.3s ease;
   min-width: 200px;
+  margin-top: 15px; /* Üstten boşluk ekledik */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* İnce bir çerçeve ekledik */
 }
 
+.examDropdownMenu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
 
 .examDropdownMenu.show {
   opacity: 1;
-  visibility: visible; /* Görünür yap */
+  visibility: visible;
   transform: translateX(-50%) translateY(0);
 }
 
@@ -147,6 +161,7 @@
   color: black;
   transition: background-color 0.3s ease, color 0.3s ease;
   white-space: nowrap;
+  font-size: 0.95rem; /* Font boyutunu biraz küçülttük */
 }
 
 .examDropdownLink:hover {
