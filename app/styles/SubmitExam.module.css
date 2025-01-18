@@ -511,10 +511,17 @@
 
 /* Mobil cihazlar için özel stiller */
 @media (max-width: 768px) {
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Çift scroll'u engellemek için */
+  }
+
   .submitExamContainer {
     padding: 10px;
     margin: 0;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -522,14 +529,18 @@
     left: 0;
     right: 0;
     bottom: 0;
-    overflow-y: auto;
+    overflow-y: auto; /* Container'da scroll */
     -webkit-overflow-scrolling: touch;
     background-color: #fff;
+    padding-bottom: 100px; /* Butonlar için extra padding */
   }
 
-  .submitExamContainer h1 {
-    font-size: 1.5em;
+  .questionContainer {
+    flex: 1;
+    padding: 15px;
     margin: 10px 0;
+    border-radius: 0;
+    overflow-y: visible; /* Container'ın scroll'unu kullanacağız */
   }
 
   .timer {
@@ -540,7 +551,6 @@
     margin: 0;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    font-size: 1.2rem;
   }
 
   .progress {
@@ -550,50 +560,6 @@
     z-index: 99;
     margin: 0;
     padding: 10px;
-    font-size: 1rem;
-  }
-
-  .questionContainer {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 0;
-    padding-bottom: 80px;
-  }
-
-  .questionContainer h3 {
-    font-size: 1.1rem;
-    line-height: 1.4;
-    margin-bottom: 15px;
-  }
-
-  .questionImg {
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    object-fit: contain;
-  }
-
-  .optionContainer {
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-  }
-
-  .optionContainer input[type="radio"] {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-  }
-
-  .optionContainer label {
-    font-size: 16px;
-    line-height: 1.4;
-    flex: 1;
   }
 
   .buttonContainer {
