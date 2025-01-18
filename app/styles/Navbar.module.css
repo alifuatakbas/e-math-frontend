@@ -344,9 +344,6 @@
     right: 0;
   }
 
-  .navLinks.active {
-    right: 0;
-  }
 
   /* Overlay - menü açıkken arka planı karartma */
   .overlay {
@@ -367,27 +364,32 @@
     opacity: 1;
   }
 
-  .navLink {
-    font-size: 1.1rem;
+   .navLink {
     width: 100%;
+    text-align: left;
+    position: relative;
+    font-size: 1.1rem;
     padding: 0.8rem 0;
     border-bottom: 1px solid #eee;
   }
 
   /* Dropdown menü mobil görünümü */
-.examDropdownMenu {
+
+  .examDropdownMenu {
     position: static;
     transform: none;
     box-shadow: none;
     opacity: 1;
     visibility: visible;
     width: 100%;
-    margin: 0.5rem 0;
-    padding: 0;
-    display: none; /* Varsayılan olarak gizli */
+    margin:  0;
+    padding: 0.5rem 0;
+    display: none;
     background: #f8f9fa;
     border: none;
     border-radius: 4px;
+    left: 0; /* Sol hizalama için */
+    text-align: left; /* Yazıları sola hizala */
   }
 
   .examDropdownMenu.show {
@@ -401,6 +403,9 @@
   .examDropdownLink {
     padding: 0.8rem 1rem;
     border-bottom: 1px solid #eee;
+    text-align: left; /* Link yazılarını sola hizala */
+    width: 100%; /* Tam genişlik */
+    display: block; /* Blok element olarak göster */
   }
 
   /* Auth butonları mobil görünümü */
