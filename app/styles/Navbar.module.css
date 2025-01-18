@@ -364,50 +364,50 @@
     opacity: 1;
   }
 
-     .navLink {
+  .navLink {
     width: 100%;
     text-align: left;
     position: relative;
     font-size: 1.1rem;
-    padding: 0.8rem 2rem; /* padding'i burada veriyoruz */
+    padding: 0.8rem 2rem;
+    border-bottom: 1px solid #eee; /* Eklendi */
   }
 
   /* Dropdown menü mobil görünümü */
 
-      .examDropdownMenu {
-    position: relative !important; /* !important ile diğer stilleri eziyoruz */
+     .examDropdownMenu {
+    position: static !important; /* relative yerine static */
     width: 100% !important;
-    margin-top: 0 !important;
+    margin: 0 !important;
     padding: 0 !important;
     background: #f8f9fa !important;
     border: none !important;
     border-radius: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    left: 0 !important; /* 50% yerine 0 */
+    transform: none !important; /* translateX kaldırıldı */
     box-shadow: none !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: none !important;
-    min-width: unset !important;
   }
 
   .examDropdownMenu.show {
     display: block !important;
-    transform: translateX(-50%) !important;
-  }
-
-  .examDropdownMenu::before {
-    display: none !important;
+    transform: none !important; /* translateX kaldırıldı */
   }
 
   .examDropdownLink {
     padding: 0.8rem 2rem !important;
+    background: #f0f0f0 !important; /* Arka plan rengi eklendi */
     border-bottom: 1px solid #eee !important;
     text-align: left !important;
     width: 100% !important;
     display: block !important;
   }
 
+  .examDropdownMenu::before {
+    display: none !important;
+  }
 
   /* Auth butonları mobil görünümü */
   .authButtons {
