@@ -374,38 +374,38 @@
 
   /* Dropdown menü mobil görünümü */
 
-    .examDropdownMenu {
-    position: relative;
-    width: 100%;
-    margin: -1rem 0 0 0; /* Üstteki boşluğu kaldırmak için negatif margin */
-    padding: 0;
-    background: #f8f9fa;
-    border: none;
-    border-radius: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: none;
-    opacity: 1;
-    visibility: visible;
-    display: none;
+      .examDropdownMenu {
+    position: relative !important; /* !important ile diğer stilleri eziyoruz */
+    width: 100% !important;
+    margin: -1.5rem 0 0 0 !important;
+    padding: 0 !important;
+    background: #f8f9fa !important;
+    border: none !important;
+    border-radius: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: none !important;
+    min-width: unset !important;
   }
 
   .examDropdownMenu.show {
-    display: block;
-    transform: translateX(-50%);
+    display: block !important;
+    transform: translateX(-50%) !important;
   }
 
-
   .examDropdownMenu::before {
-    display: none;
+    display: none !important;
   }
 
   .examDropdownLink {
-    padding: 0.8rem 2rem; /* Ana menü ile aynı padding */
-    border-bottom: 1px solid #eee;
-    text-align: left;
-    width: 100%;
-    display: block;
+    padding: 0.8rem 2rem !important;
+    border-bottom: 1px solid #eee !important;
+    text-align: left !important;
+    width: 100% !important;
+    display: block !important;
   }
 
 
