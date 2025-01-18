@@ -218,23 +218,28 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     }
   }, [examStarted, timeLeft]);
 
-    useEffect(() => {
-    const initializeExam = async () => {
-      try {
-        const statusData = await checkExamStatus();
+   useEffect(() => {
+  const initializeExam = async () => {
+    try {
+      const statusData = await checkExamStatus();
 
-        const examResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        );
+      const examResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
 
-        if (!examResponse.ok) throw new Error('Sınav verileri alınamadı');
+      if (!examResponse.ok) throw new Error('Sınav verileri alınamadı');
 
-        const examData = await examResponse.json();
+      const examData = await examResponse.json();
+
+      // Debug için ekleyin
+      console.log('Sınav verileri:', examData);
+      console.log('İlk sorunun resmi:', examData.questions[0]?.image);
+      console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
 
         if (examData.has_been_taken && !statusData?.is_started) {
           setError('Bu sınav zaten tamamlanmış.');
@@ -415,15 +420,19 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
             <h3>{exam.questions[currentQuestionIndex].text}</h3>
 
             {/* Soru resmi varsa göster */}
-            {exam.questions[currentQuestionIndex].image && (
-              <div className={styles.questionImage}>
-                <img
-                  src={`${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`}
-                  alt="Soru görseli"
-                  className={styles.questionImg}
-                />
-              </div>
-            )}
+          {exam.questions[currentQuestionIndex].image && (
+  <div className={styles.questionImage}>
+    <img
+      // Eski hali:
+      // src={`${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`}
+
+      // Yeni hali:
+      src={`${process.env.NEXT_PUBLIC_API_URL}${exam.questions[currentQuestionIndex].image}`}
+      alt="Soru görseli"
+      className={styles.questionImg}
+    />
+  </div>
+)}
 
             {exam.questions[currentQuestionIndex].options.map((option, index) => (
               <div key={index} className={styles.optionContainer}>
