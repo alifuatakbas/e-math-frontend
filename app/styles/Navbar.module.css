@@ -374,16 +374,16 @@
 
   /* Dropdown menü mobil görünümü */
 
-   .examDropdownMenu {
+    .examDropdownMenu {
     position: relative;
     width: 100%;
-    margin: 0;
+    margin: -0.5rem 0 0 0; /* Üstteki boşluğu kaldırmak için negatif margin */
     padding: 0;
     background: #f8f9fa;
     border: none;
     border-radius: 0;
-    left: 50%; /* Merkeze almak için */
-    transform: translateX(-50%); /* Merkeze almak için */
+    left: 50%;
+    transform: translateX(-50%);
     box-shadow: none;
     opacity: 1;
     visibility: visible;
@@ -392,7 +392,7 @@
 
   .examDropdownMenu.show {
     display: block;
-    transform: translateX(-50%); /* show durumunda da merkezi korumak için */
+    transform: translateX(-50%);
   }
 
 
