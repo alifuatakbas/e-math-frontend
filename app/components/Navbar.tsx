@@ -53,6 +53,7 @@ const Navbar: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobil menü için state
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -67,7 +68,7 @@ const Navbar: React.FC = () => {
           if (response.ok) {
             const userData: User = await response.json();
             setCurrentUser(userData);
-            setIsAdmin(userData.role === 'admin'); // Admin kontrolü
+            setIsAdmin(userData.role === 'admin');
           } else {
             localStorage.removeItem('token');
           }
@@ -81,15 +82,35 @@ const Navbar: React.FC = () => {
     fetchCurrentUser();
   }, []);
 
+  // Mobil menü açıkken scroll'u engelle
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
     setIsAdmin(false);
     setIsDropdownOpen(false);
+    setIsMenuOpen(false); // Mobil menüyü de kapat
   };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // Mobil menüyü aç/kapa
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Mobil menüyü kapat (link tıklamalarında kullanılacak)
+  const closeMenu = () => {
+    setIsMenuOpen(false);
   };
 
   return (
