@@ -36,11 +36,13 @@
 
 
 .navLink {
+  position: relative; /* Dropdown için referans noktası */
   text-decoration: none;
   color: #333;
   font-weight: 500;
   transition: color 0.3s ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .navLink:hover {
@@ -109,9 +111,12 @@
   transition: all 0.3s ease;
 }
 
+/* Dropdown menü */
 .examDropdownMenu {
   position: absolute;
   top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: white;
   color: black;
   border-radius: 8px;
@@ -121,14 +126,19 @@
   flex-direction: column;
   padding: 0.5rem 0;
   opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  visibility: hidden; /* Görünürlüğü gizle */
+  transform-origin: top;
+  transition: all 0.3s ease;
+  min-width: 200px;
 }
+
 
 .examDropdownMenu.show {
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible; /* Görünür yap */
+  transform: translateX(-50%) translateY(0);
 }
+
 
 .examDropdownLink {
   display: block;
@@ -136,12 +146,14 @@
   text-decoration: none;
   color: black;
   transition: background-color 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
 }
 
 .examDropdownLink:hover {
   background-color: #f0f0f0;
   color: #764ba2;
 }
+
 
 .userDropdownMenu {
   position: absolute;
@@ -308,5 +320,22 @@
     position: static;
     box-shadow: none;
     border-top: 1px solid #e0e0e0;
+  }
+
+  .examDropdownMenu {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    display: none;
+    width: 100%;
+    background-color: #f9f9f9;
+    margin-top: 0.5rem;
+  }
+
+  .examDropdownMenu.show {
+    display: flex;
+    transform: none;
   }
 }
