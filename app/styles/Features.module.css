@@ -1,23 +1,17 @@
 /* Features.module.css */
+.featuresWrapper {
+  background: linear-gradient(135deg, #fff6f7 0%, #ffffff 100%);
+}
+
 .features {
   padding: 8rem 2rem;
-  background-color: #FFFFFF;
- background-image: repeating-linear-gradient(
-    45deg,
-    rgba(232, 74, 95, 0.05) 0,
-    rgba(232, 74, 95, 0.05) 1px,
-    #ffffff 0,
-    #ffffff 50%
-  );
-  background-size: 10px 10px;
-  background-position: 0 0, 10px 10px;
-  opacity: 0.9;
   min-height: 100vh;
   display: flex;
   align-items: center;
   overflow: hidden;
   position: relative;
 }
+
 
 
 /* Desen için overlay */
@@ -167,6 +161,10 @@
 
 :global(.dark-theme) .features::before {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E84A5F' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+:global(.dark-theme) .featuresWrapper {
+  background: linear-gradient(135deg, rgba(29, 29, 27, 0.95) 0%, rgba(29, 29, 27, 1) 100%);
 }
 
 /* Responsive */
