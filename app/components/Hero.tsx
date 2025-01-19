@@ -1,15 +1,25 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import styles from '../styles/Hero.module.css'
 
 const Hero = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
-    <section className={styles.hero}>
+    <section className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}>
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className={styles.themeToggle}
+      >
+        {darkMode ? '☀️' : '🌙'}
+      </button>
+
       <div className={styles.heroBackground}>
         <div className={styles.circle1}></div>
         <div className={styles.circle2}></div>
       </div>
 
+      {/* Mevcut içerik aynı kalacak */}
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.mainContent}>
