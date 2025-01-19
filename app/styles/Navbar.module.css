@@ -1,12 +1,20 @@
+/* Navbar.module.css */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(248, 250, 252, 0.8);
   backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.darkMode {
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navContainer {
@@ -15,7 +23,7 @@
   margin: 0 auto;
   padding: 1rem 2rem;
   display: grid;
-  grid-template-columns: 200px 1fr 200px; /* Logo, nav links ve auth buttons için sabit genişlikler */
+  grid-template-columns: 200px 1fr 200px;
   align-items: center;
   position: relative;
 }
@@ -23,8 +31,13 @@
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #764ba2;
+  color: #FF3366;
   text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  transform: translateY(-2px);
 }
 
 .navLinks {
@@ -34,125 +47,96 @@
   justify-content: center;
 }
 
-
 .navLink {
   position: relative;
   text-decoration: none;
-  color: #333;
+  color: #1E293B;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
   cursor: pointer;
 }
 
-.navLink::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  height: 15px; /* margin-top ile aynı değer */
-  background: transparent;
+.darkMode .navLink {
+  color: #F1F5F9;
 }
 
 .navLink:hover {
-  color: #764ba2;
+  color: #FF3366;
 }
 
 .ctaButton {
-  background: #764ba2;
+  background: #FF3366;
   color: white;
-  padding: 0.5rem 1.5rem;
+  padding: 0.8rem 1.8rem;
   border: none;
-  border-radius: 25px;
+  border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .ctaButton:hover {
-  background: #623a8e;
+  background: #E61B4D;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 51, 102, 0.25);
 }
-
 
 .authButtons {
   display: flex;
   gap: 1rem;
   align-items: center;
   justify-content: flex-end;
-  margin-left: auto;
-  position: absolute;
-  right: 2rem;
 }
 
 .loginButton, .signupButton {
-  background: #764ba2;
-  color: white;
+  background: #1E293B;
+  color: #F1F5F9;
   text-decoration: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 5px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
   font-weight: 500;
   transition: all 0.3s ease;
   white-space: nowrap;
 }
 
-.loginButton:hover {
-  background: #623a8e;
+.darkMode .loginButton,
+.darkMode .signupButton {
+  background: #F1F5F9;
+  color: #1E293B;
 }
 
+.loginButton:hover,
 .signupButton:hover {
-  background: #623a8e;
+  background: #FF3366;
+  color: white;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 51, 102, 0.25);
 }
 
-.hamburger {
-  display: none; /* PC'de gizli */
-  margin-left: auto; /* Sağa yaslamak için */
-  z-index: 1001;
-}
-
-.hamburger span {
-  display: block;
-  width: 25px;
-  height: 2px; /* İncelttik */
-  background: #764ba2; /* Tema rengine uygun */
-  transition: all 0.3s ease;
-  border-radius: 2px; /* Yuvarlatılmış kenarlar */
-}
-
-/* Dropdown menü */
+/* Dropdown Menus */
 .examDropdownMenu {
   position: absolute;
-  top: calc(100% + 15px); /* after ile aynı yükseklik */
+  top: calc(100% + 15px);
   left: 50%;
   transform: translateX(-50%);
-  background-color: white;
-  color: black;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(248, 250, 252, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  min-width: 200px;
+  min-width: 220px;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.examDropdownMenu::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 12px;
-  height: 12px;
-  background-color: white;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+.darkMode .examDropdownMenu {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .examDropdownMenu.show {
@@ -161,157 +145,139 @@
   transform: translateX(-50%) translateY(0);
 }
 
-
 .examDropdownLink {
-  display: block;
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   text-decoration: none;
-  color: black;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  white-space: nowrap;
-  font-size: 0.95rem; /* Font boyutunu biraz küçülttük */
+  color: #1E293B;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0.2rem 0;
+}
+
+.darkMode .examDropdownLink {
+  color: #F1F5F9;
 }
 
 .examDropdownLink:hover {
-  background-color: #f0f0f0;
-  color: #764ba2;
+  background: rgba(255, 51, 102, 0.1);
+  color: #FF3366;
 }
 
+/* User Menu */
+.userName {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  background: rgba(255, 51, 102, 0.1);
+  color: #1E293B;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.darkMode .userName {
+  color: #F1F5F9;
+}
+
+.userName:hover {
+  background: rgba(255, 51, 102, 0.2);
+}
 
 .userDropdownMenu {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: white;
-  color: black;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(248, 250, 252, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  min-width: 200px;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  min-width: 220px;
+}
+
+.darkMode .userDropdownMenu {
+  background: rgba(15, 23, 42, 0.95);
 }
 
 .userDropdownMenu.show {
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
 }
 
 .userDropdownLink {
-  display: block;
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   text-decoration: none;
-  color: black;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #1E293B;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0.2rem 0;
+}
+
+.darkMode .userDropdownLink {
+  color: #F1F5F9;
 }
 
 .userDropdownLink:hover {
-  background-color: #f0f0f0;
-  color: #764ba2;
+  background: rgba(255, 51, 102, 0.1);
+  color: #FF3366;
 }
 
 .logoutButton {
   width: 100%;
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   background: none;
   border: none;
   text-align: left;
   font-size: 1rem;
-  color: #dc3545;
+  color: #DC2626;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0.2rem 0;
 }
 
 .logoutButton:hover {
-  background-color: #f0f0f0;
+  background: rgba(220, 38, 38, 0.1);
 }
 
-.userName {
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  transition: background-color 0.3s ease;
-}
-
-.userName:hover {
-  background-color: #e0e0e0;
-}
-
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  z-index: 1000;
-  width: 300px;
-  text-align: center;
-}
-
-.popupContent {
-  display: flex;
+/* Mobile Menu */
+.hamburger {
+  display: none;
   flex-direction: column;
-  align-items: center;
-}
-
-.popupContent p {
-  margin-bottom: 20px;
-  font-size: 16px;
-  color: #333;
-}
-
-.closeButton {
-  background-color: #623a8e;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  gap: 6px;
   cursor: pointer;
-  font-size: 14px;
+  padding: 8px;
+  z-index: 1001;
 }
 
-.closeButton:hover {
-  background-color: #4c2d70;
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #1E293B;
+  transition: all 0.3s ease;
+  border-radius: 2px;
 }
 
-/* Responsive tasarım için medya sorguları */
-@media (max-width: 1024px) {
-  .navContainer {
-    grid-template-columns: 150px 1fr 200px; /* Daha küçük ekranlar için ayarla */
-    padding: 1rem;
-  }
-
-  .navLinks {
-    gap: 1rem;
-  }
+.darkMode .hamburger span {
+  background: #F1F5F9;
 }
 
+/* Mobile Styles */
 @media (max-width: 768px) {
-   .navContainer {
-    display: flex; /* grid yerine flex kullan */
+  .navContainer {
+    display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 1rem;
   }
 
   .hamburger {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    cursor: pointer;
-    padding: 8px;
-    order: 3; /* Sağa yaslamak için */
   }
 
-  /* Hamburger animasyonu - açık durumda */
   .hamburger.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
@@ -324,15 +290,17 @@
     transform: rotate(-45deg) translate(7px, -7px);
   }
 
-   .navLinks {
+  .navLinks {
     position: fixed;
     top: 0;
     right: -100%;
     height: 100vh;
     width: 75%;
-    background: white;
+    background: rgba(248, 250, 252, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     flex-direction: column;
-    padding: 80px 0 2rem 0; /* padding'i sıfırladık */
+    padding: 80px 2rem 2rem;
     gap: 1.5rem;
     transition: all 0.3s ease;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
@@ -340,12 +308,14 @@
     overflow-y: auto;
   }
 
+  .darkMode .navLinks {
+    background: rgba(15, 23, 42, 0.95);
+  }
+
   .navLinks.active {
     right: 0;
   }
 
-
-  /* Overlay - menü açıkken arka planı karartma */
   .overlay {
     display: none;
     position: fixed;
@@ -366,88 +336,67 @@
 
   .navLink {
     width: 100%;
-    text-align: left;
-    position: relative;
-    font-size: 1.1rem;
-    padding: 0.8rem 2rem;
-    border-bottom: 1px solid #eee; /* Eklendi */
+    padding: 1rem;
+    border-radius: 8px;
   }
 
-  /* Dropdown menü mobil görünümü */
-
-     .examDropdownMenu {
-    position: static !important; /* relative yerine static */
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #f8f9fa !important;
-    border: none !important;
-    border-radius: 0 !important;
-    left: 0 !important; /* 50% yerine 0 */
-    transform: none !important; /* translateX kaldırıldı */
-    box-shadow: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: none !important;
+  .examDropdownMenu {
+    position: static;
+    width: 100%;
+    transform: none;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin-top: 0.5rem;
   }
 
   .examDropdownMenu.show {
-    display: block !important;
-    transform: none !important; /* translateX kaldırıldı */
+    transform: none;
   }
 
   .examDropdownLink {
-    padding: 0.8rem 2rem !important;
-    background: #f0f0f0 !important; /* Arka plan rengi eklendi */
-    border-bottom: 1px solid #eee !important;
-    text-align: left !important;
-    width: 100% !important;
-    display: block !important;
+    padding: 1rem;
+    margin: 0.2rem 0;
+    background: rgba(255, 51, 102, 0.1);
   }
 
-  .examDropdownMenu::before {
-    display: none !important;
-  }
-
-  /* Auth butonları mobil görünümü */
   .authButtons {
-    position: static;
     width: 100%;
     flex-direction: column;
-    gap: 0.8rem;
     margin-top: 1rem;
   }
 
-  .loginButton, .signupButton {
+  .loginButton,
+  .signupButton {
     width: 100%;
     text-align: center;
-    padding: 0.8rem;
   }
 
-  /* Kullanıcı menüsü mobil görünümü */
   .userName {
     width: 100%;
     text-align: center;
-    padding: 0.8rem;
-    background: #f8f9fa;
-    border-radius: 4px;
   }
 
   .userDropdownMenu {
-    width: 100%;
     position: static;
+    width: 100%;
     box-shadow: none;
     margin-top: 0.5rem;
   }
 }
 
-/* Daha küçük ekranlar için ek düzenlemeler */
 @media (max-width: 480px) {
   .navLinks {
     width: 85%;
+    padding: 80px 1rem 1rem;
   }
 
   .navContainer {
     padding: 0.8rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
   }
 }

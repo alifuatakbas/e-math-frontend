@@ -7,10 +7,9 @@ import styles from '../styles/Navbar.module.css';
 interface User {
   full_name: string;
   email: string;
-  role?: string; // role özelliğini ekledik
+  role?: string;
 }
 
-// Korumalı Link componenti - admin kontrolü eklendi
 const ProtectedLink: React.FC<{
   href: string;
   children: React.ReactNode;
@@ -36,7 +35,6 @@ const ProtectedLink: React.FC<{
     router.push(href);
   };
 
-  // Eğer link admin'e özelse ve kullanıcı admin değilse linki gösterme
   if (adminOnly && !isAdmin) {
     return null;
   }
@@ -53,7 +51,26 @@ const Navbar: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobil menü için state
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Tema değişimini dinle
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.nodeName === 'HTML') {
+          setIsDarkMode(document.documentElement.classList.contains('dark-theme'));
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -82,7 +99,6 @@ const Navbar: React.FC = () => {
     fetchCurrentUser();
   }, []);
 
-  // Mobil menü açıkken scroll'u engelle
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -96,76 +112,73 @@ const Navbar: React.FC = () => {
     setCurrentUser(null);
     setIsAdmin(false);
     setIsDropdownOpen(false);
-    setIsMenuOpen(false); // Mobil menüyü de kapat
+    setIsMenuOpen(false);
   };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Mobil menüyü aç/kapa
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    setIsExamMenuOpen(false); // Mobil menü açılırken sınav menüsünü kapat
   };
 
-  // Mobil menüyü kapat (link tıklamalarında kullanılacak)
   const closeMenu = () => {
     setIsMenuOpen(false);
+    setIsExamMenuOpen(false);
+    setIsDropdownOpen(false);
   };
 
   return (
-      <nav className={styles.navbar}>
+    <>
+      <nav className={`${styles.navbar} ${isDarkMode ? styles.darkMode : ''}`}>
         <div className={styles.navContainer}>
           <Link href="/" className={styles.logo}>
             LOGO
           </Link>
 
-          {/* Hamburger Menü */}
           <div
-              className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
-              onClick={toggleMenu}
+            className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
+            onClick={toggleMenu}
           >
             <span></span>
             <span></span>
             <span></span>
           </div>
 
-      {/* Navigation Links */}
-<div className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
-  <Link href="/" className={styles.navLink} onClick={closeMenu}>
-    Ana Sayfa
-  </Link>
+          <div className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
+            <Link href="/" className={styles.navLink} onClick={closeMenu}>
+              Ana Sayfa
+            </Link>
 
-  {/* PC'de hover, mobilde tıklama ile çalışacak */}
-  <div
-    className={styles.navLink}
-    onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
-    onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
-    onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
-  >
-    Sınavlar
-    <div
-      className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
-      onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
-      onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
-    >
-      {/* Admin-only linkler */}
-      <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
-        Sınav Oluştur
-      </ProtectedLink>
-      <ProtectedLink href="/soru-ekle" adminOnly isAdmin={isAdmin}>
-        Soru Ekle
-      </ProtectedLink>
+            <div
+              className={styles.navLink}
+              onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+              onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
+              onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
+            >
+              Sınavlar
+              <div
+                className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
+                onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+                onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
+              >
+                <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
+                  Sınav Oluştur
+                </ProtectedLink>
+                <ProtectedLink href="/soru-ekle" adminOnly isAdmin={isAdmin}>
+                  Soru Ekle
+                </ProtectedLink>
+                <ProtectedLink href="/sinav-coz">
+                  Sınav Çöz
+                </ProtectedLink>
+                <ProtectedLink href="/sinav-sonuclari">
+                  Sınav Sonuçlarına Bak
+                </ProtectedLink>
+              </div>
+            </div>
 
-      {/* Normal kullanıcı linkleri */}
-      <ProtectedLink href="/sinav-coz">
-        Sınav Çöz
-      </ProtectedLink>
-      <ProtectedLink href="/sinav-sonuclari">
-        Sınav Sonuçlarına Bak
-      </ProtectedLink>
-    </div>
-  </div>
             <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
               Hakkımızda
             </Link>
@@ -176,46 +189,51 @@ const Navbar: React.FC = () => {
               Başvuru
             </button>
 
-            {/* Auth Buttons - Mobilde menü içinde göster */}
             <div className={styles.authButtons}>
               {currentUser ? (
-                  <>
-              <span className={styles.userName} onClick={toggleDropdown}>
-                {currentUser.full_name} {isAdmin && '(Admin)'}
-              </span>
-                    {isDropdownOpen && (
-                        <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
-                          <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
-                            Profil
-                          </Link>
-                          {isAdmin && (
-                              <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
-                                Admin Panel
-                              </Link>
-                          )}
-                          <Link href="/settings" className={styles.userDropdownLink} onClick={closeMenu}>
-                            Ayarlar
-                          </Link>
-                          <button onClick={handleLogout} className={styles.logoutButton}>
-                            Çıkış
-                          </button>
-                        </div>
-                    )}
-                  </>
+                <>
+                  <span className={styles.userName} onClick={toggleDropdown}>
+                    {currentUser.full_name} {isAdmin && '(Admin)'}
+                  </span>
+                  {isDropdownOpen && (
+                    <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
+                      <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
+                        Profil
+                      </Link>
+                      {isAdmin && (
+                        <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
+                          Admin Panel
+                        </Link>
+                      )}
+                      <Link href="/settings" className={styles.userDropdownLink} onClick={closeMenu}>
+                        Ayarlar
+                      </Link>
+                      <button onClick={handleLogout} className={styles.logoutButton}>
+                        Çıkış
+                      </button>
+                    </div>
+                  )}
+                </>
               ) : (
-                  <>
-                    <Link href="/login" className={styles.loginButton} onClick={closeMenu}>
-                      Giriş
-                    </Link>
-                    <Link href="/register" className={styles.signupButton} onClick={closeMenu}>
-                      Kaydol
-                    </Link>
-                  </>
+                <>
+                  <Link href="/login" className={styles.loginButton} onClick={closeMenu}>
+                    Giriş
+                  </Link>
+                  <Link href="/register" className={styles.signupButton} onClick={closeMenu}>
+                    Kaydol
+                  </Link>
+                </>
               )}
             </div>
           </div>
         </div>
       </nav>
+      {/* Overlay for mobile menu */}
+      <div
+        className={`${styles.overlay} ${isMenuOpen ? styles.active : ''}`}
+        onClick={closeMenu}
+      />
+    </>
   );
 }
 
