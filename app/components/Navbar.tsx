@@ -57,19 +57,26 @@ const Navbar: React.FC = () => {
       const savedTheme = localStorage.getItem('theme');
       return savedTheme === 'dark';
     }
-    return false;
+    return false; // varsayılan olarak light mode
   });
 
   // Tema yönetimi için useEffect
   useEffect(() => {
+    // Sayfa yüklendiğinde localStorage'dan tema tercihini al
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       const isDark = savedTheme === 'dark';
       setIsDarkMode(isDark);
       document.documentElement.classList.toggle('dark-theme', isDark);
       document.body.style.backgroundColor = isDark ? '#0F172A' : '#F8FAFC';
+    } else {
+      // Eğer tema kaydedilmemişse varsayılan olarak light mode kullan
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark-theme');
+      document.body.style.backgroundColor = '#F8FAFC';
     }
 
+    // Tema değişikliklerini dinle
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'theme') {
         const newTheme = e.newValue;
@@ -85,7 +92,7 @@ const Navbar: React.FC = () => {
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, []);
+  }, []); // Sadece component mount olduğunda çalışsın
 
   useEffect(() => {
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
