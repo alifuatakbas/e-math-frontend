@@ -1,8 +1,9 @@
 .hero {
   min-height: 100vh;
-  background: #0A0A0B;
+  background: #0F172A;
   display: flex;
   align-items: center;
+  padding: 2rem 0;
   position: relative;
   overflow: hidden;
 }
@@ -12,178 +13,219 @@
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.2fr 1fr;
   gap: 4rem;
-  align-items: center;
-}
-
-.content {
+  position: relative;
   z-index: 1;
 }
 
-.content h1 {
-  font-size: 5rem;
+.leftContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.textContent h1 {
+  font-size: 4.5rem;
   line-height: 1.1;
   color: #ffffff;
   margin-bottom: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
-.gradientText {
-  background: linear-gradient(45deg, #FF3366, #FF6B6B);
+.highlight {
+  background: linear-gradient(120deg, #4F46E5, #7C3AED);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
+  position: relative;
+  display: inline-block;
 }
 
-.content p {
-  font-size: 1.5rem;
+.highlight::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  bottom: 5px;
+  left: 0;
+  background: linear-gradient(120deg, #4F46E5, #7C3AED);
+  opacity: 0.3;
+}
+
+.textContent p {
+  font-size: 1.25rem;
   color: #94A3B8;
-  margin-bottom: 3rem;
-  line-height: 1.6;
+  line-height: 1.7;
+  max-width: 540px;
 }
 
-.buttonGroup {
+.statsContainer {
+  display: flex;
+  gap: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.statNumber {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(120deg, #4F46E5, #7C3AED);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.statLabel {
+  color: #94A3B8;
+  font-size: 1rem;
+}
+
+.ctaContainer {
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
 
-.cta {
+.primaryBtn {
   padding: 1.2rem 2.8rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  background: linear-gradient(45deg, #FF3366, #FF6B6B);
+  background: linear-gradient(120deg, #4F46E5, #7C3AED);
   color: white;
   border: none;
   border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 40px -15px rgba(255, 51, 102, 0.5);
-}
-
-.secondaryCta {
-  padding: 1.2rem 2.8rem;
   font-size: 1.1rem;
   font-weight: 600;
-  background: transparent;
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.secondaryCta:hover {
-  background: rgba(255, 255, 255, 0.1);
+.primaryBtn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.4);
 }
 
-.floatingImage {
+.secondaryBtn {
+  padding: 1.2rem 2.8rem;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.secondaryBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.playIcon {
+  font-size: 0.8rem;
+}
+
+.rightContent {
+  position: relative;
+  height: 600px;
+  perspective: 1000px;
+}
+
+.cardStack {
+  position: relative;
   width: 100%;
   height: 100%;
-  background: url('../../public/math-3d.png') no-repeat center;
-  background-size: contain;
-  animation: float 6s ease-in-out infinite;
-  filter: hue-rotate(340deg); /* Görselin rengini tema renklerinize uyumlu hale getirir */
+  transform-style: preserve-3d;
 }
 
-/* Görsel için ek parlaklık efekti */
-.imageContainer::after {
-  content: '';
+.card {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(255, 51, 102, 0.2), rgba(255, 107, 107, 0.2));
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-.glowEffect {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
+  width: 400px;
   height: 500px;
-  background: radial-gradient(circle, rgba(255, 51, 102, 0.2) 0%, transparent 70%);
-  filter: blur(40px);
-  z-index: -1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+.card1 {
+  transform: translateZ(0) translateX(20%) rotateY(-15deg);
+  background: linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(124, 58, 237, 0.2));
 }
 
-/* Responsive tasarım */
-@media (max-width: 1024px) {
+.card2 {
+  transform: translateZ(-50px) translateX(10%) rotateY(-15deg);
+  background: linear-gradient(145deg, rgba(79, 70, 229, 0.15), rgba(124, 58, 237, 0.15));
+}
+
+.card3 {
+  transform: translateZ(-100px) translateX(0%) rotateY(-15deg);
+  background: linear-gradient(145deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+}
+
+/* Responsive Tasarım */
+@media (max-width: 1200px) {
   .container {
     grid-template-columns: 1fr;
     text-align: center;
   }
 
-  .content h1 {
-    font-size: 4rem;
+  .textContent h1 {
+    font-size: 3.5rem;
   }
 
-  .buttonGroup {
+  .textContent p {
+    margin: 0 auto;
+  }
+
+  .statsContainer {
     justify-content: center;
   }
 
-  .imageContainer {
-    height: 400px;
-    order: -1;
+  .ctaContainer {
+    justify-content: center;
+  }
+
+  .rightContent {
+    display: none;
   }
 }
 
 @media (max-width: 768px) {
-  .content h1 {
-    font-size: 3rem;
+  .textContent h1 {
+    font-size: 2.8rem;
   }
 
-  .content p {
-    font-size: 1.2rem;
-  }
-
-  .buttonGroup {
+  .statsContainer {
     flex-direction: column;
+    align-items: center;
+    gap: 2rem;
   }
 
-  .cta, .secondaryCta {
+  .ctaContainer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .primaryBtn, .secondaryBtn {
     width: 100%;
   }
 }
 
-/* Arka plan animasyonu için grid */
+/* Arka plan efekti */
 .hero::before {
   content: '';
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: gridMove 15s linear infinite;
-}
-
-@keyframes gridMove {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(50px);
-  }
+  background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.1) 0%, transparent 50%);
 }
