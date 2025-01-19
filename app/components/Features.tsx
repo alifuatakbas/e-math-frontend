@@ -1,7 +1,30 @@
-// Features.tsx
+"use client";
 import styles from '../styles/Features.module.css'
 import { FiTarget, FiShield, FiUsers, FiClock } from 'react-icons/fi'
 import { motion } from 'framer-motion'
+
+const features = [
+  {
+    icon: <FiTarget className={styles.icon} />,
+    title: "Hedef Odaklı Eğitim",
+    description: "Kişiselleştirilmiş eğitim programları ile hedeflerinize ulaşmanızı sağlıyoruz."
+  },
+  {
+    icon: <FiShield className={styles.icon} />,
+    title: "Güvenli Altyapı",
+    description: "En son teknoloji ile güçlendirilmiş altyapımız ile kesintisiz eğitim deneyimi."
+  },
+  {
+    icon: <FiUsers className={styles.icon} />,
+    title: "Uzman Kadro",
+    description: "Alanında uzman eğitmenlerimiz ile profesyonel eğitim kadrosu."
+  },
+  {
+    icon: <FiClock className={styles.icon} />,
+    title: "7/24 Destek",
+    description: "Kesintisiz müşteri desteği ile her an yanınızdayız."
+  }
+];
 
 const Features = () => {
   return (
@@ -39,28 +62,5 @@ const Features = () => {
     </section>
   )
 }
-
-const features = [
-  {
-    icon: <FiTarget className={styles.icon} />,
-    title: "Hedef Odaklı Eğitim",
-    description: "Kişiselleştirilmiş eğitim programları ile hedeflerinize ulaşmanızı sağlıyoruz."
-  },
-  {
-    icon: <FiShield className={styles.icon} />,
-    title: "Güvenli Altyapı",
-    description: "En son teknoloji ile güçlendirilmiş altyapımız ile kesintisiz eğitim deneyimi."
-  },
-  {
-    icon: <FiUsers className={styles.icon} />,
-    title: "Uzman Kadro",
-    description: "Alanında uzman eğitmenlerimiz ile profesyonel eğitim kadrosu."
-  },
-  {
-    icon: <FiClock className={styles.icon} />,
-    title: "7/24 Destek",
-    description: "Kesintisiz müşteri desteği ile her an yanınızdayız."
-  }
-]
 
 export default Features
