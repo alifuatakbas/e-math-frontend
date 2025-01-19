@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from '../styles/.module.css';
+import styles from '../styles/Register.module.css';
 import { FiSun, FiMoon } from 'react-icons/fi';
 
 const Register: React.FC = () => {
@@ -13,7 +13,6 @@ const Register: React.FC = () => {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
-    // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
     const isDark = document.documentElement.classList.contains('dark-theme');
     setDarkMode(isDark);
   }, []);
@@ -30,75 +29,35 @@ const Register: React.FC = () => {
     setError('');
     setMessage('');
 
-    const formData = new FormData();
-    formData.append('username', email);
-    formData.append('password', password);
-
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token`, {
-        method: 'POST',
-        body: formData
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.access_token);
-        setMessage('Register successful!');
-
-        setTimeout(() => {
-          router.push('/');
-          router.refresh();
-        }, 1000);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.detail || 'Register failed.');
-      }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
-    }
-  };
-
-  const handleForgotPassword = async () => {
-    if (!email) {
-      setError('Lütfen email adresinizi girin');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Geçersiz email formatı');
-      return;
-    }
-
-    try {
-      console.log('Sending request to:', `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`);
-      console.log('With email:', email);
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/forgot-password`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({
+          email,
+          password
+        })
       });
 
-      const data = await response.json();
-      console.log('Response:', data);
-
       if (response.ok) {
-        setMessage('Şifre sıfırlama linki email adresinize gönderildi');
-        setError('');
+        setMessage('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
+
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
       } else {
-        setError(data.detail || 'Bu email adresi sistemde kayıtlı değil');
+        const errorData = await response.json();
+        setError(errorData.detail || 'Kayıt başarısız.');
       }
     } catch (error) {
-      console.error('Error:', error);
-      setError('Bir hata oluştu, lütfen tekrar deneyin');
+      setError('Bir hata oluştu, lütfen tekrar deneyin.');
     }
   };
 
   return (
-    <div className={styles.RegisterContainer}>
+    <div className={styles.registerContainer}>
       <button
         onClick={toggleTheme}
         className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
@@ -107,8 +66,8 @@ const Register: React.FC = () => {
         {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
       </button>
 
-      <div className={styles.RegisterBox}>
-        <h2 className={styles.title}>Giriş yap</h2>
+      <div className={styles.registerBox}>
+        <h2 className={styles.title}>Kayıt Ol</h2>
         <form onSubmit={handleRegister} className={styles.form}>
           <div className={styles.inputGroup}>
             <label htmlFor="email" className={styles.label}>Email:</label>
@@ -135,19 +94,9 @@ const Register: React.FC = () => {
             />
           </div>
           <button type="submit" className={styles.submitButton}>
-            Giriş Yap
+            Kayıt Ol
           </button>
         </form>
-
-        <div className={styles.forgotPasswordContainer}>
-          <button
-            onClick={handleForgotPassword}
-            className={styles.forgotPasswordButton}
-            type="button"
-          >
-            Şifremi Unuttum
-          </button>
-        </div>
 
         {error && <p className={styles.error}>{error}</p>}
         {message && <p className={styles.message}>{message}</p>}
