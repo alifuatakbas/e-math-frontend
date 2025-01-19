@@ -92,8 +92,8 @@
 }
 
 .loginButton, .signupButton {
-  background: #FF3366;
-  color: white;
+  background: #1E293B;
+  color: #F1F5F9;
   text-decoration: none;
   padding: 0.8rem 1.8rem;
   border-radius: 8px;
@@ -102,23 +102,18 @@
   white-space: nowrap;
 }
 
-.loginButton {
-  background: transparent;
-  color: #111111;
+.darkMode .loginButton,
+.darkMode .signupButton {
+  background: #F1F5F9;
+  color: #1E293B;
 }
 
-.darkMode .loginButton {
-  color: #FFFFFF;
-}
-
+.loginButton:hover,
 .signupButton:hover {
-  background: #E61B4D;
+  background: #FF3366;
+  color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 51, 102, 0.25);
-}
-
-.loginButton:hover {
-  color: #FF3366;
 }
 
 /* Dropdown Menus */
