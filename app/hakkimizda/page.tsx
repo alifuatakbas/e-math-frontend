@@ -29,22 +29,19 @@ const AboutUs = () => {
         {darkMode ? <Sun className={styles.themeIcon} /> : <Moon className={styles.themeIcon} />}
       </button>
 
-      {/* Hero Section */}
       <section className={styles.heroSection}>
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
           <h1>Hakkımızda</h1>
-          <p>2020'den beri teknoloji çözümleri sunuyoruz</p>
+          <p>2020&apos;den beri teknoloji çözümleri sunuyoruz</p>
         </div>
       </section>
 
-      {/* Main Content */}
       <div className={styles.mainContent}>
         <section className={styles.introSection}>
           <div className={styles.introText}>
             <h2>Biz Kimiz?</h2>
-            <p>Teknoloji dünyasında yenilikçi çözümler üreten bir ekibiz. Müşterilerimizin ihtiyaçlarını en iyi şekilde
-              anlayarak, onlara özel çözümler sunuyoruz.</p>
+            <p>Teknoloji dünyasında yenilikçi çözümler üreten bir ekibiz. Müşterilerimizin ihtiyaçlarını en iyi şekilde anlayarak, onlara özel çözümler sunuyoruz.</p>
           </div>
           <div className={styles.introImage}>
             <div className={styles.imagePlaceholder}></div>
@@ -53,7 +50,7 @@ const AboutUs = () => {
 
         <section className={styles.numbersSection}>
           <div className={styles.numberBox}>
-          <span className={styles.number}>500+</span>
+            <span className={styles.number}>500+</span>
             <span className={styles.label}>Mutlu Müşteri</span>
           </div>
           <div className={styles.numberBox}>
