@@ -3,78 +3,183 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #6a1b9a, #ffffff);
+  min-height: 100vh;
+  background: linear-gradient(135deg,
+    rgba(232, 74, 95, 0.1) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Arka plan deseni */
+.registerContainer::before {
+  content: '';
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(232, 74, 95, 0.1), rgba(74, 144, 226, 0.1));
+  top: -400px;
+  left: -400px;
+  z-index: 0;
+  animation: float 20s infinite alternate;
+}
+
+.registerContainer::after {
+  content: '';
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(74, 144, 226, 0.1), rgba(232, 74, 95, 0.1));
+  bottom: -300px;
+  right: -300px;
+  z-index: 0;
+  animation: float 15s infinite alternate-reverse;
 }
 
 .registerBox {
-  max-width: 400px;
+  max-width: 450px;
   width: 100%;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(232, 74, 95, 0.1);
 }
 
 .title {
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  color: #6a1b9a;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: #1E293B;
+  font-weight: 800;
 }
 
 .form {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .inputGroup {
-  margin-bottom: 1rem;
+  text-align: left;
 }
 
 .label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #4a148c;
+  color: #64748B;
+  font-size: 0.9rem;
 }
 
 .input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(232, 74, 95, 0.2);
+  border-radius: 12px;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
 }
 
 .input:focus {
-  border-color: #8e24aa;
   outline: none;
+  border-color: #E84A5F;
+  box-shadow: 0 0 0 3px rgba(232, 74, 95, 0.1);
 }
 
 .submitButton {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #8e24aa;
+  padding: 1rem;
+  background: #E84A5F;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
 .submitButton:hover {
-  background-color: #6a1b9a;
-}
-
-.error {
-  color: red;
-  margin-top: 1rem;
+  background: #d43d51;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 74, 95, 0.2);
 }
 
 .message {
-  color: green;
+  color: #10B981;
   margin-top: 1rem;
+  font-size: 0.9rem;
+  padding: 1rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 8px;
+}
+
+.error {
+  color: #EF4444;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(50px, 50px) rotate(10deg);
+  }
+}
+
+/* Dark mode */
+:global(.dark-theme) .registerContainer {
+  background: linear-gradient(135deg,
+    rgba(232, 74, 95, 0.1) 0%,
+    rgba(15, 23, 42, 0.9) 100%
+  );
+}
+
+:global(.dark-theme) .registerBox {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(241, 245, 249, 0.1);
+}
+
+:global(.dark-theme) .title {
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .label {
+  color: #94A3B8;
+}
+
+:global(.dark-theme) .input {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(241, 245, 249, 0.1);
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .input:focus {
+  border-color: #E84A5F;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .registerBox {
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
 }
