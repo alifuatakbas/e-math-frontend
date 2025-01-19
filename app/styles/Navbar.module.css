@@ -65,20 +65,13 @@
 }
 
 .ctaButton {
-  background: linear-gradient(135deg, #FF3366, #FF6B6B);
+  background: #111111;
   color: white;
   padding: 0.8rem 2rem;
   border: none;
-  border-radius: 50px; /* Daha yuvarlak */
-  font-weight: 600;
-  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 500;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(255, 51, 102, 0.2);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.9rem;
 }
 
 .ctaButton::before {
@@ -107,8 +100,8 @@
 }
 
 .darkMode .ctaButton {
-  background: linear-gradient(135deg, #FF3366, #FF6B6B);
-  /* Dark mode'da aynı kalabilir çünkü zaten dikkat çekici olması gerekiyor */
+  background: #FFFFFF;
+  color: #111111;
 }
 
 .authButtons {
