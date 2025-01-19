@@ -8,63 +8,54 @@ const Hero = () => {
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.badge}>
-            <span>🎮</span> Oyunlaştırılmış Matematik
+            <span className={styles.dot}></span>
+            AI Powered Learning
           </div>
 
           <h1 className={styles.title}>
-            Matematik Artık
-            <div className={styles.animatedText}>
-              <span>Çok Eğlenceli! 🎨</span>
-              <span>Bir Oyun! 🎮</span>
-              <span>Çok Kolay! ⭐</span>
-            </div>
+            Matematik
+            <span className={styles.gradient}> Yolculuğunuz </span>
+            Başlıyor
           </h1>
 
           <p className={styles.description}>
-            Seviye seviye ilerle, puanlar kazan, arkadaşlarınla yarış ve
-            matematiği eğlenerek öğren!
+            Yapay zeka destekli kişiselleştirilmiş öğrenme deneyimi ile
+            matematiği yeniden keşfedin.
           </p>
 
-          <div className={styles.features}>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>🏆</span>
-              <span className={styles.featureText}>Günlük Görevler</span>
+          <div className={styles.statsGrid}>
+            <div className={styles.statItem}>
+              <div className={styles.statValue}>98%</div>
+              <div className={styles.statLabel}>Başarı Oranı</div>
             </div>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>🎯</span>
-              <span className={styles.featureText}>Kişisel Hedefler</span>
+            <div className={styles.statItem}>
+              <div className={styles.statValue}>20K+</div>
+              <div className={styles.statLabel}>Aktif Öğrenci</div>
             </div>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>🌟</span>
-              <span className={styles.featureText}>Rozetler</span>
+            <div className={styles.statItem}>
+              <div className={styles.statValue}>500+</div>
+              <div className={styles.statLabel}>Video Ders</div>
             </div>
           </div>
 
-          <div className={styles.ctaGroup}>
-            <button className={styles.mainCta}>
-              <span>Hemen Başla</span>
-              <span className={styles.ctaEmoji}>🚀</span>
+          <div className={styles.ctaSection}>
+            <button className={styles.primaryBtn}>
+              Hemen Başla
+              <svg className={styles.arrow} width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
-            <button className={styles.secondaryCta}>
-              Nasıl Çalışır? 🤔
-            </button>
-          </div>
-
-          <div className={styles.achievementBadge}>
-            <div className={styles.achievementIcon}>👨‍🎓</div>
-            <div className={styles.achievementText}>
-              <span>Bugün</span>
-              <strong>1,234 öğrenci</strong>
-              <span>matematik öğrendi!</span>
+            <div className={styles.secondaryBtn}>
+              <div className={styles.playIcon}></div>
+              Tanıtım İzle
             </div>
           </div>
         </div>
 
-        <div className={styles.visualSection}>
-          <div className={styles.characterContainer}>
-            <div className={styles.mathBubble}>2 × 2 = 4</div>
-            <div className={styles.mathBubble}>π ≈ 3.14</div>
-            <div className={styles.mathBubble}>√16 = 4</div>
+        <div className={styles.imageSection}>
+          <div className={styles.imageContainer}>
+            <div className={styles.glowEffect}></div>
+            <div className={styles.gridPattern}></div>
           </div>
         </div>
       </div>
