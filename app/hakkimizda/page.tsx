@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Target, Award, Sun, Moon, Users, Lightbulb, Heart, Trophy } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
 import styles from '../styles/About.module.css';
 
 const AboutUs = () => {
@@ -19,40 +19,6 @@ const AboutUs = () => {
     localStorage.setItem('theme', darkMode ? 'light' : 'dark');
   };
 
- const companyInfo = {
-    name: "Şirket Adı",
-    founded: "2020",
-    vision: "Teknoloji dünyasında yenilikçi çözümlerle öncü olmak ve müşterilerimize en yüksek değeri sunmak.",
-    mission: "Sürdürülebilir teknoloji çözümleri ile işletmelerin dijital dönüşümüne öncülük etmek ve topluma değer katmak.",
-    values: [
-      {
-        icon: <Lightbulb />,
-        title: "Yenilikçilik",
-        description: "Sürekli gelişim ve inovasyonu destekleyerek, sektörde öncü çözümler üretiyoruz."
-      },
-      {
-        icon: <Users />,
-        title: "Müşteri Odaklılık",
-        description: "Müşterilerimizin ihtiyaçlarını en iyi şekilde anlayarak, beklentilerinin ötesinde hizmet sunuyoruz."
-      },
-      {
-        icon: <Trophy />,
-        title: "Kalite",
-        description: "Her projemizde en yüksek kalite standartlarını benimseyerek mükemmelliği hedefliyoruz."
-      },
-      {
-        icon: <Heart />,
-        title: "Güven",
-        description: "Müşterilerimizle uzun vadeli ve güvene dayalı ilişkiler kuruyoruz."
-      }
-    ],
-    achievements: [
-      { number: "500+", text: "Mutlu Müşteri" },
-      { number: "100+", text: "Tamamlanan Proje" },
-      { number: "50+", text: "Uzman Ekip" },
-      { number: "15+", text: "Ödül" }
-    ]
-  };
   return (
     <div className={`${styles.aboutContainer} ${darkMode ? styles.darkMode : ''}`}>
       <button
@@ -65,60 +31,72 @@ const AboutUs = () => {
 
       {/* Hero Section */}
       <section className={styles.heroSection}>
+        <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Biz Kimiz?</h1>
-          <p className={styles.heroText}>
-            {companyInfo.founded} yılından bu yana teknoloji sektöründe öncü çözümler sunuyoruz.
-          </p>
+          <h1>Hakkımızda</h1>
+          <p>2020'den beri teknoloji çözümleri sunuyoruz</p>
         </div>
       </section>
 
-      <div className={styles.sectionContainer}>
-        {/* Vizyon & Misyon */}
-        <section className={styles.visionMissionSection}>
-          <div className={styles.gridContainer}>
-            <div className={styles.card}>
-              <div className={styles.cardHeader}>
-                <Target className={styles.cardIcon} />
-                <h2 className={styles.cardTitle}>Vizyonumuz</h2>
-              </div>
-              <p className={styles.cardText}>{companyInfo.vision}</p>
-            </div>
-
-            <div className={styles.card}>
-              <div className={styles.cardHeader}>
-                <Award className={styles.cardIcon} />
-                <h2 className={styles.cardTitle}>Misyonumuz</h2>
-              </div>
-              <p className={styles.cardText}>{companyInfo.mission}</p>
-            </div>
+      {/* Main Content */}
+      <div className={styles.mainContent}>
+        <section className={styles.introSection}>
+          <div className={styles.introText}>
+            <h2>Biz Kimiz?</h2>
+            <p>Teknoloji dünyasında yenilikçi çözümler üreten bir ekibiz. Müşterilerimizin ihtiyaçlarını en iyi şekilde
+              anlayarak, onlara özel çözümler sunuyoruz.</p>
+          </div>
+          <div className={styles.introImage}>
+            <div className={styles.imagePlaceholder}></div>
           </div>
         </section>
 
-        {/* Değerlerimiz */}
-        <section className={styles.valuesSection}>
-          <h2 className={styles.sectionTitle}>Değerlerimiz</h2>
-          <div className={styles.valuesGrid}>
-            {companyInfo.values.map((value, index) => (
-              <div key={index} className={styles.valueCard}>
-                <div className={styles.valueIcon}>{value.icon}</div>
-                <h3 className={styles.valueTitle}>{value.title}</h3>
-                <p className={styles.valueText}>{value.description}</p>
-              </div>
-            ))}
+        <section className={styles.numbersSection}>
+          <div className={styles.numberBox}>
+          <span className={styles.number}>500+</span>
+            <span className={styles.label}>Mutlu Müşteri</span>
+          </div>
+          <div className={styles.numberBox}>
+            <span className={styles.number}>100+</span>
+            <span className={styles.label}>Tamamlanan Proje</span>
+          </div>
+          <div className={styles.numberBox}>
+            <span className={styles.number}>50+</span>
+            <span className={styles.label}>Uzman Ekip</span>
+          </div>
+          <div className={styles.numberBox}>
+            <span className={styles.number}>15+</span>
+            <span className={styles.label}>Ödül</span>
           </div>
         </section>
 
-        {/* Başarılarımız */}
-        <section className={styles.achievementsSection}>
-          <h2 className={styles.sectionTitle}>Başarılarımız</h2>
-          <div className={styles.statsGrid}>
-            {companyInfo.achievements.map((achievement, index) => (
-              <div key={index} className={styles.statCard}>
-                <p className={styles.statNumber}>{achievement.number}</p>
-                <p className={styles.statText}>{achievement.text}</p>
+        <section className={styles.timelineSection}>
+          <h2>Yolculuğumuz</h2>
+          <div className={styles.timeline}>
+            <div className={styles.timelineItem}>
+              <div className={styles.timelineContent}>
+                <h3>2020</h3>
+                <p>Şirketimizin Kuruluşu</p>
               </div>
-            ))}
+            </div>
+            <div className={styles.timelineItem}>
+              <div className={styles.timelineContent}>
+                <h3>2021</h3>
+                <p>İlk Büyük Projemiz</p>
+              </div>
+            </div>
+            <div className={styles.timelineItem}>
+              <div className={styles.timelineContent}>
+                <h3>2022</h3>
+                <p>Uluslararası Pazara Açılış</p>
+              </div>
+            </div>
+            <div className={styles.timelineItem}>
+              <div className={styles.timelineContent}>
+                <h3>2023</h3>
+                <p>100. Projemizi Tamamladık</p>
+              </div>
+            </div>
           </div>
         </section>
       </div>

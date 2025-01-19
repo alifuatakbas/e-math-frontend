@@ -1,13 +1,13 @@
 /* styles/About.module.css */
 .aboutContainer {
   min-height: 100vh;
-  background-color: #F8FAFC;
+  background-color: #fff;
   transition: all 0.3s ease;
-  overflow-x: hidden;
 }
 
 .darkMode {
   background-color: #0F172A;
+  color: #fff;
 }
 
 .themeToggle {
@@ -16,7 +16,7 @@
   right: 2rem;
   width: 3rem;
   height: 3rem;
-  border-radius: 1rem;
+  border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -29,340 +29,343 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.darkThemeToggle {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.themeIcon {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #1E293B;
-  transition: color 0.3s ease;
-}
-
-.darkThemeToggle .themeIcon {
-  color: #F1F5F9;
-}
-
 /* Hero Section */
 .heroSection {
   position: relative;
-  height: 80vh;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(45deg, #1a1a1a, #2d2d2d); /* Koyu gradient arka plan */
+  /* veya */
+  /* background-color: #1a1a1a; */ /* Düz renk arka plan */
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(232, 74, 95, 0.1) 0%, rgba(255, 140, 66, 0.1) 100%);
-  overflow: hidden;
+  color: #fff;
+  text-align: center;
 }
 
+/* Opsiyonel: Daha ilginç bir gradient pattern ekleyebiliriz */
 .heroSection::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-image:
-    linear-gradient(45deg, rgba(232, 74, 95, 0.05) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(232, 74, 95, 0.05) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(232, 74, 95, 0.05) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(232, 74, 95, 0.05) 75%);
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 25%, transparent 25%) -10px 0,
+              linear-gradient(225deg, rgba(255,255,255,0.05) 25%, transparent 25%) -10px 0,
+              linear-gradient(315deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+              linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%);
   background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
-  animation: slide 20s linear infinite;
+  opacity: 0.3;
 }
 
-.darkMode .heroSection::before {
-  background-image:
-    linear-gradient(45deg, rgba(255, 140, 66, 0.05) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(255, 140, 66, 0.05) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(255, 140, 66, 0.05) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(255, 140, 66, 0.05) 75%);
-}
-
-@keyframes slide {
-  from {
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
-  }
-  to {
-    background-position: -20px -20px, -20px -10px, -10px -30px, -30px -20px;
-  }
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .heroContent {
-  text-align: center;
+  position: relative;
+  z-index: 2;
   max-width: 800px;
   padding: 0 2rem;
-  z-index: 2;
 }
 
-.heroTitle {
-  font-size: 5rem;
-  font-weight: 800;
-  color: #E84A5F;
-  margin-bottom: 2rem;
-  line-height: 1.2;
+.heroContent h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-.darkMode .heroTitle {
-  color: #FF8C42;
-}
-
-.heroText {
+.heroContent p {
   font-size: 1.5rem;
-  line-height: 1.8;
-  color: #64748B;
+  opacity: 0.9;
 }
 
-.darkMode .heroText {
-  color: #94A3B8;
-}
-
-/* Section Container */
-.sectionContainer {
-  max-width: 1400px;
+/* Main Content */
+.mainContent {
+  max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
 }
 
-/* Vision & Mission Section */
-.visionMissionSection {
-  margin: -100px auto 4rem;
-  position: relative;
-  z-index: 3;
-}
-
-.gridContainer {
+/* Intro Section */
+.introSection {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-}
-
-.card {
-  background: #FFFFFF;
-  padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.darkMode .card {
-  background: #1E293B;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.card:hover {
-  transform: translateY(-10px);
-}
-
-.cardHeader {
-  display: flex;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
   align-items: center;
-  gap: 1.5rem;
+  margin-bottom: 6rem;
+}
+
+.introText h2 {
+  font-size: 2.5rem;
   margin-bottom: 2rem;
+  color: #333;
 }
 
-.cardIcon {
-  width: 3rem;
-  height: 3rem;
-  color: #E84A5F;
+.darkMode .introText h2 {
+  color: #fff;
 }
 
-.darkMode .cardIcon {
-  color: #FF8C42;
-}
-
-.cardTitle {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1E293B;
-  margin: 0;
-}
-
-.darkMode .cardTitle {
-  color: #F1F5F9;
-}
-
-.cardText {
+.introText p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #64748B;
+  color: #666;
 }
 
-.darkMode .cardText {
-  color: #94A3B8;
+.darkMode .introText p {
+  color: #ccc;
 }
 
-/* Values Section */
-.valuesSection {
+/* About.module.css içinde introImage ve imagePlaceholder stillerini güncelle */
+.introImage {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #2d2d2d, #3d3d3d);
+  position: relative;
+  overflow: hidden;
+}
+
+.imagePlaceholder::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 25%, transparent 25%) -10px 0,
+              linear-gradient(225deg, rgba(255,255,255,0.05) 25%, transparent 25%) -10px 0,
+              linear-gradient(315deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+              linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%);
+  background-size: 20px 20px;
+  opacity: 0.3;
+}
+
+.darkMode .imagePlaceholder {
+  background: linear-gradient(45deg, #1E293B, #2D3748);
+}
+
+
+.introImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Numbers Section */
+.numbersSection {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 6rem 0;
+  padding: 4rem 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.darkMode .numbersSection {
+  border-color: #2D3748;
+}
+
+.numberBox {
+  text-align: center;
+}
+
+.number {
+  display: block;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.darkMode .number {
+  color: #fff;
+}
+
+.label {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.darkMode .label {
+  color: #ccc;
+}
+
+/* Timeline Section */
+.timelineSection {
   padding: 6rem 0;
 }
 
-.sectionTitle {
+.timelineSection h2 {
   text-align: center;
-  font-size: 3rem;
-  font-weight: 800;
-  color: #1E293B;
+  font-size: 2.5rem;
+  margin-bottom: 4rem;
+  color: #333;
+}
+
+.darkMode .timelineSection h2 {
+  color: #fff;
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background: #eee;
+  transform: translateX(-50%);
+}
+
+.darkMode .timeline::before {
+  background: #2D3748;
+}
+
+.timelineItem {
+  position: relative;
   margin-bottom: 4rem;
 }
 
-.darkMode .sectionTitle {
-  color: #F1F5F9;
+.timelineItem:nth-child(odd) .timelineContent {
+  margin-left: auto;
+  padding-left: 3rem;
 }
 
-.valuesGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+.timelineItem:nth-child(even) .timelineContent {
+  margin-right: auto;
+  padding-right: 3rem;
+  text-align: right;
 }
 
-.valueCard {
-  text-align: center;
+.timelineContent {
+  width: 45%;
+  background: #fff;
   padding: 2rem;
-  background: #FFFFFF;
-  border-radius: 20px;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.darkMode .valueCard {
-  background: #1E293B;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.darkMode .timelineContent {
+  background: #2D3748;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.valueCard:hover {
-  transform: translateY(-10px);
+.timelineContent::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 4px solid #333;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.valueIcon {
-  width: 3rem;
-  height: 3rem;
-  margin: 0 auto 1.5rem;
-  color: #E84A5F;
+.darkMode .timelineContent::before {
+  background: #2D3748;
+  border-color: #fff;
 }
 
-.darkMode .valueIcon {
-  color: #FF8C42;
+.timelineItem:nth-child(odd) .timelineContent::before {
+  left: -40px;
 }
 
-.valueTitle {
+.timelineItem:nth-child(even) .timelineContent::before {
+  right: -40px;
+}
+
+.timelineContent h3 {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #1E293B;
   margin-bottom: 1rem;
+  color: #333;
 }
 
-.darkMode .valueTitle {
-  color: #F1F5F9;
+.darkMode .timelineContent h3 {
+  color: #fff;
 }
 
-.valueText {
-  color: #64748B;
+.timelineContent p {
+  color: #666;
   line-height: 1.6;
 }
 
-.darkMode .valueText {
-  color: #94A3B8;
-}
-
-/* Achievements Section */
-.achievementsSection {
-  padding: 6rem 0;
-  background: linear-gradient(135deg, rgba(232, 74, 95, 0.05) 0%, rgba(255, 140, 66, 0.05) 100%);
-  border-radius: 30px;
-  margin: 4rem 0;
-}
-
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  padding: 0 2rem;
-}
-
-.statCard {
-  text-align: center;
-}
-
-.statNumber {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: #E84A5F;
-  margin-bottom: 1rem;
-}
-
-.darkMode .statNumber {
-  color: #FF8C42;
-}
-
-.statText {
-  font-size: 1.2rem;
-  color: #64748B;
-  font-weight: 500;
-}
-
-.darkMode .statText {
-  color: #94A3B8;
+.darkMode .timelineContent p {
+  color: #ccc;
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
-  .valuesGrid {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 1024px) {
+  .introSection {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .statsGrid {
+  .numbersSection {
     grid-template-columns: repeat(2, 1fr);
-    gap: 3rem;
   }
 }
 
 @media (max-width: 768px) {
-  .heroTitle {
-    font-size: 3.5rem;
+  .heroContent h1 {
+    font-size: 3rem;
   }
 
-  .gridContainer {
+  .timeline::before {
+    left: 0;
+  }
+
+  .timelineItem .timelineContent {
+    width: 100%;
+    margin: 0;
+    padding: 1.5rem;
+  }
+
+  .timelineItem:nth-child(odd) .timelineContent,
+  .timelineItem:nth-child(even) .timelineContent {
+    padding-left: 3rem;
+    text-align: left;
+  }
+
+  .timelineContent::before {
+    left: -10px !important;
+    right: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .numbersSection {
     grid-template-columns: 1fr;
   }
 
-  .valuesGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .statsGrid {
-    grid-template-columns: 1fr;
+  .heroContent h1 {
+    font-size: 2.5rem;
   }
 
   .themeToggle {
     top: auto;
     bottom: 2rem;
-  }
-
-  .sectionContainer {
-    padding: 2rem 1rem;
-  }
-
-  .visionMissionSection {
-    margin-top: -50px;
-  }
-}
-
-@media (max-width: 480px) {
-  .heroTitle {
-    font-size: 2.5rem;
-  }
-
-  .heroText {
-    font-size: 1.2rem;
-  }
-
-  .cardHeader {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .sectionTitle {
-    font-size: 2rem;
   }
 }
