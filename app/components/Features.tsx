@@ -29,6 +29,7 @@ const features = [
 const Features = () => {
   return (
     <section className={styles.features}>
+      <div className={styles.featuresBackground}></div>
       <motion.div
         className={styles.container}
         initial={{ opacity: 0, y: 50 }}
