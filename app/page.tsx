@@ -1,6 +1,6 @@
 // pages/index.js
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';  // styles path'i düzeltildi
+import styles from './styles/Home.module.css';  // styles path'i düzeltildi
 import Navbar from './components/Navbar';       // component path'leri düzeltildi
 import Hero from './components/Hero';
 import Features from './components/Features';
