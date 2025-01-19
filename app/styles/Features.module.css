@@ -1,7 +1,5 @@
 /* Features.module.css */
-.featuresWrapper {
-  background: linear-gradient(135deg, #fff6f7 0%, #ffffff 100%);
-}
+
 
 .features {
   padding: 8rem 2rem;
@@ -10,7 +8,13 @@
   align-items: center;
   overflow: hidden;
   position: relative;
+  background: linear-gradient(135deg,
+    #ffefef 0%,     /* Daha belirgin pembe */
+    #fff8f8 50%,    /* Orta ton */
+    #ffffff 100%    /* Beyaz */
+  );
 }
+
 
 
 
