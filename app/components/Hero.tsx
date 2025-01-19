@@ -5,14 +5,20 @@ import styles from '../styles/Hero.module.css'
 const Hero = () => {
   const [darkMode, setDarkMode] = useState(false);
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
   return (
-    <section className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}>
+    <section className={`${styles.hero} bg-background`}>
       <button
-        onClick={() => setDarkMode(!darkMode)}
+        onClick={toggleDarkMode}
         className={styles.themeToggle}
       >
         {darkMode ? '☀️' : '🌙'}
       </button>
+
 
       <div className={styles.heroBackground}>
         <div className={styles.circle1}></div>
