@@ -53,7 +53,7 @@
 .iconWrapper {
   width: 90px;
   height: 90px;
-  background: #E5F0FF;
+  background: rgba(232, 74, 95, 0.1); /* Şeffaf gül kurusu */
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
 
 .icon {
   font-size: 2.5rem;
-  color: #1D1D1B;
+  color: #E84A5F; /* Gül kurusu */
   transform: rotate(-45deg);
 }
 
@@ -76,6 +76,7 @@
 }
 
 .card:hover .iconWrapper {
+  background: rgba(232, 74, 95, 0.2); /* Hover'da biraz daha belirgin */
   transform: rotate(0deg);
   border-radius: 50%;
 }
@@ -110,11 +111,11 @@
 }
 
 :global(.dark-theme) .iconWrapper {
-  background: #E5F0FF;
+  background: rgba(232, 74, 95, 0.15); /* Dark mode'da biraz daha belirgin */
 }
 
-:global(.dark-theme) .icon {
-  color: #1D1D1B;
+:global(.dark-theme) .card:hover .iconWrapper {
+  background: rgba(232, 74, 95, 0.25);
 }
 
 :global(.dark-theme) .card h3 {
