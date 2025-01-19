@@ -65,7 +65,7 @@
 }
 
 .ctaButton {
-  background-color: #764BA2;
+ background-color: #E84A5F;
   color: #FFFFFF;
   padding: 0.8rem 2.2rem;
   border: none;
@@ -99,7 +99,7 @@
 
 
 .ctaButton:hover {
-  background-color: #623A8E;
+  background-color: #D13449;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
 }
@@ -109,11 +109,10 @@
 }
 
 .darkMode .ctaButton {
-  background-color: #FFFFFF;
-  color: #0A0A0B;
+  opacity: 0.95;
 }
 .darkMode .ctaButton:hover {
-  background-color: #F0F0F0;
+  opacity: 1;
 }
 
 .authButtons {
