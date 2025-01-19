@@ -40,7 +40,7 @@
 }
 
 .card {
-  background: #E5F0FF;
+  background: #FFFFFF;
   border-radius: 24px;
   padding: 3rem 2rem;
   text-align: center;
@@ -54,7 +54,6 @@
   width: 90px;
   height: 90px;
   background: #E5F0FF;
-  border: 2px solid #1D1D1B;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -107,12 +106,11 @@
 }
 
 :global(.dark-theme) .card {
-  background: #E5F0FF;
+  background: #FFFFFF;
 }
 
 :global(.dark-theme) .iconWrapper {
   background: #E5F0FF;
-  border-color: #1D1D1B;
 }
 
 :global(.dark-theme) .icon {
