@@ -65,10 +65,10 @@
 }
 
 .ctaButton {
-  background: #111111;
-  color: white;
+  background: transparent;
+  color: #FF3366;
   padding: 0.8rem 2rem;
-  border: none;
+  border: 2px solid #FF3366;
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -90,9 +90,10 @@
   transition: 0.5s;
 }
 
+
 .ctaButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 51, 102, 0.3);
+  background: #FF3366;
+  color: white;
 }
 
 .ctaButton:hover::before {
