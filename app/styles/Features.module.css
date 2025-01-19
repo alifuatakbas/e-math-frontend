@@ -1,23 +1,4 @@
 /* Features.module.css */
-
-
-.features {
-  padding: 8rem 2rem;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-  background: linear-gradient(135deg,
-    #ffefef 0%,     /* Daha belirgin pembe */
-    #fff8f8 50%,    /* Orta ton */
-    #ffffff 100%    /* Beyaz */
-  );
-}
-
-
-
-
 /* Desen için overlay */
 .features::before {
   content: '';
