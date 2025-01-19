@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Login.module.css';
 import { FiSun, FiMoon } from 'react-icons/fi';
+import Footer from '../components/Footer';
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -110,6 +111,7 @@ const Login: React.FC = () => {
   };
 
   return (
+  <>
     <div className={styles.loginContainer}>
       <button
         onClick={toggleTheme}
@@ -161,11 +163,13 @@ const Login: React.FC = () => {
           </button>
         </div>
 
-        {error && <p className={styles.error}>{error}</p>}
+       {error && <p className={styles.error}>{error}</p>}
         {message && <p className={styles.message}>{message}</p>}
       </div>
-    </div>
+          </div>
+      <Footer />
+    </>
   );
-};
+}; // Component'in kapanış süslü parantezi
 
-export default Login;
+export default Login; // Son satır
