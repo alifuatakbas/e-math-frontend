@@ -52,54 +52,40 @@ const Navbar: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme');
-      return savedTheme === 'dark';
-    }
-    return false;
-  });
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const toggleTheme = () => {
-    const newDarkMode = !isDarkMode;
-    setIsDarkMode(newDarkMode);
-    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark-theme', newDarkMode);
-    document.body.style.backgroundColor = newDarkMode ? '#0F172A' : '#F8FAFC';
-  };
-  // Tema yönetimi için useEffect
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      const isDark = savedTheme === 'dark';
-      setIsDarkMode(isDark);
-      document.documentElement.classList.toggle('dark-theme', isDark);
-      document.body.style.backgroundColor = isDark ? '#0F172A' : '#F8FAFC';
-    }
-  }, []);
 
-  // Tema değişikliklerini dinle
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'theme') {
-        const newTheme = e.newValue;
-        const isDark = newTheme === 'dark';
-        setIsDarkMode(isDark);
-        document.documentElement.classList.toggle('dark-theme', isDark);
-        document.body.style.backgroundColor = isDark ? '#0F172A' : '#F8FAFC';
-      }
+       const theme = localStorage.getItem('theme');
+    const isDark = theme === 'dark';
+    setIsDarkMode(isDark);
+
+    // Tema değişimini dinle
+    const handleStorageChange = () => {
+      const currentTheme = localStorage.getItem('theme');
+      setIsDarkMode(currentTheme === 'dark');
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    // Storage event listener'ı ekle
+    // Tema değişimini dinle
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.nodeName === 'HTML') {
+          const isDark = document.documentElement.classList.contains('dark-theme');
+          setIsDarkMode(isDark);
+          // localStorage'ı güncelle
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
   }, []);
-
-
-  useEffect(() => {
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark-theme', isDarkMode);
-    document.body.style.backgroundColor = isDarkMode ? '#0F172A' : '#F8FAFC';
-  }, [isDarkMode]);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -127,7 +113,8 @@ const Navbar: React.FC = () => {
 
     fetchCurrentUser();
   }, []);
-    useEffect(() => {
+
+  useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -149,7 +136,7 @@ const Navbar: React.FC = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    setIsExamMenuOpen(false);
+    setIsExamMenuOpen(false); // Mobil menü açılırken sınav menüsünü kapat
   };
 
   const closeMenu = () => {
@@ -165,13 +152,6 @@ const Navbar: React.FC = () => {
           <Link href="/" className={styles.logo}>
             LOGO
           </Link>
-            {/* Tema değiştirme butonu ekleyelim */}
-          <button
-            onClick={toggleTheme}
-            className={styles.themeToggle}
-          >
-            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-          </button>
 
           <div
             className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
@@ -263,6 +243,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </nav>
+      {/* Overlay for mobile menu */}
       <div
         className={`${styles.overlay} ${isMenuOpen ? styles.active : ''}`}
         onClick={closeMenu}
