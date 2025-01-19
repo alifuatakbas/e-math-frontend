@@ -1,14 +1,28 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Login.module.css';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 const Login: React.FC = () => {
   const router = useRouter();
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+
+  useEffect(() => {
+    // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
+    const isDark = document.documentElement.classList.contains('dark-theme');
+    setDarkMode(isDark);
+  }, []);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+  };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,7 +64,6 @@ const Login: React.FC = () => {
       return;
     }
 
-    // Email format kontrolü
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('Geçersiz email formatı');
@@ -82,10 +95,18 @@ const Login: React.FC = () => {
       console.error('Error:', error);
       setError('Bir hata oluştu, lütfen tekrar deneyin');
     }
-};
+  };
 
   return (
     <div className={styles.loginContainer}>
+      <button
+        onClick={toggleTheme}
+        className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+        aria-label="Toggle theme"
+      >
+        {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
+      </button>
+
       <div className={styles.loginBox}>
         <h2 className={styles.title}>Giriş yap</h2>
         <form onSubmit={handleLogin} className={styles.form}>
@@ -98,10 +119,11 @@ const Login: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className={styles.input}
+              placeholder="ornek@email.com"
             />
           </div>
           <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>Password:</label>
+            <label htmlFor="password" className={styles.label}>Şifre:</label>
             <input
               type="password"
               id="password"
@@ -109,9 +131,12 @@ const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               className={styles.input}
+              placeholder="••••••••"
             />
           </div>
-          <button type="submit" className={styles.submitButton}>Login</button>
+          <button type="submit" className={styles.submitButton}>
+            Giriş Yap
+          </button>
         </form>
 
         <div className={styles.forgotPasswordContainer}>

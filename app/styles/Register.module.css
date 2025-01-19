@@ -1,4 +1,48 @@
 /* styles/Register.module.css */
+.themeToggle {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.darkThemeToggle {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.themeToggle:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.darkThemeToggle:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.themeIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #1E293B;
+  transition: color 0.3s ease;
+}
+
+.darkThemeToggle .themeIcon {
+  color: #F1F5F9;
+}
+
 .registerContainer {
   display: flex;
   justify-content: center;

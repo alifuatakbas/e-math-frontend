@@ -1,15 +1,28 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from '../styles/Register.module.css';
+import styles from '../styles/.module.css';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 const Register: React.FC = () => {
   const router = useRouter();
-  const [fullName, setFullName] = useState<string>('');
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+
+  useEffect(() => {
+    // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
+    const isDark = document.documentElement.classList.contains('dark-theme');
+    setDarkMode(isDark);
+  }, []);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+  };
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,57 +30,86 @@ const Register: React.FC = () => {
     setError('');
     setMessage('');
 
-    // FormData yerine JSON kullanıyoruz
-    const userData = {
-      full_name: fullName,
-      email: email,
-      password: password
-    };
+    const formData = new FormData();
+    formData.append('username', email);
+    formData.append('password', password);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.access_token);
+        setMessage('Register successful!');
+
+        setTimeout(() => {
+          router.push('/');
+          router.refresh();
+        }, 1000);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.detail || 'Register failed.');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Lütfen email adresinizi girin');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Geçersiz email formatı');
+      return;
+    }
+
+    try {
+      console.log('Sending request to:', `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`);
+      console.log('With email:', email);
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/forgot-password`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify({ email })
       });
 
       const data = await response.json();
+      console.log('Response:', data);
 
       if (response.ok) {
-        setMessage('Kayıt başarılı!');
-
-        // Yönlendirme öncesi kısa bir bekleme
-        setTimeout(() => {
-          router.push('/login');
-        }, 1500);
+        setMessage('Şifre sıfırlama linki email adresinize gönderildi');
+        setError('');
       } else {
-        setError(data.detail || 'Kayıt başarısız.');
+        setError(data.detail || 'Bu email adresi sistemde kayıtlı değil');
       }
     } catch (error) {
-      console.error('Kayıt hatası:', error);
-      setError('Bir hata oluştu. Lütfen tekrar deneyin.');
+      console.error('Error:', error);
+      setError('Bir hata oluştu, lütfen tekrar deneyin');
     }
   };
 
   return (
-    <div className={styles.registerContainer}>
-      <div className={styles.registerBox}>
-        <h2 className={styles.title}>Kaydol</h2>
+    <div className={styles.RegisterContainer}>
+      <button
+        onClick={toggleTheme}
+        className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+        aria-label="Toggle theme"
+      >
+        {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
+      </button>
+
+      <div className={styles.RegisterBox}>
+        <h2 className={styles.title}>Giriş yap</h2>
         <form onSubmit={handleRegister} className={styles.form}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="fullName" className={styles.label}>Adınız:</label>
-            <input
-              type="text"
-              id="fullName"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-              className={styles.input}
-              placeholder="Adınızı girin"
-            />
-          </div>
           <div className={styles.inputGroup}>
             <label htmlFor="email" className={styles.label}>Email:</label>
             <input
@@ -77,7 +119,7 @@ const Register: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className={styles.input}
-              placeholder="Email adresinizi girin"
+              placeholder="ornek@email.com"
             />
           </div>
           <div className={styles.inputGroup}>
@@ -89,16 +131,26 @@ const Register: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               className={styles.input}
-              placeholder="Şifrenizi girin"
-              minLength={6}
+              placeholder="••••••••"
             />
           </div>
           <button type="submit" className={styles.submitButton}>
-            Kaydol
+            Giriş Yap
           </button>
         </form>
+
+        <div className={styles.forgotPasswordContainer}>
+          <button
+            onClick={handleForgotPassword}
+            className={styles.forgotPasswordButton}
+            type="button"
+          >
+            Şifremi Unuttum
+          </button>
+        </div>
+
         {error && <p className={styles.error}>{error}</p>}
-        {message && <p className={styles.success}>{message}</p>}
+        {message && <p className={styles.message}>{message}</p>}
       </div>
     </div>
   );
