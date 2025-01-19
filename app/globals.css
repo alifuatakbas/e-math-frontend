@@ -2,9 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tüm değişkenleri ve media query'leri kaldırıyoruz */
+:root {
+  --background: #FFFFFF;
+  --foreground: #171717;
+}
+
+/* Tüm media query'leri kaldırıyoruz */
+
 body {
   margin: 0;
   padding: 0;
-  background-color: white;
+  background-color: var(--background) !important;
+  color: var(--foreground);
+}
+
+/* Dark mode için özel class */
+.dark-theme {
+  --background: #0A0A0B;
+  --foreground: #FFFFFF;
 }

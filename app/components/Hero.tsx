@@ -6,17 +6,27 @@ const Hero = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    // Sayfa yüklendiğinde ve tema değiştiğinde
-    document.body.style.backgroundColor = darkMode ? '#0A0A0B' : 'white';
-  }, [darkMode]);
+    // Başlangıçta light mode'u zorla
+    document.documentElement.classList.remove('dark-theme');
+    document.body.style.backgroundColor = '#FFFFFF';
+  }, []);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#FFFFFF' : '#0A0A0B';
+  };
 
   return (
     <section
-      className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}
-      style={{ backgroundColor: darkMode ? '#0A0A0B' : 'white' }}
+      className={styles.hero}
+      style={{
+        backgroundColor: darkMode ? '#0A0A0B' : '#FFFFFF',
+        color: darkMode ? '#FFFFFF' : '#171717'
+      }}
     >
       <button
-        onClick={() => setDarkMode(!darkMode)}
+        onClick={toggleTheme}
         className={styles.themeToggle}
       >
         {darkMode ? '☀️' : '🌙'}
