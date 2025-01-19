@@ -65,20 +65,50 @@
 }
 
 .ctaButton {
-  background: #FF3366;
+  background: linear-gradient(135deg, #FF3366, #FF6B6B);
   color: white;
-  padding: 0.8rem 1.8rem;
+  padding: 0.8rem 2rem;
   border: none;
-  border-radius: 8px;
-  font-weight: 500;
+  border-radius: 50px; /* Daha yuvarlak */
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 51, 102, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: 0.5s;
 }
 
 .ctaButton:hover {
-  background: #E61B4D;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 51, 102, 0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 51, 102, 0.3);
+}
+
+.ctaButton:hover::before {
+  left: 100%;
+}
+
+.darkMode .ctaButton {
+  background: linear-gradient(135deg, #FF3366, #FF6B6B);
+  /* Dark mode'da aynı kalabilir çünkü zaten dikkat çekici olması gerekiyor */
 }
 
 .authButtons {
@@ -391,6 +421,12 @@
     width: 100%;
     box-shadow: none;
     margin-top: 0.5rem;
+  }
+
+  .ctaButton {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 2rem;
   }
 }
 
