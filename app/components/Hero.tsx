@@ -6,9 +6,11 @@ const Hero = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
-        <h1>MATEMATİĞİ sad</h1>
-        <p>MATEMATİK UZMANI OLUN</p>
-        <button className={styles.cta}>Hemen Başlayın</button>
+        <h1>MATEMATİĞİ KEŞFET</h1>
+        <p>Uzman Eğitmenlerle Matematik Yolculuğuna Başlayın</p>
+        <button className={styles.cta}>
+          Hemen Başlayın
+        </button>
       </div>
     </section>
   )
