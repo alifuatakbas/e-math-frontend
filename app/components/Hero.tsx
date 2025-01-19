@@ -80,9 +80,6 @@ const Hero = () => {
         </div>
 
         <div className={styles.cornerInfo}>
-          <div className={styles.cornerText}>EST 2024</div>
-          <div className={styles.cornerLine}></div>
-          <div className={styles.cornerText}>ISTANBUL</div>
         </div>
       </div>
     </section>
