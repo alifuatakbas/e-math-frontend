@@ -1,7 +1,7 @@
 /* Features.module.css */
 .features {
   padding: 8rem 2rem;
-  background: #E5F0FF; /* QED'in açık mavi rengi */
+  background: #FFFFFF;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -18,16 +18,14 @@
   text-align: center;
   font-size: 3.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #764BA2 0%, #667EEA 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #1D1D1B;
   margin-bottom: 1rem;
 }
 
 .subtitle {
   text-align: center;
   font-size: 1.2rem;
-  color: #64748B;
+  color: #666666;
   margin-bottom: 5rem;
   max-width: 600px;
   margin-left: auto;
@@ -42,7 +40,7 @@
 }
 
 .card {
-  background: #FFFFFF;
+  background: #E5F0FF;
   border-radius: 24px;
   padding: 3rem 2rem;
   text-align: center;
@@ -55,7 +53,8 @@
 .iconWrapper {
   width: 90px;
   height: 90px;
-  background: linear-gradient(135deg, #764BA2 0%, #667EEA 100%);
+  background: #E5F0FF;
+  border: 2px solid #1D1D1B;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -67,8 +66,14 @@
 
 .icon {
   font-size: 2.5rem;
-  color: white;
+  color: #1D1D1B;
   transform: rotate(-45deg);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: #1D1D1B;
 }
 
 .card:hover .iconWrapper {
@@ -78,36 +83,48 @@
 
 .card h3 {
   font-size: 1.5rem;
-  color: #1E293B;
+  color: #1D1D1B;
   margin-bottom: 1rem;
   font-weight: 700;
 }
 
 .card p {
-  color: #64748B;
+  color: #666666;
   line-height: 1.7;
 }
 
 /* Dark mode */
 :global(.dark-theme) .features {
-  background: #1a2234; /* Dark mode'da daha koyu mavi */
+  background: #1D1D1B;
+}
+
+:global(.dark-theme) .title {
+  color: #FFFFFF;
 }
 
 :global(.dark-theme) .subtitle {
-  color: #94A3B8;
+  color: #CCCCCC;
 }
 
 :global(.dark-theme) .card {
-  background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(255, 255, 255, 0.05);
+  background: #E5F0FF;
+}
+
+:global(.dark-theme) .iconWrapper {
+  background: #E5F0FF;
+  border-color: #1D1D1B;
+}
+
+:global(.dark-theme) .icon {
+  color: #1D1D1B;
 }
 
 :global(.dark-theme) .card h3 {
-  color: #F1F5F9;
+  color: #1D1D1B;
 }
 
 :global(.dark-theme) .card p {
-  color: #94A3B8;
+  color: #666666;
 }
 
 /* Responsive */
