@@ -33,7 +33,7 @@
 /* Hero Section */
 .heroSection {
   position: relative;
-  height: calc(100vh - 80px); /* Navbar yüksekliğini çıkarın */
+  height: 50vh; /* 100vh'den 50vh'ye düşürdük */
   width: 100%;
   background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
   display: flex;

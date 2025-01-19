@@ -69,36 +69,6 @@ const AboutUs = () => {
               <span className={styles.label}>Ödül</span>
             </div>
           </section>
-
-          <section className={styles.timelineSection}>
-            <h2>Yolculuğumuz</h2>
-            <div className={styles.timeline}>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineContent}>
-                  <h3>2020</h3>
-                  <p>Şirketimizin Kuruluşu</p>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineContent}>
-                  <h3>2021</h3>
-                  <p>İlk Büyük Projemiz</p>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineContent}>
-                  <h3>2022</h3>
-                  <p>Uluslararası Pazara Açılış</p>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineContent}>
-                  <h3>2023</h3>
-                  <p>100. Projemizi Tamamladık</p>
-                </div>
-              </div>
-            </div>
-          </section>
         </div>
       </div>
     </>
