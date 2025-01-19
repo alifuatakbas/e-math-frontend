@@ -6,23 +6,23 @@ import { motion } from 'framer-motion'
 const features = [
   {
     icon: <FiTarget className={styles.icon} />,
-    title: "Hedef Odaklı Eğitim",
-    description: "Kişiselleştirilmiş eğitim programları ile hedeflerinize ulaşmanızı sağlıyoruz."
+    title: "Olay matematik değil",
+    description: "Olay matematik değil düşünme sanatı."
   },
   {
     icon: <FiShield className={styles.icon} />,
-    title: "Güvenli Altyapı",
-    description: "En son teknoloji ile güçlendirilmiş altyapımız ile kesintisiz eğitim deneyimi."
+    title: "Sınavlar",
+    description: "Öğrencilerimize düzenli sınavlar yaparak gidişatını gözlemliyoruz."
   },
   {
     icon: <FiUsers className={styles.icon} />,
     title: "Uzman Kadro",
-    description: "Alanında uzman eğitmenlerimiz ile profesyonel eğitim kadrosu."
+    description: "Olimpiyat alanında deneyimli hocalar."
   },
   {
     icon: <FiClock className={styles.icon} />,
-    title: "7/24 Destek",
-    description: "Kesintisiz müşteri desteği ile her an yanınızdayız."
+    title: "Koçluk",
+    description: "Sadece matematik öğretmiyoruz. Aynı zamanda öğrencilerimizi yönlendiriyoruz."
   }
 ];
 
