@@ -1,21 +1,13 @@
 /* Hero.module.css */
-
-/* Light mode (varsayılan) */
-/* Hero.module.css başına ekleyin */
 .hero {
   min-height: 100vh;
-  background-color: #FFFFFF !important;
-  background: #FFFFFF !important;
+  background-color: #FFFFFF;
   position: relative;
   overflow: hidden;
-  color-scheme: light !important; /* Tarayıcı temasını zorla light yapıyoruz */
 }
 
-/* Dark mode class'ı */
 .darkMode {
-  background-color: #0A0A0B !important;
-  background: #0A0A0B !important;
-  color-scheme: dark !important;
+  background-color: #0A0A0B;
 }
 
 .heroBackground {

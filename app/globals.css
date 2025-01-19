@@ -1,17 +1,10 @@
-/* globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff !important; /* Sabit beyaz arka plan */
-  --foreground: #171717;
-}
-
+/* Tüm media query'leri ve değişkenleri kaldırıyoruz */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FFFFFF;
+  margin: 0;
+  padding: 0;
 }
-
-/* Media query'yi kaldırıyoruz çünkü artık sistem temasını kullanmayacağız */
