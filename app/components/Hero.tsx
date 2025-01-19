@@ -4,21 +4,37 @@ import styles from '../styles/Hero.module.css'
 import { FiSun, FiMoon } from 'react-icons/fi'
 
 const Hero = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme === 'dark';
+    }
+    return false;
+  });
 
   useEffect(() => {
-    // Başlangıçta light mode'u zorla
-    document.documentElement.classList.remove('dark-theme');
-    document.body.style.backgroundColor = '#F8FAFC';
+    // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
+    const theme = localStorage.getItem('theme');
+    const isDark = theme === 'dark';
+    setDarkMode(isDark);
+
+    // Tema durumunu HTML'e yansıt
+    if (isDark) {
+      document.documentElement.classList.add('dark-theme');
+      document.body.style.backgroundColor = '#0F172A';
+    } else {
+      document.documentElement.classList.remove('dark-theme');
+      document.body.style.backgroundColor = '#F8FAFC';
+    }
   }, []);
 
- const toggleTheme = () => {
-  setDarkMode(!darkMode);
-  document.documentElement.classList.toggle('dark-theme');
-  document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
-  // Tema tercihini localStorage'a kaydet
-  localStorage.setItem('theme', darkMode ? 'light' : 'dark');
-};
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+    // Tema tercihini localStorage'a kaydet
+    localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+  };
 
   return (
     <section
