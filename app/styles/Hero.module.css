@@ -1,281 +1,39 @@
-/* Hero.module.css */
+/* Renk değişkenlerini ekleyin (en üste) */
+:root {
+  --light-bg: #F8FAFC;
+  --light-text: #1E293B;
+  --light-accent: #FF3366;
+  --dark-bg: #0F172A;
+  --dark-text: #F1F5F9;
+  --dark-secondary: #94A3B8;
+}
+
+/* Hero temel stilini güncelle */
 .hero {
   min-height: 100vh;
-  background-color: white;
+  background-color: var(--light-bg);
   position: relative;
   overflow: hidden;
+  color: var(--light-text);
 }
 
 .darkMode {
-  background-color: #0A0A0B;
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
 }
 
-/* Diğer stiller aynı kalacak */
-
-.heroBackground {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.circle1, .circle2 {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.circle1 {
-  width: 800px;
-  height: 800px;
-  background: linear-gradient(45deg, #FF3366 0%, #FF6B6B 100%);
-  top: -200px;
-  right: -200px;
-  opacity: 0.1;
-  animation: float 20s infinite alternate;
-}
-
-.circle2 {
-  width: 600px;
-  height: 600px;
-  background: linear-gradient(45deg, #4A90E2 0%, #67B26F 100%);
-  bottom: -150px;
-  left: -150px;
-  opacity: 0.1;
-  animation: float 15s infinite alternate-reverse;
-}
-
-.container {
-  max-width: 1400px;
-  height: 100vh;
-  margin: 0 auto;
-  padding: 0 2rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: inherit !important; /* Parent'ın rengini al */
-}
-
-.content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.mainContent {
-  max-width: 900px;
-}
-
-.headingWrapper {
-  margin-bottom: 2rem;
-}
-
-.title {
-  font-size: 8rem;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -2px;
-  color: #111111;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.darkMode .title {
-  color: #FFFFFF;
-}
-
-.titleAccent {
-  color: #FF3366;
-  position: relative;
-  display: inline-block;
-}
-
-.titleAccent::after {
-  content: '';
-  position: absolute;
-  width: 120%;
-  height: 4px;
-  background: #FF3366;
-  bottom: 15px;
-  left: -10%;
-  opacity: 0.3;
-}
-
-.subtitleWrapper {
-  margin-bottom: 3rem;
-}
-
-.subtitle {
-  font-size: 1.5rem;
-  color: #666666;
-  font-weight: 400;
-  letter-spacing: 1px;
-}
-
-.darkMode .subtitle {
-  color: #94A3B8;
-}
-
-.ctaWrapper {
-  margin-top: 2rem;
-}
-
-.mainCta {
-  padding: 1.5rem 4rem;
-  background: #111111;
-  color: white;
-  border: none;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.darkMode .mainCta {
-  background: #FFFFFF;
-  color: #0A0A0B;
-}
-
-.mainCta::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: 0.5s;
-}
-
-.mainCta:hover::before {
-  left: 100%;
-}
-
-.scrollIndicator {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.mouse {
-  width: 30px;
-  height: 50px;
-  border: 2px solid #111111;
-  border-radius: 15px;
-  position: relative;
-}
-
-.darkMode .mouse {
-  border-color: #FFFFFF;
-}
-
-.wheel {
-  width: 4px;
-  height: 8px;
-  background: #111111;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
-  animation: scroll 1.5s infinite;
-}
-
-.darkMode .wheel {
-  background: #FFFFFF;
-}
-
-.scrollText {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  color: #666666;
-}
-
-.darkMode .scrollText {
-  color: #94A3B8;
-}
-
-.sideNav {
-  position: fixed;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.navDot {
-  width: 10px;
-  height: 10px;
-  background: #111111;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.darkMode .navDot {
-  background: #FFFFFF;
-}
-
-.navDot:hover {
-  transform: scale(1.5);
-}
-
-.cornerInfo {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.cornerText {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  color: #666666;
-}
-
-.darkMode .cornerText {
-  color: #94A3B8;
-}
-
-.cornerLine {
-  width: 40px;
-  height: 1px;
-  background: #666666;
-}
-
-.darkMode .cornerLine {
-  background: #94A3B8;
-}
-
-/* Theme toggle button */
+/* Theme toggle butonunu güncelle */
 .themeToggle {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  top: 2rem;
+  right: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
   border: none;
-  background: #F0F0F0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -283,70 +41,87 @@
   font-size: 1.2rem;
   z-index: 1000;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .darkMode .themeToggle {
-  background: #2D3748;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
+              0 2px 4px -1px rgba(0, 0, 0, 0.1);
 }
 
 .themeToggle:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
 }
 
-@keyframes float {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  100% {
-    transform: translate(50px, 50px) rotate(10deg);
-  }
+.darkMode .themeToggle:hover {
+  background: rgba(0, 0, 0, 0.3);
 }
 
-@keyframes scroll {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(20px);
-  }
+.themeIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--light-text);
+  transition: all 0.3s ease;
 }
 
-/* Responsive Tasarım */
-@media (max-width: 1200px) {
-  .title {
-    font-size: 6rem;
-  }
+.darkMode .themeIcon {
+  color: var(--dark-text);
 }
 
-@media (max-width: 768px) {
-  .title {
-    font-size: 4rem;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-  }
-
-  .sideNav {
-    display: none;
-  }
-
-  .cornerInfo {
-    display: none;
-  }
+/* Title ve diğer metin renklerini güncelle */
+.title {
+  color: var(--light-text);
 }
 
-@media (max-width: 480px) {
-  .title {
-    font-size: 3rem;
-  }
+.darkMode .title {
+  color: var(--dark-text);
+}
 
-  .mainCta {
-    width: 100%;
-    padding: 1.2rem;
-  }
+.subtitle {
+  color: var(--light-text);
+  opacity: 0.8;
+}
+
+.darkMode .subtitle {
+  color: var(--dark-secondary);
+}
+
+/* Diğer elementlerin renklerini güncelle */
+.mouse {
+  border-color: var(--light-text);
+}
+
+.darkMode .mouse {
+  border-color: var(--dark-text);
+}
+
+.wheel {
+  background: var(--light-text);
+}
+
+.darkMode .wheel {
+  background: var(--dark-text);
+}
+
+.scrollText,
+.cornerText {
+  color: var(--light-text);
+  opacity: 0.7;
+}
+
+.darkMode .scrollText,
+.darkMode .cornerText {
+  color: var(--dark-secondary);
+}
+
+.cornerLine {
+  background: var(--light-text);
+  opacity: 0.7;
+}
+
+.darkMode .cornerLine {
+  background: var(--dark-secondary);
 }

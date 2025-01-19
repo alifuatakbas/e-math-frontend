@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import styles from '../styles/Hero.module.css'
+import { FiSun, FiMoon } from 'react-icons/fi' // react-icons ekleyin: npm install react-icons
 
 const Hero = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -8,28 +9,29 @@ const Hero = () => {
   useEffect(() => {
     // Başlangıçta light mode'u zorla
     document.documentElement.classList.remove('dark-theme');
-    document.body.style.backgroundColor = '#FFFFFF';
+    document.body.style.backgroundColor = '#F8FAFC'; // Daha yumuşak bir beyaz
   }, []);
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark-theme');
-    document.body.style.backgroundColor = darkMode ? '#FFFFFF' : '#0A0A0B';
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
   };
 
   return (
     <section
       className={styles.hero}
       style={{
-        backgroundColor: darkMode ? '#0A0A0B' : '#FFFFFF',
-        color: darkMode ? '#FFFFFF' : '#171717'
+        backgroundColor: darkMode ? '#0F172A' : '#F8FAFC',
+        color: darkMode ? '#F1F5F9' : '#1E293B'
       }}
     >
       <button
         onClick={toggleTheme}
-        className={styles.themeToggle}
+        className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+        aria-label="Toggle theme"
       >
-        {darkMode ? '☀️' : '🌙'}
+        {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
       </button>
 
       <div className={styles.heroBackground}>
@@ -37,7 +39,6 @@ const Hero = () => {
         <div className={styles.circle2}></div>
       </div>
 
-      {/* Mevcut içerik aynı kalacak */}
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.mainContent}>
