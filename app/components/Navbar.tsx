@@ -57,26 +57,29 @@ const Navbar: React.FC = () => {
       const savedTheme = localStorage.getItem('theme');
       return savedTheme === 'dark';
     }
-    return false; // varsayılan olarak light mode
+    return false;
   });
 
+  const toggleTheme = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark-theme', newDarkMode);
+    document.body.style.backgroundColor = newDarkMode ? '#0F172A' : '#F8FAFC';
+  };
   // Tema yönetimi için useEffect
   useEffect(() => {
-    // Sayfa yüklendiğinde localStorage'dan tema tercihini al
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       const isDark = savedTheme === 'dark';
       setIsDarkMode(isDark);
       document.documentElement.classList.toggle('dark-theme', isDark);
       document.body.style.backgroundColor = isDark ? '#0F172A' : '#F8FAFC';
-    } else {
-      // Eğer tema kaydedilmemişse varsayılan olarak light mode kullan
-      setIsDarkMode(false);
-      document.documentElement.classList.remove('dark-theme');
-      document.body.style.backgroundColor = '#F8FAFC';
     }
+  }, []);
 
-    // Tema değişikliklerini dinle
+  // Tema değişikliklerini dinle
+  useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'theme') {
         const newTheme = e.newValue;
@@ -88,11 +91,9 @@ const Navbar: React.FC = () => {
     };
 
     window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []); // Sadece component mount olduğunda çalışsın
 
   useEffect(() => {
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
@@ -164,6 +165,13 @@ const Navbar: React.FC = () => {
           <Link href="/" className={styles.logo}>
             LOGO
           </Link>
+            {/* Tema değiştirme butonu ekleyelim */}
+          <button
+            onClick={toggleTheme}
+            className={styles.themeToggle}
+          >
+            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
 
           <div
             className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
