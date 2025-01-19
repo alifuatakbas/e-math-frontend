@@ -6,10 +6,10 @@ const Hero = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
-        <h1>MATEMATİĞİ KEŞFET</h1>
-        <p>Uzman Eğitmenlerle Matematik Yolculuğuna Başlayın</p>
+        <h1>MATEMATİK YOLCULUĞU</h1>
+        <p>Geleceğin Matematiğini Bugün Keşfet</p>
         <button className={styles.cta}>
-          Hemen Başlayın
+          Yolculuğa Başla
         </button>
       </div>
     </section>
