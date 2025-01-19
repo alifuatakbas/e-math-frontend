@@ -2,8 +2,8 @@
 .aboutContainer {
   min-height: 100vh;
   background-color: #F8FAFC;
-  padding: 2rem 1rem;
   transition: all 0.3s ease;
+  overflow-x: hidden;
 }
 
 .darkMode {
@@ -44,91 +44,115 @@
   color: #F1F5F9;
 }
 
+/* Hero Section */
 .heroSection {
-  background: linear-gradient(135deg, #E84A5F 0%, #FF8C42 100%);
-  padding: 8rem 2rem;
-  text-align: center;
-  color: white;
-  margin-bottom: 4rem;
-  border-radius: 24px;
   position: relative;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(232, 74, 95, 0.1) 0%, rgba(255, 140, 66, 0.1) 100%);
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(232, 74, 95, 0.2);
 }
 
 .heroSection::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-  animation: rotate 20s linear infinite;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(45deg, rgba(232, 74, 95, 0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(232, 74, 95, 0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(232, 74, 95, 0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(232, 74, 95, 0.05) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  animation: slide 20s linear infinite;
 }
 
-@keyframes rotate {
+.darkMode .heroSection::before {
+  background-image:
+    linear-gradient(45deg, rgba(255, 140, 66, 0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 140, 66, 0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 140, 66, 0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 140, 66, 0.05) 75%);
+}
+
+@keyframes slide {
   from {
-    transform: rotate(0deg);
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
   }
   to {
-    transform: rotate(360deg);
+    background-position: -20px -20px, -20px -10px, -10px -30px, -30px -20px;
   }
 }
 
 .heroContent {
-  position: relative;
-  z-index: 2;
+  text-align: center;
   max-width: 800px;
-  margin: 0 auto;
+  padding: 0 2rem;
+  z-index: 2;
 }
 
 .heroTitle {
-  font-size: 4rem;
+  font-size: 5rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(to right, #ffffff, #f0f0f0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #E84A5F;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.darkMode .heroTitle {
+  color: #FF8C42;
 }
 
 .heroText {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.9);
+  color: #64748B;
 }
 
+.darkMode .heroText {
+  color: #94A3B8;
+}
+
+/* Section Container */
 .sectionContainer {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 4rem 2rem;
+}
+
+/* Vision & Mission Section */
+.visionMissionSection {
+  margin: -100px auto 4rem;
+  position: relative;
+  z-index: 3;
 }
 
 .gridContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  margin-bottom: 3rem;
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  padding: 2.5rem;
-  border-radius: 24px;
+  background: #FFFFFF;
+  padding: 3rem;
+  border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .darkMode .card {
-  background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(255, 255, 255, 0.05);
+  background: #1E293B;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
 }
 
 .cardHeader {
@@ -139,9 +163,9 @@
 }
 
 .cardIcon {
+  width: 3rem;
+  height: 3rem;
   color: #E84A5F;
-  width: 2.5rem;
-  height: 2.5rem;
 }
 
 .darkMode .cardIcon {
@@ -149,7 +173,7 @@
 }
 
 .cardTitle {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #1E293B;
   margin: 0;
@@ -160,67 +184,69 @@
 }
 
 .cardText {
-  color: #64748B;
-  line-height: 1.8;
   font-size: 1.1rem;
+  line-height: 1.8;
+  color: #64748B;
 }
 
 .darkMode .cardText {
   color: #94A3B8;
 }
 
+/* Values Section */
 .valuesSection {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  padding: 4rem 2rem;
-  margin: 4rem 0;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.darkMode .valuesSection {
-  background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(255, 255, 255, 0.05);
+  padding: 6rem 0;
 }
 
 .sectionTitle {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 800;
   color: #1E293B;
-  margin-bottom: 3rem;
-  background: linear-gradient(to right, #E84A5F, #FF8C42);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin-bottom: 4rem;
 }
 
 .darkMode .sectionTitle {
-  background: linear-gradient(to right, #FF8C42, #E84A5F);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #F1F5F9;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
 }
 
 .valueCard {
-  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
   padding: 2rem;
-  border-radius: 16px;
+  background: #FFFFFF;
+  border-radius: 20px;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .darkMode .valueCard {
-  background: rgba(15, 23, 42, 0.5);
-  border-color: rgba(255, 255, 255, 0.05);
+  background: #1E293B;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .valueCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10px);
+}
+
+.valueIcon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1.5rem;
+  color: #E84A5F;
+}
+
+.darkMode .valueIcon {
+  color: #FF8C42;
 }
 
 .valueTitle {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #1E293B;
   margin-bottom: 1rem;
@@ -230,32 +256,48 @@
   color: #F1F5F9;
 }
 
+.valueText {
+  color: #64748B;
+  line-height: 1.6;
+}
+
+.darkMode .valueText {
+  color: #94A3B8;
+}
+
+/* Achievements Section */
+.achievementsSection {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, rgba(232, 74, 95, 0.05) 0%, rgba(255, 140, 66, 0.05) 100%);
+  border-radius: 30px;
+  margin: 4rem 0;
+}
+
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
+  padding: 0 2rem;
+}
+
+.statCard {
   text-align: center;
-  margin-top: 2rem;
 }
 
 .statNumber {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  background: linear-gradient(to right, #E84A5F, #FF8C42);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem;
+  color: #E84A5F;
+  margin-bottom: 1rem;
 }
 
 .darkMode .statNumber {
-  background: linear-gradient(to right, #FF8C42, #E84A5F);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #FF8C42;
 }
 
 .statText {
+  font-size: 1.2rem;
   color: #64748B;
-  font-size: 1.1rem;
   font-weight: 500;
 }
 
@@ -263,36 +305,46 @@
   color: #94A3B8;
 }
 
-@media (max-width: 768px) {
-  .heroSection {
-    padding: 6rem 1.5rem;
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .valuesGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
   .heroTitle {
-    font-size: 3rem;
+    font-size: 3.5rem;
+  }
+
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .valuesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
   }
 
   .themeToggle {
     top: auto;
     bottom: 2rem;
-    right: 2rem;
   }
 
   .sectionContainer {
-    padding: 1rem;
+    padding: 2rem 1rem;
   }
 
-  .valuesSection {
-    padding: 3rem 1.5rem;
-  }
-
-  .sectionTitle {
-    font-size: 2rem;
-  }
-
-  .cardHeader {
-    flex-direction: column;
-    text-align: center;
+  .visionMissionSection {
+    margin-top: -50px;
   }
 }
 
@@ -302,15 +354,15 @@
   }
 
   .heroText {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
-  .statsGrid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .cardHeader {
+    flex-direction: column;
+    text-align: center;
   }
 
-  .statNumber {
-    font-size: 2.5rem;
+  .sectionTitle {
+    font-size: 2rem;
   }
 }

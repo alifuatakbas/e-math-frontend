@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Target, Award, Sun, Moon } from 'lucide-react';
+import { Target, Award, Sun, Moon, Users, Lightbulb, Heart, Trophy } from 'lucide-react';
 import styles from '../styles/About.module.css';
 
 const AboutUs = () => {
@@ -19,23 +19,31 @@ const AboutUs = () => {
     localStorage.setItem('theme', darkMode ? 'light' : 'dark');
   };
 
-  const companyInfo = {
+ const companyInfo = {
     name: "Şirket Adı",
     founded: "2020",
     vision: "Teknoloji dünyasında yenilikçi çözümlerle öncü olmak ve müşterilerimize en yüksek değeri sunmak.",
     mission: "Sürdürülebilir teknoloji çözümleri ile işletmelerin dijital dönüşümüne öncülük etmek ve topluma değer katmak.",
     values: [
       {
+        icon: <Lightbulb />,
         title: "Yenilikçilik",
         description: "Sürekli gelişim ve inovasyonu destekleyerek, sektörde öncü çözümler üretiyoruz."
       },
       {
+        icon: <Users />,
         title: "Müşteri Odaklılık",
         description: "Müşterilerimizin ihtiyaçlarını en iyi şekilde anlayarak, beklentilerinin ötesinde hizmet sunuyoruz."
       },
       {
+        icon: <Trophy />,
         title: "Kalite",
         description: "Her projemizde en yüksek kalite standartlarını benimseyerek mükemmelliği hedefliyoruz."
+      },
+      {
+        icon: <Heart />,
+        title: "Güven",
+        description: "Müşterilerimizle uzun vadeli ve güvene dayalı ilişkiler kuruyoruz."
       }
     ],
     achievements: [
@@ -45,7 +53,6 @@ const AboutUs = () => {
       { number: "15+", text: "Ödül" }
     ]
   };
-
   return (
     <div className={`${styles.aboutContainer} ${darkMode ? styles.darkMode : ''}`}>
       <button
@@ -57,60 +64,63 @@ const AboutUs = () => {
       </button>
 
       {/* Hero Section */}
-      <div className={styles.heroSection}>
+      <section className={styles.heroSection}>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Hakkımızda</h1>
+          <h1 className={styles.heroTitle}>Biz Kimiz?</h1>
           <p className={styles.heroText}>
-            {companyInfo.founded} yılından bu yana teknoloji sektöründe hizmet vermekteyiz.
+            {companyInfo.founded} yılından bu yana teknoloji sektöründe öncü çözümler sunuyoruz.
           </p>
         </div>
-      </div>
+      </section>
 
       <div className={styles.sectionContainer}>
         {/* Vizyon & Misyon */}
-        <div className={styles.gridContainer}>
-          <div className={styles.card}>
-            <div className={styles.cardHeader}>
-              <Target className={styles.cardIcon} />
-              <h2 className={styles.cardTitle}>Vizyonumuz</h2>
+        <section className={styles.visionMissionSection}>
+          <div className={styles.gridContainer}>
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <Target className={styles.cardIcon} />
+                <h2 className={styles.cardTitle}>Vizyonumuz</h2>
+              </div>
+              <p className={styles.cardText}>{companyInfo.vision}</p>
             </div>
-            <p className={styles.cardText}>{companyInfo.vision}</p>
-          </div>
 
-          <div className={styles.card}>
-            <div className={styles.cardHeader}>
-              <Award className={styles.cardIcon} />
-              <h2 className={styles.cardTitle}>Misyonumuz</h2>
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <Award className={styles.cardIcon} />
+                <h2 className={styles.cardTitle}>Misyonumuz</h2>
+              </div>
+              <p className={styles.cardText}>{companyInfo.mission}</p>
             </div>
-            <p className={styles.cardText}>{companyInfo.mission}</p>
           </div>
-        </div>
+        </section>
 
         {/* Değerlerimiz */}
-        <div className={styles.valuesSection}>
+        <section className={styles.valuesSection}>
           <h2 className={styles.sectionTitle}>Değerlerimiz</h2>
-          <div className={styles.gridContainer}>
+          <div className={styles.valuesGrid}>
             {companyInfo.values.map((value, index) => (
               <div key={index} className={styles.valueCard}>
+                <div className={styles.valueIcon}>{value.icon}</div>
                 <h3 className={styles.valueTitle}>{value.title}</h3>
-                <p className={styles.cardText}>{value.description}</p>
+                <p className={styles.valueText}>{value.description}</p>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
         {/* Başarılarımız */}
-        <div className={styles.card}>
+        <section className={styles.achievementsSection}>
           <h2 className={styles.sectionTitle}>Başarılarımız</h2>
           <div className={styles.statsGrid}>
             {companyInfo.achievements.map((achievement, index) => (
-              <div key={index}>
+              <div key={index} className={styles.statCard}>
                 <p className={styles.statNumber}>{achievement.number}</p>
                 <p className={styles.statText}>{achievement.text}</p>
               </div>
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
