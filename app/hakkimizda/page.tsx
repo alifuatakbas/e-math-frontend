@@ -7,17 +7,23 @@ import Navbar from '../components/Navbar';
 const AboutUs = () => {
   const [darkMode, setDarkMode] = useState(false);
 
+  // Sayfa yüklendiğinde localStorage'dan tema tercihini al
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    const isDark = theme === 'dark';
-    setDarkMode(isDark);
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setDarkMode(savedTheme === 'dark');
+      document.documentElement.classList.toggle('dark-theme', savedTheme === 'dark');
+      document.body.style.backgroundColor = savedTheme === 'dark' ? '#0F172A' : '#F8FAFC';
+    }
   }, []);
 
+  // Tema değiştiğinde localStorage'a kaydet
   const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark-theme');
-    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
-    localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    document.documentElement.classList.toggle('dark-theme', newDarkMode);
+    document.body.style.backgroundColor = newDarkMode ? '#0F172A' : '#F8FAFC';
+    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
   };
 
   return (
