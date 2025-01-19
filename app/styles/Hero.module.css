@@ -348,6 +348,18 @@
   .cornerInfo {
     display: none;
   }
+    .themeToggle {
+    top: auto;  /* Üstten konumu kaldır */
+    bottom: 2rem;  /* Alta al */
+    right: 2rem;
+    width: 2.5rem;  /* Biraz daha küçült */
+    height: 2.5rem;
+  }
+
+  .themeIcon {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -358,5 +370,16 @@
   .mainCta {
     width: 100%;
     padding: 1.2rem;
+  }
+    .themeToggle {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .themeIcon {
+    width: 1rem;
+    height: 1rem;
   }
 }
