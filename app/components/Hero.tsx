@@ -6,45 +6,61 @@ const Hero = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
-        <div className={styles.leftContent}>
-          <div className={styles.textContent}>
-            <h1>
-              Matematiği
-              <span className={styles.highlight}> Sevdiren </span>
-              Platform
-            </h1>
-            <p>
-              Kişiselleştirilmiş öğrenme deneyimi ve interaktif içeriklerle
-              matematik öğrenmenin en keyifli hali
-            </p>
+        <div className={styles.content}>
+          <div className={styles.badge}>
+            <span>✨ YENİ</span> Yapay Zeka Destekli Öğrenme
           </div>
-          <div className={styles.statsContainer}>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>10K+</span>
-              <span className={styles.statLabel}>Öğrenci</span>
+
+          <h1>
+            Matematik Öğrenmenin
+            <div className={styles.animatedText}>
+              <span>Eğlenceli</span>
+              <span>Kolay</span>
+              <span>Akıllı</span>
             </div>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>500+</span>
-              <span className={styles.statLabel}>Video Ders</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>%98</span>
-              <span className={styles.statLabel}>Başarı</span>
-            </div>
-          </div>
-          <div className={styles.ctaContainer}>
-            <button className={styles.primaryBtn}>Hemen Başla</button>
-            <button className={styles.secondaryBtn}>
-              <span className={styles.playIcon}>▶</span>
-              Tanıtım İzle
+            Yolu
+          </h1>
+
+          <p>
+            Kişiselleştirilmiş öğrenme yolculuğu ve gerçek zamanlı geri bildirimlerle
+            matematiği keşfedin.
+          </p>
+
+          <div className={styles.ctaGroup}>
+            <button className={styles.mainCta}>
+              <span>Ücretsiz Dene</span>
+              <span className={styles.ctaArrow}>→</span>
+            </button>
+            <button className={styles.secondaryCta}>
+              <span className={styles.playIcon}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 5v14l11-7z" fill="currentColor"/>
+                </svg>
+              </span>
+              Demo İzle
             </button>
           </div>
+
+          <div className={styles.trustBadges}>
+            <div className={styles.trustItem}>
+              <span className={styles.rating}>⭐ 4.9/5</span>
+              <span>Öğrenci Memnuniyeti</span>
+            </div>
+            <div className={styles.divider}></div>
+            <div className={styles.trustItem}>
+              <span className={styles.users}>👥 15K+</span>
+              <span>Aktif Öğrenci</span>
+            </div>
+          </div>
         </div>
-        <div className={styles.rightContent}>
-          <div className={styles.cardStack}>
-            <div className={`${styles.card} ${styles.card1}`}></div>
-            <div className={`${styles.card} ${styles.card2}`}></div>
-            <div className={`${styles.card} ${styles.card3}`}></div>
+
+        <div className={styles.visualSection}>
+          <div className={styles.glowCircle}></div>
+          <div className={styles.floatingElements}>
+            <div className={styles.element1}>∑</div>
+            <div className={styles.element2}>π</div>
+            <div className={styles.element3}>∞</div>
+            <div className={styles.element4}>√</div>
           </div>
         </div>
       </div>
