@@ -1,12 +1,5 @@
 /* Renk değişkenlerini ekleyin (en üste) */
-:root {
-  --light-bg: #F8FAFC;
-  --light-text: #1E293B;
-  --light-accent: #FF3366;
-  --dark-bg: #0F172A;
-  --dark-text: #F1F5F9;
-  --dark-secondary: #94A3B8;
-}
+
 
 /* Hero temel stilini güncelle */
 .hero {

@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #FFFFFF;
-  --foreground: #171717;
+  --light-bg: #F8FAFC;
+  --light-text: #1E293B;
+  --light-accent: #FF3366;
+  --dark-bg: #0F172A;
+  --dark-text: #F1F5F9;
+  --dark-secondary: #94A3B8;
 }
 
 /* Tüm media query'leri kaldırıyoruz */
