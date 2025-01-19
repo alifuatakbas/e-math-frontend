@@ -14,15 +14,27 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
-    const isDark = document.documentElement.classList.contains('dark-theme');
-    setDarkMode(isDark);
-  }, []);
+  const theme = localStorage.getItem('theme');
+  const isDark = theme === 'dark';
+  setDarkMode(isDark);
+
+  // Tema durumunu HTML'e yansıt
+  if (isDark) {
+    document.documentElement.classList.add('dark-theme');
+    document.body.style.backgroundColor = '#0F172A';
+  } else {
+    document.documentElement.classList.remove('dark-theme');
+    document.body.style.backgroundColor = '#F8FAFC';
+  }
+}, []);
 
   const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark-theme');
-    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
-  };
+  setDarkMode(!darkMode);
+  document.documentElement.classList.toggle('dark-theme');
+  document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+  // Tema tercihini localStorage'a kaydet
+  localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+};
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

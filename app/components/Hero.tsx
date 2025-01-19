@@ -12,11 +12,13 @@ const Hero = () => {
     document.body.style.backgroundColor = '#F8FAFC';
   }, []);
 
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark-theme');
-    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
-  };
+ const toggleTheme = () => {
+  setDarkMode(!darkMode);
+  document.documentElement.classList.toggle('dark-theme');
+  document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+  // Tema tercihini localStorage'a kaydet
+  localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+};
 
   return (
     <section

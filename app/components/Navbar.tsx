@@ -55,11 +55,26 @@ const Navbar: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
+
+       const theme = localStorage.getItem('theme');
+    const isDark = theme === 'dark';
+    setIsDarkMode(isDark);
+
+    // Tema değişimini dinle
+    const handleStorageChange = () => {
+      const currentTheme = localStorage.getItem('theme');
+      setIsDarkMode(currentTheme === 'dark');
+    };
+
+    // Storage event listener'ı ekle
     // Tema değişimini dinle
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.target.nodeName === 'HTML') {
-          setIsDarkMode(document.documentElement.classList.contains('dark-theme'));
+          const isDark = document.documentElement.classList.contains('dark-theme');
+          setIsDarkMode(isDark);
+          // localStorage'ı güncelle
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
       });
     });
@@ -69,7 +84,10 @@ const Navbar: React.FC = () => {
       attributeFilter: ['class'],
     });
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
