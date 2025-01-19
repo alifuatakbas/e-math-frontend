@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import styles from '../styles/Hero.module.css'
-import { FiSun, FiMoon } from 'react-icons/fi' // react-icons ekleyin: npm install react-icons
+import { FiSun, FiMoon } from 'react-icons/fi'
 
 const Hero = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -9,7 +9,7 @@ const Hero = () => {
   useEffect(() => {
     // Başlangıçta light mode'u zorla
     document.documentElement.classList.remove('dark-theme');
-    document.body.style.backgroundColor = '#F8FAFC'; // Daha yumuşak bir beyaz
+    document.body.style.backgroundColor = '#F8FAFC';
   }, []);
 
   const toggleTheme = () => {
@@ -20,7 +20,7 @@ const Hero = () => {
 
   return (
     <section
-      className={styles.hero}
+      className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}
       style={{
         backgroundColor: darkMode ? '#0F172A' : '#F8FAFC',
         color: darkMode ? '#F1F5F9' : '#1E293B'
