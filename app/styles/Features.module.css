@@ -1,13 +1,20 @@
 /* Features.module.css */
 .features {
   padding: 8rem 2rem;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
+  background-image:
+    radial-gradient(#E84A5F 0.5px, transparent 0.5px),
+    radial-gradient(#E84A5F 0.5px, #FFFFFF 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  opacity: 0.9;
   min-height: 100vh;
   display: flex;
   align-items: center;
   overflow: hidden;
   position: relative;
 }
+
 
 /* Desen için overlay */
 .features::before {
@@ -114,7 +121,10 @@
 
 /* Dark mode */
 :global(.dark-theme) .features {
-  background: #1D1D1B;
+  background-color: #1D1D1B;
+  background-image:
+    radial-gradient(rgba(232, 74, 95, 0.2) 0.5px, transparent 0.5px),
+    radial-gradient(rgba(232, 74, 95, 0.2) 0.5px, #1D1D1B 0.5px);
 }
 
 :global(.dark-theme) .title {
