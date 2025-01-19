@@ -1,8 +1,24 @@
-import React from 'react';
-import { Target,Award} from 'lucide-react';
+"use client"
+import React, { useState, useEffect } from 'react';
+import { Target, Award, Sun, Moon } from 'lucide-react';
 import styles from '../styles/About.module.css';
 
 const AboutUs = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    const isDark = theme === 'dark';
+    setDarkMode(isDark);
+  }, []);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+    localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+  };
+
   const companyInfo = {
     name: "Şirket Adı",
     founded: "2020",
@@ -31,13 +47,23 @@ const AboutUs = () => {
   };
 
   return (
-    <div className={styles.aboutContainer}>
+    <div className={`${styles.aboutContainer} ${darkMode ? styles.darkMode : ''}`}>
+      <button
+        onClick={toggleTheme}
+        className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+        aria-label="Toggle theme"
+      >
+        {darkMode ? <Sun className={styles.themeIcon} /> : <Moon className={styles.themeIcon} />}
+      </button>
+
       {/* Hero Section */}
       <div className={styles.heroSection}>
-        <h1 className={styles.heroTitle}>Hakkımızda</h1>
-        <p className={styles.heroText}>
-          {companyInfo.founded} yılından bu yana teknoloji sektöründe hizmet vermekteyiz.
-        </p>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>Hakkımızda</h1>
+          <p className={styles.heroText}>
+            {companyInfo.founded} yılından bu yana teknoloji sektöründe hizmet vermekteyiz.
+          </p>
+        </div>
       </div>
 
       <div className={styles.sectionContainer}>
