@@ -5,25 +5,35 @@ import styles from '../styles/About.module.css';
 import Navbar from '../components/Navbar';
 
 const AboutUs = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    // Başlangıç değerini localStorage'dan al
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme === 'dark';
+    }
+    return false;
+  });
 
-  // Sayfa yüklendiğinde localStorage'dan tema tercihini al
   useEffect(() => {
+    // Sayfa yüklendiğinde localStorage'dan tema tercihini al
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-      setDarkMode(savedTheme === 'dark');
-      document.documentElement.classList.toggle('dark-theme', savedTheme === 'dark');
-      document.body.style.backgroundColor = savedTheme === 'dark' ? '#0F172A' : '#F8FAFC';
+      const isDark = savedTheme === 'dark';
+      setDarkMode(isDark);
+      document.documentElement.classList.toggle('dark-theme', isDark);
+      document.body.style.backgroundColor = isDark ? '#0F172A' : '#F8FAFC';
     }
   }, []);
 
-  // Tema değiştiğinde localStorage'a kaydet
+  useEffect(() => {
+    // darkMode değiştiğinde localStorage'ı güncelle
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark-theme', darkMode);
+    document.body.style.backgroundColor = darkMode ? '#0F172A' : '#F8FAFC';
+  }, [darkMode]);
+
   const toggleTheme = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    document.documentElement.classList.toggle('dark-theme', newDarkMode);
-    document.body.style.backgroundColor = newDarkMode ? '#0F172A' : '#F8FAFC';
-    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
+    setDarkMode(prevMode => !prevMode);
   };
 
   return (
