@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import styles from '../styles/SubmitExam.module.css';
+"use client"
+import React, { useState, useEffect } from 'react';
+import styles from './SubmitExam.module.css';
+import { FiSun, FiMoon } from 'react-icons/fi'; // FiSun yerine Sun
 import Link from 'next/link';
 
 interface Question {
@@ -115,6 +117,36 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     totalQuestions: number;
     scorePercentage: number;
   } | null>(null);
+   const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme === 'dark';
+    }
+    return false;
+  });
+    useEffect(() => {
+    // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
+    const theme = localStorage.getItem('theme');
+    const isDark = theme === 'dark';
+    setDarkMode(isDark);
+
+    // Tema durumunu HTML'e yansıt
+    if (isDark) {
+      document.documentElement.classList.add('dark-theme');
+      document.body.style.backgroundColor = '#0F172A';
+    } else {
+      document.documentElement.classList.remove('dark-theme');
+      document.body.style.backgroundColor = '#F8FAFC';
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+    // Tema tercihini localStorage'a kaydet
+    localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+  };
 
   const checkExamStatus = async () => {
     try {
@@ -392,31 +424,38 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     <div className={styles.submitExamContainer}>
 
     {!examStarted ? (
-  <div className={styles.examStartContainer}>
-    <h1 className={styles.examTitle}>{exam.title}</h1>
-    <div className={styles.examInfo}>
-      <div className={styles.examInfoItem}>
-        <span>Toplam Soru</span>
-        <span>{exam.questions.length}</span>
-      </div>
-      <div className={styles.examInfoItem}>
-        <span>Sınav Süresi</span>
-        <span>90 Dakika</span>
-      </div>
-    </div>
-    <div className={styles.examWarning}>
-      <p>⚠️ Sınav başladıktan sonra:</p>
-      <ul>
-        <li>Başka sekmeye geçiş yapılamaz</li>
-        <li>3 ihlal sonrası sınav sonlandırılır</li>
-        <li>Süre bitiminde otomatik gönderilir</li>
-      </ul>
-    </div>
-    <button onClick={handleStartExam} className={styles.startButton}>
-      Sınava Başla
-    </button>
-  </div>
-) : (
+        <div className={styles.examStartContainer}>
+          <button
+              onClick={toggleTheme}
+              className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+              aria-label="Toggle theme"
+          >
+            {darkMode ? <FiSun className={styles.themeIcon}/> : <FiMoon className={styles.themeIcon}/>}
+          </button>
+          <h1 className={styles.examTitle}>{exam.title}</h1>
+          <div className={styles.examInfo}>
+            <div className={styles.examInfoItem}>
+              <span>Toplam Soru</span>
+              <span>{exam.questions.length}</span>
+            </div>
+            <div className={styles.examInfoItem}>
+              <span>Sınav Süresi</span>
+              <span>90 Dakika</span>
+            </div>
+          </div>
+          <div className={styles.examWarning}>
+            <p>⚠️ Sınav başladıktan sonra:</p>
+            <ul>
+              <li>Başka sekmeye geçiş yapılamaz</li>
+              <li>3 ihlal sonrası sınav sonlandırılır</li>
+              <li>Süre bitiminde otomatik gönderilir</li>
+            </ul>
+          </div>
+          <button onClick={handleStartExam} className={styles.startButton}>
+            Sınava Başla
+          </button>
+        </div>
+    ) : (
         <>
           <div className={styles.timer}>
             Kalan Süre: {Math.floor(timeLeft! / 60)}:{String(timeLeft! % 60).padStart(2, '0')}
