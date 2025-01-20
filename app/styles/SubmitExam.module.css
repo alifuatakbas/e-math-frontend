@@ -662,7 +662,96 @@
 }
 
 /* Dark Mode Container Class */
+/* Dark mode güncellemeleri */
 .darkMode {
   background: rgba(15, 23, 42, 0.95) !important;
   color: #F1F5F9;
+}
+
+.darkMode .examTitle {
+  color: #F1F5F9;
+}
+
+.darkMode .examInfo {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .examInfoItem {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .examInfoItem span {
+  color: #F1F5F9;
+}
+
+.darkMode select {
+  background: rgba(30, 41, 59, 0.95);
+  color: #F1F5F9;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.darkMode select option {
+  background: #1E293B;
+  color: #F1F5F9;
+}
+
+.darkMode .examWarning {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .examWarning p {
+  color: #FF6B6B;
+}
+
+.darkMode .examWarning li {
+  color: #E2E8F0;
+}
+
+.darkMode .examWarning li:before {
+  color: #FF6B6B;
+}
+
+.darkMode .questionContainer {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .questionContainer h3 {
+  color: #F1F5F9;
+}
+
+.darkMode .optionContainer {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .optionContainer:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .optionContainer label {
+  color: #F1F5F9;
+}
+
+.darkMode .modalContent {
+  background: #1E293B;
+  color: #F1F5F9;
+}
+
+.darkMode .modalContent p {
+  color: #FF6B6B;
+}
+
+/* Timer ve Progress için dark mode güncellemeleri */
+.darkMode .timer {
+  background: linear-gradient(135deg, #FF6B6B, #E84A5F);
+  color: #F1F5F9;
+}
+
+.darkMode .progress {
+  background: rgba(255, 255, 255, 0.1);
+  color: #F1F5F9;
+  border-color: rgba(255, 255, 255, 0.1);
 }
