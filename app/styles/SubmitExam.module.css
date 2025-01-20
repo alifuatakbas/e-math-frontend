@@ -1,4 +1,103 @@
 /* SubmitExam.module.css */
+/* Modal Stilleri */
+.examWarning {
+  background: rgba(232, 74, 95, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.examWarning p {
+  color: #E84A5F;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.examWarning ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.examWarning li {
+  color: #4A5568;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.examWarning li:before {
+  content: "•";
+  color: #E84A5F;
+  position: absolute;
+  left: 0;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+}
+
+.modalContent p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #E84A5F;
+  font-weight: 500;
+}
+
+.modalContent .warningCount {
+  font-size: 2.5rem;
+  color: #E84A5F;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.modalContent button {
+  background: #E84A5F;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalContent button:hover {
+  background: #d43649;
+  transform: translateY(-2px);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 .submitExamContainer {
   max-width: 900px;
@@ -129,47 +228,6 @@
 .buttonContainer button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Karanlık mod için güncellemeler */
-@media (prefers-color-scheme: dark) {
-  .submitExamContainer {
-    background: rgba(30, 41, 59, 0.95);
-  }
-
-  .questionContainer {
-    background: #1E293B;
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .questionContainer h3 {
-    color: #F1F5F9;
-  }
-
-  .optionContainer {
-    background: rgba(30, 41, 59, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .optionContainer:hover {
-    background: rgba(232, 74, 95, 0.1);
-  }
-
-  .optionContainer label {
-    color: #E2E8F0;
-  }
-
-}
-@media (max-width: 768px) {
-  .questionImage {
-    height: 200px; /* Mobilde daha küçük yükseklik */
-  }
-}
-/* Tablet için */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .questionImage {
-    height: 250px; /* Tablet için orta yükseklik */
-  }
 }
 
 /* Sınav başlangıç ekranı için */
@@ -327,165 +385,20 @@
 
 /* Karanlık mod için */
 @media (prefers-color-scheme: dark) {
-  .examStartContainer,
-  .completionCard {
-    background: rgba(30, 41, 59, 0.9);
+ .completionHeader h2 {
+    background: linear-gradient(135deg, #FF6B6B, #E84A5F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+    .statValue {
+    color: #FF6B6B;
+  }
+  /* Ana Container */
+  .submitExamContainer {
+    background: rgba(30, 41, 59, 0.95);
   }
 
-  .examInfo {
-    background: #1E293B;
-  }
-
-  .examInfoItem {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .statItem {
-    background: #1E293B;
-  }
-
-  .statLabel {
-    color: #E2E8F0;
-  }
-}
-
-/* Mobil responsive */
-@media (max-width: 640px) {
-  .examStartContainer,
-  .completionCard {
-    padding: 2rem 1rem;
-    margin: 2rem 1rem;
-  }
-
-  .statsContainer {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .examTitle {
-    font-size: 2rem;
-  }
-
-  .scoreCircle {
-    width: 120px;
-    height: 120px;
-  }
-}
-.examWarning {
-  background: rgba(232, 74, 95, 0.1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  text-align: left;
-}
-
-.examWarning p {
-  color: #E84A5F;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.examWarning ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.examWarning li {
-  color: #4A5568;
-  margin-bottom: 0.5rem;
-  padding-left: 1.5rem;
-  position: relative;
-}
-
-.examWarning li:before {
-  content: "•";
-  color: #E84A5F;
-  position: absolute;
-  left: 0;
-}
-
-/* Karanlık mod için */
-@media (prefers-color-scheme: dark) {
-  .examWarning {
-    background: rgba(232, 74, 95, 0.1);
-  }
-
-  .examWarning li {
-    color: #E2E8F0;
-  }
-}
-/* SubmitExam.module.css'e ekleyin */
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
-}
-
-.modalContent {
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.3s ease;
-}
-
-.modalContent p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  color: #E84A5F;
-  font-weight: 500;
-}
-
-.modalContent .warningCount {
-  font-size: 2.5rem;
-  color: #E84A5F;
-  font-weight: 700;
-  margin: 1rem 0;
-}
-
-.modalContent button {
-  background: #E84A5F;
-  color: white;
-  padding: 0.8rem 2rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.modalContent button:hover {
-  background: #d43649;
-  transform: translateY(-2px);
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Karanlık mod için */
-@media (prefers-color-scheme: dark) {
-
-  /* Sınava başla ekranı */
+  /* Sınava Başla Ekranı */
   .examStartContainer {
     background: rgba(30, 41, 59, 0.95);
     border-color: rgba(255, 255, 255, 0.1);
@@ -501,34 +414,14 @@
 
   .examInfoItem {
     border-color: rgba(255, 255, 255, 0.1);
+      color: #F1F5F9; /* Bu eksikti */
   }
 
   .examInfoItem span {
     color: #F1F5F9;
   }
 
-  .examWarning {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .examWarning p {
-    color: #F1F5F9;
-  }
-
-  .examWarning li {
-    color: #E2E8F0;
-  }
-
-  /* Sınav çözme ekranı */
-  .submitExamContainer {
-    background: rgba(30, 41, 59, 0.95);
-  }
-
-  .progress {
-    background: rgba(255, 255, 255, 0.1);
-    color: #F1F5F9;
-  }
-
+  /* Soru ve Seçenekler */
   .questionContainer {
     background: #1E293B;
     border-color: rgba(255, 255, 255, 0.1);
@@ -551,6 +444,13 @@
     color: #F1F5F9;
   }
 
+  /* İlerleme ve Zamanlayıcı */
+  .progress {
+    background: rgba(255, 255, 255, 0.1);
+    color: #F1F5F9;
+  }
+
+  /* Butonlar */
   .buttonContainer button:first-child {
     background: #475569;
     color: white;
@@ -558,6 +458,19 @@
 
   .buttonContainer button:first-child:hover {
     background: #334155;
+  }
+
+  /* Uyarı Alanı */
+  .examWarning {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .examWarning p {
+    color: #F1F5F9;
+  }
+
+  .examWarning li {
+    color: #E2E8F0;
   }
 
   /* Modal */
@@ -569,9 +482,13 @@
     color: #F1F5F9;
   }
 
-  /* Sınav bitiş ekranı */
+  /* Sınav Bitiş Ekranı */
   .completionCard {
     background: rgba(30, 41, 59, 0.95);
+  }
+
+  .completionContainer {
+    background: #0F172A;
   }
 
   .completionHeader p {
@@ -584,5 +501,40 @@
 
   .statLabel {
     color: #E2E8F0;
+  }
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+  .questionImage {
+    height: 200px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .questionImage {
+    height: 250px;
+  }
+}
+
+@media (max-width: 640px) {
+  .examStartContainer,
+  .completionCard {
+    padding: 2rem 1rem;
+    margin: 2rem 1rem;
+  }
+
+  .statsContainer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .examTitle {
+    font-size: 2rem;
+  }
+
+  .scoreCircle {
+    width: 120px;
+    height: 120px;
   }
 }
