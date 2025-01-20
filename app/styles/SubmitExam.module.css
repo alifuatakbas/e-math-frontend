@@ -492,3 +492,107 @@
     color: #F1F5F9;
   }
 }
+
+/* Karanlık mod için güncellemeler */
+@media (prefers-color-scheme: dark) {
+  /* Sınava başla ekranı */
+  .examStartContainer {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .examTitle {
+    color: #F1F5F9;
+  }
+
+  .examInfo {
+    background: #1E293B;
+  }
+
+  .examInfoItem {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .examInfoItem span {
+    color: #F1F5F9;
+  }
+
+  .examWarning {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .examWarning p {
+    color: #F1F5F9;
+  }
+
+  .examWarning li {
+    color: #E2E8F0;
+  }
+
+  /* Sınav çözme ekranı */
+  .submitExamContainer {
+    background: rgba(30, 41, 59, 0.95);
+  }
+
+  .progress {
+    background: rgba(255, 255, 255, 0.1);
+    color: #F1F5F9;
+  }
+
+  .questionContainer {
+    background: #1E293B;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .questionContainer h3 {
+    color: #F1F5F9;
+  }
+
+  .optionContainer {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .optionContainer:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .optionContainer label {
+    color: #F1F5F9;
+  }
+
+  .buttonContainer button:first-child {
+    background: #475569;
+    color: white;
+  }
+
+  .buttonContainer button:first-child:hover {
+    background: #334155;
+  }
+
+  /* Modal */
+  .modalContent {
+    background: #1E293B;
+  }
+
+  .modalContent p {
+    color: #F1F5F9;
+  }
+
+  /* Sınav bitiş ekranı */
+  .completionCard {
+    background: rgba(30, 41, 59, 0.95);
+  }
+
+  .completionHeader p {
+    color: #F1F5F9;
+  }
+
+  .statItem {
+    background: #1E293B;
+  }
+
+  .statLabel {
+    color: #E2E8F0;
+  }
+}
