@@ -411,19 +411,27 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         <span>{exam.questions.length}</span>
       </div>
       <div className={styles.examInfoItem}>
-        <span>Süre</span>
-        <span>{timeLeft ? Math.floor(timeLeft / 60) : 0} Dakika</span>
+        <span>Sınav Süresi</span>
+        <span>90 Dakika</span> {/* Bu süreyi API'den gelen veriye göre ayarlayabilirsiniz */}
       </div>
       <div className={styles.examInfoItem}>
-        <span>Durum</span>
-        <span>Başlamadı</span>
+        <span>Önemli Bilgi</span>
+        <span>3 Sekme İhlal Hakkı</span>
       </div>
+    </div>
+    <div className={styles.examWarning}>
+      <p>⚠️ Sınav başladıktan sonra:</p>
+      <ul>
+        <li>Başka sekmeye geçiş yapılamaz</li>
+        <li>3 ihlal sonrası sınav sonlandırılır</li>
+        <li>Süre bitiminde otomatik gönderilir</li>
+      </ul>
     </div>
     <button onClick={handleStartExam} className={styles.startButton}>
       Sınava Başla
     </button>
   </div>
-      ) : (
+) : (
         <>
           <div className={styles.timer}>
             Kalan Süre: {Math.floor(timeLeft! / 60)}:{String(timeLeft! % 60).padStart(2, '0')}
