@@ -484,17 +484,7 @@
 
 /* Karanlık mod için */
 @media (prefers-color-scheme: dark) {
-  .modalContent {
-    background: #1E293B;
-  }
 
-  .modalContent p {
-    color: #F1F5F9;
-  }
-}
-
-/* Karanlık mod için güncellemeler */
-@media (prefers-color-scheme: dark) {
   /* Sınava başla ekranı */
   .examStartContainer {
     background: rgba(30, 41, 59, 0.95);
