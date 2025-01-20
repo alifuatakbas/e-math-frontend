@@ -88,9 +88,14 @@
 }
 
 /* Dark mode */
+/* ExamSelection.module.css */
+
+/* ... mevcut stiller ... */
+
+/* Dark mode güncellemeleri */
 @media (prefers-color-scheme: dark) {
   .examSelectionContainer {
-    background: rgba(30, 41, 59, 0.9);
+    background: rgba(30, 41, 59, 0.95);
     border-color: rgba(241, 245, 249, 0.1);
   }
 
@@ -99,14 +104,60 @@
   }
 
   .select {
-    background: rgba(15, 23, 42, 0.8);
-    border-color: rgba(241, 245, 249, 0.1);
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(241, 245, 249, 0.2);
+    color: #F1F5F9;
+  }
+
+  .select option {
+    background: #1E293B;
     color: #F1F5F9;
   }
 
   .select:focus {
-    border-color: #E84A5F;
+    border-color: #FF6B6B;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
   }
+
+  .errorMessage {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #FCA5A5;
+  }
+
+  .startButton:disabled {
+    background: #475569;
+    color: #94A3B8;
+  }
+}
+
+/* Dark Mode Container Class */
+.darkMode {
+  background: rgba(30, 41, 59, 0.95) !important;
+}
+
+.darkMode .title {
+  color: #F1F5F9;
+}
+
+.darkMode .select {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(241, 245, 249, 0.2);
+  color: #F1F5F9;
+}
+
+.darkMode .select option {
+  background: #1E293B;
+  color: #F1F5F9;
+}
+
+.darkMode .errorMessage {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #FCA5A5;
+}
+
+.darkMode .startButton:disabled {
+  background: #475569;
+  color: #94A3B8;
 }
 
 /* Responsive */
