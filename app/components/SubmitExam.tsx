@@ -402,7 +402,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
 
-     {!examStarted ? (
+    {!examStarted ? (
   <div className={styles.examStartContainer}>
     <h1 className={styles.examTitle}>{exam.title}</h1>
     <div className={styles.examInfo}>
@@ -412,11 +412,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       </div>
       <div className={styles.examInfoItem}>
         <span>Sınav Süresi</span>
-        <span>90 Dakika</span> {/* Bu süreyi API'den gelen veriye göre ayarlayabilirsiniz */}
-      </div>
-      <div className={styles.examInfoItem}>
-        <span>Önemli Bilgi</span>
-        <span>3 Sekme İhlal Hakkı</span>
+        <span>45 Dakika</span>
       </div>
     </div>
     <div className={styles.examWarning}>
