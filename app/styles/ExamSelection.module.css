@@ -120,3 +120,41 @@
     font-size: 2rem;
   }
 }
+/* Theme Toggle Button Styles */
+.themeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(232, 74, 95, 0.2);
+  padding: 0.8rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.themeToggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.themeIcon {
+  width: 24px;
+  height: 24px;
+  color: #E84A5F;
+}
+
+.darkThemeToggle .themeIcon {
+  color: #F1F5F9;
+}
+
+/* Dark Mode Container Class */
+.darkMode {
+  background: rgba(15, 23, 42, 0.95) !important;
+  color: #F1F5F9;
+}

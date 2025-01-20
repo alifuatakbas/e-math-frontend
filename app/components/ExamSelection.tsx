@@ -1,21 +1,42 @@
-"use client"; // İstemci bileşeni olarak tanımlamak için
-
+"use client";
 import React, { useEffect, useState } from 'react';
-import styles from '../styles/ExamSelection.module.css'; // CSS modülünü içe aktar
-import { ExamSCH } from '../schemas/schemas';  // Pydantic şemasını içe aktar
+import styles from '../styles/ExamSelection.module.css';
+import { ExamSCH } from '../schemas/schemas';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSelect }) => {
   const [exams, setExams] = useState<ExamSCH[]>([]);
   const [error, setError] = useState<string>('');
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme === 'dark';
+    }
+    return false;
+  });
 
   useEffect(() => {
+    // Tema kontrolü
+    const theme = localStorage.getItem('theme');
+    const isDark = theme === 'dark';
+    setDarkMode(isDark);
+
+    if (isDark) {
+      document.documentElement.classList.add('dark-theme');
+      document.body.style.backgroundColor = '#0F172A';
+    } else {
+      document.documentElement.classList.remove('dark-theme');
+      document.body.style.backgroundColor = '#F8FAFC';
+    }
+
+    // Sınavları getir
     const fetchExams = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Token ile yetkilendirme
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
 
@@ -34,13 +55,28 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
     fetchExams();
   }, []);
 
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+    localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+  };
+
   const handleExamSelect = (examId: number) => {
     setSelectedExamId(examId);
-    onSelect(examId); // Seçilen sınavı üst bileşene ilet
+    onSelect(examId);
   };
 
   return (
-    <div className={styles.examSelectionContainer}>
+    <div className={`${styles.examSelectionContainer} ${darkMode ? styles.darkMode : ''}`}>
+      <button
+        onClick={toggleTheme}
+        className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+        aria-label="Toggle theme"
+      >
+        {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
+      </button>
+
       <h1 className={styles.title}>Sınav Seçin</h1>
       {error && <div className={styles.errorMessage}>{error}</div>}
       <select
@@ -56,7 +92,7 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
       <button
         className={styles.startButton}
         onClick={() => selectedExamId && onSelect(selectedExamId)}
-        disabled={!selectedExamId} // Seçim yapılmadıysa butonu devre dışı bırak
+        disabled={!selectedExamId}
       >
         Sınava Başla
       </button>
