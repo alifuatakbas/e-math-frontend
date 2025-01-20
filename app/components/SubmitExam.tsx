@@ -412,7 +412,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       </div>
       <div className={styles.examInfoItem}>
         <span>Sınav Süresi</span>
-        <span>45 Dakika</span>
+        <span>90 Dakika</span>
       </div>
     </div>
     <div className={styles.examWarning}>
