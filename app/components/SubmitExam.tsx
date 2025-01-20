@@ -79,13 +79,15 @@ const ExamCompletionScreen: React.FC<{
 
 const WarningModal: React.FC<{
   message: string;
+  warningCount: number;
   onClose: () => void;
-}> = ({ message, onClose }) => {
+}> = ({ message, warningCount, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
+        <div className={styles.warningCount}>{warningCount}/3</div>
         <p>{message}</p>
-        <button onClick={onClose}>Tamam</button>
+        <button onClick={onClose}>Anladım</button>
       </div>
     </div>
   );
@@ -165,17 +167,17 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
           setLastSwitchTime(Date.now());
 
           if (newCount === 1) {
-            setWarningMessage('İlk Uyarı: Lütfen sınav sırasında başka sekme veya uygulamaya geçmeyiniz.');
-            setShowWarning(true);
-          } else if (newCount < 3) {
-            setWarningMessage(`Uyarı: Sınav sayfasından ayrıldınız! (${newCount}/3)\nBaşka sekme veya uygulamaya geçmek yasaktır.`);
-            setShowWarning(true);
-          } else {
-            setWarningMessage('Maksimum ihlal sayısına ulaştınız. Sınavınız sonlandırılıyor.');
-            setShowWarning(true);
-            setIsExamTerminated(true);
-            await handleSubmit();
-          }
+  setWarningMessage('Başka sekmeye geçiş tespit edildi! Lütfen sınav ekranında kalın.');
+  setShowWarning(true);
+} else if (newCount < 3) {
+  setWarningMessage('Tekrar sekme değişimi tespit edildi! Son uyarınız!');
+  setShowWarning(true);
+} else {
+  setWarningMessage('3 kez sekme değişimi tespit edildi. Sınavınız sonlandırılıyor.');
+  setShowWarning(true);
+  setIsExamTerminated(true);
+  await handleSubmit();
+}
         }
       };
 
@@ -481,12 +483,13 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
         </>
       )}
 
-      {showWarning && (
-        <WarningModal
-          message={warningMessage}
-          onClose={handleWarningClose}
-        />
-      )}
+  {showWarning && (
+  <WarningModal
+    message={warningMessage}
+    warningCount={tabSwitchCount}
+    onClose={handleWarningClose}
+  />
+)}
 
       {message && <div className={styles.successMessage}>{message}</div>}
     </div>

@@ -415,3 +415,80 @@
     color: #E2E8F0;
   }
 }
+/* SubmitExam.module.css'e ekleyin */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+}
+
+.modalContent p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #E84A5F;
+  font-weight: 500;
+}
+
+.modalContent .warningCount {
+  font-size: 2.5rem;
+  color: #E84A5F;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.modalContent button {
+  background: #E84A5F;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalContent button:hover {
+  background: #d43649;
+  transform: translateY(-2px);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Karanlık mod için */
+@media (prefers-color-scheme: dark) {
+  .modalContent {
+    background: #1E293B;
+  }
+
+  .modalContent p {
+    color: #F1F5F9;
+  }
+}
