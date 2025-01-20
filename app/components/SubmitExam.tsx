@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import styles from './SubmitExam.module.css';
+import styles from '../styles/SubmitExam.module.css';
 import { FiSun, FiMoon } from 'react-icons/fi'; // FiSun yerine Sun
 import Link from 'next/link';
 
