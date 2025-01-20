@@ -420,8 +420,8 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     return <ExamCompletionScreen {...examResults} />;
   }
 
-  return (
-    <div className={styles.submitExamContainer}>
+return (
+  <div className={`${styles.submitExamContainer} ${darkMode ? styles.darkMode : ''}`}>
 
     {!examStarted ? (
         <div className={styles.examStartContainer}>
