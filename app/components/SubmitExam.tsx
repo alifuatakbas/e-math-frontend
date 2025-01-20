@@ -270,50 +270,38 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     initializeExam();
   }, [examId]);
 
-  const handleStartExam = async () => {
-    const confirmed = window.confirm(
-      'Önemli Uyarı:\n\n' +
-      '1. Sınav sırasında başka sekmeye veya uygulamaya geçmek yasaktır.\n' +
-      '2. 3 kez ihlal durumunda sınavınız otomatik olarak sonlandırılacaktır.\n' +
-      '3. Lütfen sınav süresince bu sekmede kalın.\n\n' +
-      'Sınavı başlatmak istiyor musunuz?'
+ const handleStartExam = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
     );
 
-    if (!confirmed) {
-      return;
+    if (!response.ok) throw new Error('Sınav başlatılamadı');
+
+    const data = await response.json();
+    setTimeLeft(data.remaining_minutes * 60);
+    setExamStarted(true);
+    setTabSwitchCount(0);
+    setLastSwitchTime(0);
+    setIsExamTerminated(false);
+    setShowWarning(false);
+    setPendingViolation(false);
+
+    const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
+    if (savedAnswers) {
+      setAnswers(JSON.parse(savedAnswers));
     }
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/start-exam/${examId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
-
-      if (!response.ok) throw new Error('Sınav başlatılamadı');
-
-      const data = await response.json();
-      setTimeLeft(data.remaining_minutes * 60);
-      setExamStarted(true);
-      setTabSwitchCount(0);
-      setLastSwitchTime(0);
-      setIsExamTerminated(false);
-      setShowWarning(false);
-      setPendingViolation(false);
-
-      const savedAnswers = localStorage.getItem(`exam_${examId}_answers`);
-      if (savedAnswers) {
-        setAnswers(JSON.parse(savedAnswers));
-      }
-    } catch (error) {
-      console.error('Error starting exam:', error);
-      setError('Sınav başlatılırken bir hata oluştu');
-    }
-  };
+  } catch (error) {
+    console.error('Error starting exam:', error);
+    setError('Sınav başlatılırken bir hata oluştu');
+  }
+};
     const handleWarningClose = () => {
     setShowWarning(false);
     if (pendingViolation) {
@@ -400,7 +388,6 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
 
   return (
     <div className={styles.submitExamContainer}>
-      <h1>{exam.title}</h1>
 
     {!examStarted ? (
   <div className={styles.examStartContainer}>
