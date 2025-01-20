@@ -1,38 +1,6 @@
 /* SubmitExam.module.css */
+
 /* Modal Stilleri */
-.examWarning {
-  background: rgba(232, 74, 95, 0.1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  text-align: left;
-}
-
-.examWarning p {
-  color: #E84A5F;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.examWarning ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.examWarning li {
-  color: #4A5568;
-  margin-bottom: 0.5rem;
-  padding-left: 1.5rem;
-  position: relative;
-}
-
-.examWarning li:before {
-  content: "•";
-  color: #E84A5F;
-  position: absolute;
-  left: 0;
-}
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -99,6 +67,7 @@
   }
 }
 
+/* Ana Container ve Sınav Çözme Ekranı */
 .submitExamContainer {
   max-width: 900px;
   margin: 2rem auto;
@@ -154,7 +123,7 @@
   margin: 2rem 0;
   text-align: center;
   width: 100%;
-  height: 300px; /* Sabit yükseklik */
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -167,7 +136,7 @@
   width: auto;
   height: 100%;
   max-width: 100%;
-  object-fit: contain; /* Resmi oranını koruyarak sığdırır */
+  object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -229,7 +198,6 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
 /* Sınav başlangıç ekranı için */
 .examStartContainer {
   background: linear-gradient(135deg, rgba(232, 74, 95, 0.1), rgba(74, 144, 226, 0.1));
@@ -385,22 +353,71 @@
 
 /* Karanlık mod için */
 @media (prefers-color-scheme: dark) {
- .completionHeader h2 {
-    background: linear-gradient(135deg, #FF6B6B, #E84A5F);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-    .statValue {
-    color: #FF6B6B;
-  }
   /* Ana Container */
   .submitExamContainer {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Timer ve Progress */
+  .timer {
+    background: linear-gradient(135deg, #E84A5F, #FF6B6B);
+    box-shadow: 0 4px 12px rgba(232, 74, 95, 0.3);
+  }
+
+  .progress {
+    background: rgba(255, 255, 255, 0.1);
+    color: #F1F5F9;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Soru Container */
+  .questionContainer {
     background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .questionContainer h3 {
+    color: #F1F5F9;
+  }
+
+  .questionImage {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Seçenekler */
+  .optionContainer {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .optionContainer:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(232, 74, 95, 0.3);
+  }
+
+  .optionContainer label {
+    color: #F1F5F9;
+  }
+
+  /* Butonlar */
+  .buttonContainer button:first-child {
+    background: #475569;
+    color: #F1F5F9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .buttonContainer button:first-child:hover {
+    background: #334155;
   }
 
   /* Sınava Başla Ekranı */
   .examStartContainer {
-    background: rgba(30, 41, 59, 0.95);
+    background: rgba(15, 23, 42, 0.95);
     border-color: rgba(255, 255, 255, 0.1);
   }
 
@@ -409,94 +426,57 @@
   }
 
   .examInfo {
-    background: #1E293B;
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .examInfoItem {
     border-color: rgba(255, 255, 255, 0.1);
-      color: #F1F5F9; /* Bu eksikti */
+    color: #F1F5F9;
   }
 
   .examInfoItem span {
-    color: #F1F5F9;
-  }
-
-  /* Soru ve Seçenekler */
-  .questionContainer {
-    background: #1E293B;
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .questionContainer h3 {
-    color: #F1F5F9;
-  }
-
-  .optionContainer {
-    background: rgba(30, 41, 59, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .optionContainer:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .optionContainer label {
-    color: #F1F5F9;
-  }
-
-  /* İlerleme ve Zamanlayıcı */
-  .progress {
-    background: rgba(255, 255, 255, 0.1);
-    color: #F1F5F9;
-  }
-
-  /* Butonlar */
-  .buttonContainer button:first-child {
-    background: #475569;
-    color: white;
-  }
-
-  .buttonContainer button:first-child:hover {
-    background: #334155;
-  }
-
-  /* Uyarı Alanı */
-  .examWarning {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .examWarning p {
-    color: #F1F5F9;
-  }
-
-  .examWarning li {
     color: #E2E8F0;
   }
 
-  /* Modal */
+  /* Modal Dark Mode */
   .modalContent {
-    background: #1E293B;
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
 
   .modalContent p {
     color: #F1F5F9;
   }
 
-  /* Sınav Bitiş Ekranı */
-  .completionCard {
-    background: rgba(30, 41, 59, 0.95);
+  .modalContent .warningCount {
+    color: #FF6B6B;
   }
 
+  /* Sınav Bitiş Ekranı */
   .completionContainer {
     background: #0F172A;
   }
 
-  .completionHeader p {
-    color: #F1F5F9;
+  .completionCard {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .completionHeader h2 {
+    background: linear-gradient(135deg, #FF6B6B, #E84A5F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .statItem {
-    background: #1E293B;
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .statValue {
+    color: #FF6B6B;
   }
 
   .statLabel {
@@ -508,6 +488,17 @@
 @media (max-width: 768px) {
   .questionImage {
     height: 200px;
+  }
+
+  .buttonContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: inherit;
+    margin: 0;
+    border-top: 1px solid rgba(232, 74, 95, 0.1);
   }
 }
 
@@ -536,5 +527,10 @@
   .scoreCircle {
     width: 120px;
     height: 120px;
+  }
+
+  .modalContent {
+    width: 95%;
+    padding: 1.5rem;
   }
 }
