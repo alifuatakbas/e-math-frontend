@@ -755,3 +755,73 @@
   color: #F1F5F9;
   border-color: rgba(255, 255, 255, 0.1);
 }
+
+/* SubmitExam.module.css */
+
+/* Tema değiştirme butonu için stiller */
+.themeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(232, 74, 95, 0.2);
+  padding: 0.7rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.themeToggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  border-color: rgba(232, 74, 95, 0.4);
+}
+
+.themeIcon {
+  width: 20px;
+  height: 20px;
+  color: #E84A5F;
+}
+
+/* Dark mode için tema değiştirme butonu stilleri */
+.darkThemeToggle {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.darkThemeToggle .themeIcon {
+  color: #F1F5F9;
+}
+
+.darkThemeToggle:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Mobil cihazlar için responsive tasarım */
+@media (max-width: 768px) {
+  .themeToggle {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    padding: 0.6rem;
+  }
+
+  .themeIcon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Timer'ın üstüne gelmemesi için margin ekleyelim */
+.timer {
+  margin-top: 3rem;
+}

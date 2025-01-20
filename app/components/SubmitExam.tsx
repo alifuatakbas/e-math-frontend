@@ -456,10 +456,19 @@ return (
           </button>
         </div>
     ) : (
-        <>
-          <div className={styles.timer}>
-            Kalan Süre: {Math.floor(timeLeft! / 60)}:{String(timeLeft! % 60).padStart(2, '0')}
-          </div>
+       <>
+    {/* Tema değiştirme butonu ekle */}
+    <button
+      onClick={toggleTheme}
+      className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+      aria-label="Toggle theme"
+    >
+      {darkMode ? <FiSun className={styles.themeIcon}/> : <FiMoon className={styles.themeIcon}/>}
+    </button>
+
+    <div className={styles.timer}>
+      Kalan Süre: {Math.floor(timeLeft! / 60)}:{String(timeLeft! % 60).padStart(2, '0')}
+    </div>
 
           <div className={styles.progress}>
             Soru {currentQuestionIndex + 1} / {exam.questions.length}
