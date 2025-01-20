@@ -51,6 +51,28 @@
   margin-bottom: 1.5rem;
 }
 
+.questionImage {
+  margin: 2rem 0;
+  text-align: center;
+  width: 100%;
+  height: 300px; /* Sabit yükseklik */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.questionImg {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain; /* Resmi oranını koruyarak sığdırır */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .optionContainer {
   background: rgba(255, 255, 255, 0.8);
   padding: 1rem 1.5rem;
@@ -135,5 +157,17 @@
 
   .optionContainer label {
     color: #E2E8F0;
+  }
+
+}
+@media (max-width: 768px) {
+  .questionImage {
+    height: 200px; /* Mobilde daha küçük yükseklik */
+  }
+}
+/* Tablet için */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .questionImage {
+    height: 250px; /* Tablet için orta yükseklik */
   }
 }
