@@ -402,10 +402,27 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     <div className={styles.submitExamContainer}>
       <h1>{exam.title}</h1>
 
-      {!examStarted ? (
-        <button onClick={handleStartExam} className={styles.startButton}>
-          Sınava Başla
-        </button>
+     {!examStarted ? (
+  <div className={styles.examStartContainer}>
+    <h1 className={styles.examTitle}>{exam.title}</h1>
+    <div className={styles.examInfo}>
+      <div className={styles.examInfoItem}>
+        <span>Toplam Soru</span>
+        <span>{exam.questions.length}</span>
+      </div>
+      <div className={styles.examInfoItem}>
+        <span>Süre</span>
+        <span>{timeLeft ? Math.floor(timeLeft / 60) : 0} Dakika</span>
+      </div>
+      <div className={styles.examInfoItem}>
+        <span>Durum</span>
+        <span>Başlamadı</span>
+      </div>
+    </div>
+    <button onClick={handleStartExam} className={styles.startButton}>
+      Sınava Başla
+    </button>
+  </div>
       ) : (
         <>
           <div className={styles.timer}>
