@@ -197,9 +197,6 @@ const Navbar: React.FC = () => {
             <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
               Hakkımızda
             </Link>
-            <Link href="/iletisim" className={styles.navLink} onClick={closeMenu}>
-              İletişim
-            </Link>
             <button className={styles.ctaButton} onClick={closeMenu}>
               Başvuru
             </button>
