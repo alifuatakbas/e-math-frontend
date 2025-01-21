@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/ExamResult.module.css";
 
 interface ExamResultProps {
-  examId?: number; // Optional yaptık çünkü select ile de seçilebilir
+  examId?: number;
 }
 
 interface Exam {
@@ -15,6 +15,7 @@ interface ExamResult {
   correct_answers: number;
   incorrect_answers: number;
   total_questions: number;
+  score_percentage: number; // Yüzdelik skoru da ekleyelim
 }
 
 const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
@@ -22,113 +23,141 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
   const [selectedExamId, setSelectedExamId] = useState<number | null>(propExamId || null);
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  // Sınav başlıklarını getirme
+  // Sınavları getirme
   useEffect(() => {
     const fetchExams = async () => {
       try {
+        setLoading(true);
+        setError("");
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Oturum bulunamadı");
+        }
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-          method: "GET",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         });
 
         if (!response.ok) {
-          throw new Error("Sınavlar alınırken bir hata oluştu");
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Sınavlar alınırken bir hata oluştu");
         }
 
         const data = await response.json();
         setExams(data);
-      } catch (error) {
-        console.error("Hata:", error);
-        setError("Sınavlar alınırken bir hata oluştu.");
+      } catch (error: any) {
+        console.error("Sınavlar alınırken hata:", error);
+        setError(error.message || "Sınavlar alınırken bir hata oluştu");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchExams();
   }, []);
 
-  // Seçilen sınavın sonucunu getirme
+  // Sınav sonucunu getirme
   useEffect(() => {
-    if (selectedExamId === null) return;
-
     const fetchExamResult = async () => {
+      if (!selectedExamId) return;
+
       try {
+        setLoading(true);
+        setError("");
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Oturum bulunamadı");
+        }
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${selectedExamId}`,
           {
-            method: "GET",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
             },
           }
         );
 
         const data = await response.json();
+
         if (!response.ok) {
-          console.log("Hata Detayı: ", data);
-          throw new Error("Sonuç alınırken bir hata oluştu");
+          throw new Error(data.detail || "Sonuç alınırken bir hata oluştu");
         }
 
         setExamResult(data);
-      } catch (error) {
-        console.error("Sonuç alınırken bir hata oluştu:", error);
-        setError("Sonuç alınırken bir hata oluştu.");
+      } catch (error: any) {
+        console.error("Sonuç alınırken hata:", error);
+        setError(error.message || "Sonuç alınırken bir hata oluştu");
+        setExamResult(null);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchExamResult();
   }, [selectedExamId]);
 
-  // Props'tan gelen examId değiştiğinde selectedExamId'yi güncelle
-  useEffect(() => {
-    if (propExamId) {
-      setSelectedExamId(propExamId);
-    }
-  }, [propExamId]);
-
   const handleExamSelect = (examId: number) => {
     setSelectedExamId(examId);
     setExamResult(null);
+    setError("");
   };
+
+  if (loading) {
+    return <div className={styles.loading}>Yükleniyor...</div>;
+  }
 
   return (
     <div className={styles.examResultContainer}>
-      <h1 className={styles.title}>Sınav Sonucu Görüntüle</h1>
+      <h1 className={styles.title}>Sınav Sonucu</h1>
 
       {error && <div className={styles.errorMessage}>{error}</div>}
 
-      {!propExamId && ( // Eğer props'tan examId gelmemişse select göster
-        <select
-          className={styles.select}
-          onChange={(e) => handleExamSelect(Number(e.target.value))}
-          value={selectedExamId || ""}
-        >
-          <option value="" disabled>
-            Bir sınav seçin
-          </option>
-          {exams.map((exam) => (
-            <option key={exam.id} value={exam.id}>
-              {exam.title}
-            </option>
-          ))}
-        </select>
+      {!propExamId && (
+        <div className={styles.selectContainer}>
+          <select
+            className={styles.select}
+            onChange={(e) => handleExamSelect(Number(e.target.value))}
+            value={selectedExamId || ""}
+          >
+            <option value="">Sınav Seçin</option>
+            {exams.map((exam) => (
+              <option key={exam.id} value={exam.id}>
+                {exam.title}
+              </option>
+            ))}
+          </select>
+        </div>
       )}
 
-      {examResult ? (
+      {examResult && (
         <div className={styles.resultContainer}>
-          <h3>Sonuçlar</h3>
-          <p>Doğru Cevaplar: {examResult.correct_answers}</p>
-          <p>Yanlış Cevaplar: {examResult.incorrect_answers}</p>
-          <p>Toplam Sorular: {examResult.total_questions}</p>
-        </div>
-      ) : (
-        selectedExamId && (
-          <div className={styles.errorMessage}>
-            Sınav sonucu bulunamadı. Lütfen tekrar deneyin.
+          <div className={styles.resultCard}>
+            <div className={styles.statItem}>
+              <span className={styles.statLabel}>Doğru</span>
+              <span className={styles.statValue}>{examResult.correct_answers}</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statLabel}>Yanlış</span>
+              <span className={styles.statValue}>{examResult.incorrect_answers}</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statLabel}>Toplam</span>
+              <span className={styles.statValue}>{examResult.total_questions}</span>
+            </div>
+            <div className={styles.scorePercentage}>
+              Başarı: %{((examResult.correct_answers / examResult.total_questions) * 100).toFixed(1)}
+            </div>
           </div>
-        )
+        </div>
       )}
     </div>
   );
