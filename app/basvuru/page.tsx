@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/Basvuru.module.css';
+import Navbar from '../components/Navbar';  // Navbar'ı import ediyoruz
 
 const BasvuruPage = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -65,8 +66,10 @@ const BasvuruPage = () => {
   };
 
   return (
-    <div className={`${styles.container} ${isDarkMode ? styles.darkMode : ''}`}>
-      <div className={styles.formContainer}>
+    <>
+      <Navbar />  {/* Navbar'ı ekliyoruz */}
+      <div className={`${styles.container} ${isDarkMode ? styles.darkMode : ''}`}>
+        <div className={styles.formContainer}>
         <h1 className={styles.title}>Başvuru Formu</h1>
         <p className={styles.description}>
           Matematik eğitimi için başvurunuzu aşağıdaki formu doldurarak yapabilirsiniz.
@@ -129,11 +132,10 @@ const BasvuruPage = () => {
               onChange={(e) => setFormData({...formData, grade: e.target.value})}
             >
               <option value="">Sınıfınızı seçin</option>
-              <option value="9">9. Sınıf</option>
-              <option value="10">10. Sınıf</option>
-              <option value="11">11. Sınıf</option>
-              <option value="12">12. Sınıf</option>
-              <option value="mezun">Mezun</option>
+              <option value="5">5. Sınıf</option>
+              <option value="6">6. Sınıf</option>
+              <option value="7">7. Sınıf</option>
+              <option value="8">8. Sınıf</option>
             </select>
           </div>
 
@@ -153,6 +155,7 @@ const BasvuruPage = () => {
         </form>
       </div>
     </div>
+      </>
   );
 };
 
