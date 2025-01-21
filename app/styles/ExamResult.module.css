@@ -1,71 +1,165 @@
 /* ExamResult.module.css */
-.examResultContainer {
-  max-width: 600px;
-  margin: 2rem auto;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 2rem;
+  min-height: 100vh;
+  transition: all 0.3s ease;
 }
 
+/* Theme Toggle Button Styles */
+.themeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(232, 74, 95, 0.2);
+  padding: 0.7rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.themeToggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  border-color: rgba(232, 74, 95, 0.4);
+}
+
+.themeIcon {
+  width: 20px;
+  height: 20px;
+  color: #E84A5F;
+}
+
+.darkThemeToggle {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.darkThemeToggle .themeIcon {
+  color: #F1F5F9;
+}
+
+/* Ana tema renkleri */
 .title {
   text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
+  margin-bottom: 3rem;
+  color: #E84A5F;
+  font-size: 2rem;
 }
 
-.selectContainer {
-  margin-bottom: 2rem;
-}
-
-.select {
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-}
-
-.resultCard {
+.examCard {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(232, 74, 95, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.statItem {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 0;
-  border-bottom: 1px solid #eee;
+.examCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border-color: rgba(232, 74, 95, 0.3);
 }
 
-.statLabel {
-  color: #666;
-  font-weight: 500;
+.examCard.selected {
+  border: 2px solid #E84A5F;
+  background: rgba(232, 74, 95, 0.05);
 }
 
-.statValue {
-  font-weight: 600;
-  color: #333;
+.statCard {
+  background: white;
+  border: 1px solid rgba(232, 74, 95, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
 }
 
-.scorePercentage {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #2563eb;
+.statIcon {
+  color: #E84A5F;
 }
 
-.loading {
-  text-align: center;
-  padding: 2rem;
-  color: #666;
+.scoreCircle {
+  background: linear-gradient(135deg, #E84A5F, #FF6B6B);
 }
 
-.errorMessage {
-  background: #fee2e2;
-  color: #dc2626;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  text-align: center;
+/* Dark Mode Styles */
+.darkMode {
+  background: rgba(15, 23, 42, 0.95);
+  color: #F1F5F9;
+}
+
+.darkMode .title {
+  color: #FF6B6B;
+}
+
+.darkMode .examCard {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .examCard:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(232, 74, 95, 0.3);
+}
+
+.darkMode .examCard.selected {
+  border-color: #FF6B6B;
+  background: rgba(232, 74, 95, 0.1);
+}
+
+.darkMode .examInfo h3 {
+  color: #F1F5F9;
+}
+
+.darkMode .examMeta {
+  color: #94A3B8;
+}
+
+.darkMode .statCard {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .statValue {
+  color: #F1F5F9;
+}
+
+.darkMode .statLabel {
+  color: #94A3B8;
+}
+
+.darkMode .score {
+  color: #FF6B6B;
+}
+
+/* Diğer stiller aynı kalabilir */
+
+/* Responsive tasarım güncellemeleri */
+@media (max-width: 768px) {
+  .themeToggle {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
 }
