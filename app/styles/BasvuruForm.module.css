@@ -9,17 +9,27 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 20px;
 }
 
 .modalContent {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background-color: #F8FAFC;
+  padding: 2.5rem;
+  border-radius: 12px;
   width: 90%;
   max-width: 500px;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto;
   position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modalContent h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1E293B;
+  text-align: center;
 }
 
 .closeButton {
@@ -30,57 +40,153 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  color: #64748B;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+  background-color: #EEF2F7;
 }
 
 .formGroup {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .formGroup label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  color: #475569;
 }
 
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  background-color: white;
+  color: #1E293B;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .formGroup textarea {
-  height: 100px;
+  height: 120px;
   resize: vertical;
 }
 
 .submitButton {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
+  padding: 0.875rem;
+  background-color: #3B82F6;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
 .submitButton:hover {
-  background-color: #0056b3;
+  background-color: #2563EB;
 }
 
 /* Dark mode styles */
 :global(.dark-theme) .modalContent {
-  background-color: #1a1a1a;
-  color: white;
+  background-color: #0F172A;
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .modalContent h2 {
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .formGroup label {
+  color: #CBD5E1;
 }
 
 :global(.dark-theme) .formGroup input,
 :global(.dark-theme) .formGroup select,
 :global(.dark-theme) .formGroup textarea {
-  background-color: #333;
-  color: white;
-  border-color: #444;
+  background-color: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .formGroup input:focus,
+:global(.dark-theme) .formGroup select:focus,
+:global(.dark-theme) .formGroup textarea:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+:global(.dark-theme) .closeButton {
+  color: #94A3B8;
+}
+
+:global(.dark-theme) .closeButton:hover {
+  background-color: #1E293B;
+}
+
+/* Scrollbar styles */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+  border-radius: 4px;
+}
+
+:global(.dark-theme) .modalContent::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+
+/* Form validation styles */
+.formGroup input:invalid,
+.formGroup select:invalid {
+  border-color: #EF4444;
+}
+
+.required::after {
+  content: ' *';
+  color: #EF4444;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .modalContent {
+    padding: 1.5rem;
+  }
+
+  .modalContent h2 {
+    font-size: 1.25rem;
+  }
+
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    font-size: 16px; /* Prevents zoom on mobile */
+  }
 }
