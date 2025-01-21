@@ -53,7 +53,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
       try {
         setLoading(true);
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/exams`,
+          `${process.env.NEXT_PUBLIC_API_URL}/user/completed-exams`, // URL değişti
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -64,15 +64,10 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
         if (!response.ok) throw new Error("Sınavlar yüklenirken bir hata oluştu");
 
         const data = await response.json();
-        // Çözülmüş sınavları filtrele
-        const completedOnes = data.filter((exam: Exam) => exam.has_been_taken);
-
-        // Hata mesajını buradan kaldırıyoruz
-        setCompletedExams(completedOnes);
+        setCompletedExams(data);
 
         // Debug için
-        console.log('Tüm sınavlar:', data);
-        console.log('Çözülmüş sınavlar:', completedOnes);
+        console.log('Çözülmüş sınavlar:', data);
 
       } catch (error) {
         setError("Sınavlar yüklenemedi");
