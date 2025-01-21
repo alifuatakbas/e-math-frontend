@@ -7,8 +7,12 @@ import { FiSun, FiMoon } from 'react-icons/fi';
 const Register: React.FC = () => {
   const router = useRouter();
   const [darkMode, setDarkMode] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    school_name: '',
+    branch: ''
+  });
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('');
 
@@ -35,6 +39,14 @@ const toggleTheme = () => {
   localStorage.setItem('theme', darkMode ? 'light' : 'dark');
 };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -47,21 +59,18 @@ const toggleTheme = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email,
-          password
-        })
+        body: JSON.stringify(formData)
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         setMessage('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
-
         setTimeout(() => {
           router.push('/login');
         }, 2000);
       } else {
-        const errorData = await response.json();
-        setError(errorData.detail || 'Kayıt başarısız.');
+        setError(data.detail || 'Kayıt başarısız.');
       }
     } catch (error) {
       setError('Bir hata oluştu, lütfen tekrar deneyin.');
@@ -82,29 +91,61 @@ const toggleTheme = () => {
         <h2 className={styles.title}>Kayıt Ol</h2>
         <form onSubmit={handleRegister} className={styles.form}>
           <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>Email:</label>
+            <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
               className={styles.input}
               placeholder="ornek@email.com"
             />
           </div>
+
           <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>Şifre:</label>
+            <label htmlFor="school_name">Okul Adı:</label>
+            <input
+              type="text"
+              id="school_name"
+              name="school_name"
+              value={formData.school_name}
+              onChange={handleChange}
+              required
+              className={styles.input}
+              placeholder="Okul adını giriniz"
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label htmlFor="branch">Şube:</label>
+            <input
+              type="text"
+              id="branch"
+              name="branch"
+              value={formData.branch}
+              onChange={handleChange}
+              required
+              className={styles.input}
+              placeholder="Şubeyi giriniz"
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">Şifre:</label>
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               required
               className={styles.input}
               placeholder="••••••••"
             />
           </div>
+
           <button type="submit" className={styles.submitButton}>
             Kayıt Ol
           </button>
