@@ -81,28 +81,40 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
   }, []);
 
   const fetchExamResult = async (examId: number) => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${examId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+  try {
+    setLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${examId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
-      if (!response.ok) throw new Error("Sonuç yüklenirken bir hata oluştu");
+    if (!response.ok) throw new Error("Sonuç yüklenirken bir hata oluştu");
 
-      const data = await response.json();
-      setExamResult(data);
-      setSelectedExamId(examId);
-    } catch (error) {
-      setError("Sonuç yüklenemedi");
-    } finally {
-      setLoading(false);
-    }
-  };
+    const data = await response.json();
+    setExamResult(data);
+    setSelectedExamId(examId);
+
+    // Sonuçlara smooth scroll
+    setTimeout(() => {
+      const resultElement = document.querySelector(`.${styles.resultDetails}`);
+      if (resultElement) {
+        resultElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        });
+      }
+    }, 100); // Küçük bir gecikme ekleyerek DOM'un güncellenmesini bekleyelim
+
+  } catch (error) {
+    setError("Sonuç yüklenemedi");
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return <div className={styles.loading}>Yükleniyor...</div>;
