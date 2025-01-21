@@ -64,15 +64,19 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
         if (!response.ok) throw new Error("Sınavlar yüklenirken bir hata oluştu");
 
         const data = await response.json();
+        // Çözülmüş sınavları filtrele
         const completedOnes = data.filter((exam: Exam) => exam.has_been_taken);
 
-        if (completedOnes.length === 0) {
-          setError("Henüz çözülmüş sınav bulunmamaktadır.");
-        }
-
+        // Hata mesajını buradan kaldırıyoruz
         setCompletedExams(completedOnes);
+
+        // Debug için
+        console.log('Tüm sınavlar:', data);
+        console.log('Çözülmüş sınavlar:', completedOnes);
+
       } catch (error) {
         setError("Sınavlar yüklenemedi");
+        console.error("Hata:", error);
       } finally {
         setLoading(false);
       }
@@ -123,7 +127,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      {!error && completedExams.length === 0 && !loading && (
+      {!loading && completedExams.length === 0 && (
         <div className={styles.noExams}>
           Henüz çözülmüş sınav bulunmamaktadır.
         </div>
