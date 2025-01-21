@@ -10,6 +10,7 @@ const Register: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    full_name: '',  // Eklendi
     school_name: '',
     branch: ''
   });
@@ -39,7 +40,7 @@ const toggleTheme = () => {
   localStorage.setItem('theme', darkMode ? 'light' : 'dark');
 };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -70,7 +71,7 @@ const toggleTheme = () => {
           router.push('/login');
         }, 2000);
       } else {
-        setError(data.detail || 'Kayıt başarısız.');
+        setError(data.detail?.[0]?.msg || data.detail || 'Kayıt başarısız.');
       }
     } catch (error) {
       setError('Bir hata oluştu, lütfen tekrar deneyin.');
@@ -101,6 +102,20 @@ const toggleTheme = () => {
               required
               className={styles.input}
               placeholder="ornek@email.com"
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label htmlFor="full_name">Ad Soyad:</label>
+            <input
+              type="text"
+              id="full_name"
+              name="full_name"
+              value={formData.full_name}
+              onChange={handleChange}
+              required
+              className={styles.input}
+              placeholder="Ad Soyad giriniz"
             />
           </div>
 
