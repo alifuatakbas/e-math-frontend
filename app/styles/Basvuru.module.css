@@ -1,75 +1,65 @@
-/* styles/ApplicationForm.module.css */
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #F8FAFC;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-  padding: 20px;
 }
 
-.modalContent {
-  background-color: #F8FAFC;
-  padding: 2.5rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.modalContent.darkMode {
+.container.darkMode {
   background-color: #0F172A;
   color: #F1F5F9;
 }
 
-.closeButton {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #64748B;
-  padding: 5px 10px;
-  border-radius: 4px;
+.formContainer {
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.closeButton:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+.darkMode .formContainer {
+  background-color: #1E293B;
 }
 
-.darkMode .closeButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.formTitle {  /* h2 yerine .formTitle kullanıyoruz */
-  margin-bottom: 2rem;
+.title {
+  font-size: 2rem;
+  font-weight: 600;
   color: #1E293B;
   text-align: center;
-  font-size: 1.5rem;
-  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-.darkMode .formTitle {
+.darkMode .title {
   color: #F1F5F9;
 }
 
+.description {
+  text-align: center;
+  color: #64748B;
+  margin-bottom: 2rem;
+}
+
+.darkMode .description {
+  color: #CBD5E1;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .formGroup {
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .formGroup label {
-  display: block;
-  margin-bottom: 0.5rem;
   color: #475569;
   font-weight: 500;
 }
@@ -86,7 +76,6 @@
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
-  width: 100%;
   padding: 0.75rem;
   border: 1px solid #E2E8F0;
   border-radius: 8px;
@@ -118,7 +107,6 @@
 }
 
 .submitButton {
-  width: 100%;
   padding: 0.875rem;
   background-color: #3B82F6;
   color: white;
@@ -134,18 +122,17 @@
   background-color: #2563EB;
 }
 
-.darkMode .submitButton {
-  background-color: #3B82F6;
-}
-
-.darkMode .submitButton:hover {
-  background-color: #2563EB;
-}
-
 @media (max-width: 640px) {
-  .modalContent {
+  .container {
+    padding: 1rem;
+  }
+
+  .formContainer {
     padding: 1.5rem;
-    width: 95%;
+  }
+
+  .title {
+    font-size: 1.5rem;
   }
 
   .formGroup input,

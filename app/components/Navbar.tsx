@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Navbar.module.css';
-import Basvuru_Form from "../components/Basvuru_Form";
 
 interface User {
   full_name: string;
@@ -54,7 +53,6 @@ const Navbar: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isApplicationFormOpen, setIsApplicationFormOpen] = useState(false);
 
   useEffect(() => {
 
@@ -199,16 +197,9 @@ const Navbar: React.FC = () => {
             <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
               Hakkımızda
             </Link>
-            <button
-                className={styles.ctaButton}
-                onClick={() => setIsApplicationFormOpen(true)}
-            >
-              Başvuru
-            </button>
-            <Basvuru_Form
-  isOpen={isApplicationFormOpen}
-  onClose={() => setIsApplicationFormOpen(false)}
-/>
+             <Link href="/basvuru" className={styles.ctaButton} onClick={closeMenu}>
+          Başvuru
+        </Link>
 
             <div className={styles.authButtons}>
               {currentUser ? (

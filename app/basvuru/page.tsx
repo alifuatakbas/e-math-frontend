@@ -1,98 +1,159 @@
-// pages/basvuru.tsx
 "use client";
-import React, { useState } from 'react';
-import styles from '../styles/Navbar.module.css';
+import React, { useState, useEffect } from 'react';
+import styles from '../styles/Basvuru.module.css';
 
-const Apply: React.FC = () => {
+const BasvuruPage = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [formData, setFormData] = useState({
-    studentName: '',
-    studentClass: '',
-    studentPhone: '',
-    parentName: '',
-    parentPhone: '',
+    fullName: '',
+    email: '',
+    phone: '',
+    school: '',
+    grade: '',
+    message: ''
   });
 
-  // Form verilerini güncelleyen fonksiyon
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    setIsDarkMode(theme === 'dark');
 
-  // Form gönderme işlemi
-  const handleSubmit = (e: React.FormEvent) => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.nodeName === 'HTML') {
+          const isDark = document.documentElement.classList.contains('dark-theme');
+          setIsDarkMode(isDark);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form verilerini işleyebilir ve backend'e gönderebilirsiniz
-    console.log(formData);
-    alert('Başvurunuz alınmıştır!');
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/applications`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        alert('Başvurunuz başarıyla alındı!');
+        setFormData({
+          fullName: '',
+          email: '',
+          phone: '',
+          school: '',
+          grade: '',
+          message: ''
+        });
+      } else {
+        alert('Başvuru gönderilirken bir hata oluştu.');
+      }
+    } catch (error) {
+      console.error('Başvuru hatası:', error);
+      alert('Başvuru gönderilirken bir hata oluştu.');
+    }
   };
 
   return (
-    <div className={styles.formContainer}>
-      <h2>Başvuru Formu</h2>
-      <form onSubmit={handleSubmit} className={styles.applicationForm}>
-        <div className={styles.studentSection}>
-          <h3>Öğrenci Bilgileri</h3>
-          <label htmlFor="studentName">Öğrencinin Adı ve Soyadı:</label>
-          <input
-            type="text"
-            id="studentName"
-            name="studentName"
-            value={formData.studentName}
-            onChange={handleChange}
-            required
-          />
+    <div className={`${styles.container} ${isDarkMode ? styles.darkMode : ''}`}>
+      <div className={styles.formContainer}>
+        <h1 className={styles.title}>Başvuru Formu</h1>
+        <p className={styles.description}>
+          Matematik eğitimi için başvurunuzu aşağıdaki formu doldurarak yapabilirsiniz.
+        </p>
+        
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label className={styles.required} htmlFor="fullName">Ad Soyad</label>
+            <input
+              type="text"
+              id="fullName"
+              required
+              value={formData.fullName}
+              onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+              placeholder="Adınız ve soyadınız"
+            />
+          </div>
 
-          <label htmlFor="studentClass">Sınıfı:</label>
-          <input
-            type="text"
-            id="studentClass"
-            name="studentClass"
-            value={formData.studentClass}
-            onChange={handleChange}
-            required
-          />
+          <div className={styles.formGroup}>
+            <label className={styles.required} htmlFor="email">E-posta</label>
+            <input
+              type="email"
+              id="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              placeholder="ornek@email.com"
+            />
+          </div>
 
-          <label htmlFor="studentPhone">Öğrencinin Telefon Numarası (Opsiyonel):</label>
-          <input
-            type="text"
-            id="studentPhone"
-            name="studentPhone"
-            value={formData.studentPhone}
-            onChange={handleChange}
-          />
-        </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="phone">Telefon</label>
+            <input
+              type="tel"
+              id="phone"
+              value={formData.phone}
+              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+              placeholder="5XX XXX XX XX"
+            />
+          </div>
 
-        <div className={styles.parentSection}>
-          <h3>Veli Bilgileri</h3>
-          <label htmlFor="parentName">Veli Adı ve Soyadı:</label>
-          <input
-            type="text"
-            id="parentName"
-            name="parentName"
-            value={formData.parentName}
-            onChange={handleChange}
-            required
-          />
+          <div className={styles.formGroup}>
+            <label className={styles.required} htmlFor="school">Okul</label>
+            <input
+              type="text"
+              id="school"
+              required
+              value={formData.school}
+              onChange={(e) => setFormData({...formData, school: e.target.value})}
+              placeholder="Okulunuzun adı"
+            />
+          </div>
 
-          <label htmlFor="parentPhone">Veli Telefon Numarası:</label>
-          <input
-            type="text"
-            id="parentPhone"
-            name="parentPhone"
-            value={formData.parentPhone}
-            onChange={handleChange}
-          />
-        </div>
+          <div className={styles.formGroup}>
+            <label className={styles.required} htmlFor="grade">Sınıf</label>
+            <select
+              id="grade"
+              required
+              value={formData.grade}
+              onChange={(e) => setFormData({...formData, grade: e.target.value})}
+            >
+              <option value="">Sınıfınızı seçin</option>
+              <option value="9">9. Sınıf</option>
+              <option value="10">10. Sınıf</option>
+              <option value="11">11. Sınıf</option>
+              <option value="12">12. Sınıf</option>
+              <option value="mezun">Mezun</option>
+            </select>
+          </div>
 
-        <button type="submit" className={styles.submitButton}>
-          Başvuruyu Gönder
-        </button>
-      </form>
+          <div className={styles.formGroup}>
+            <label htmlFor="message">Mesaj</label>
+            <textarea
+              id="message"
+              value={formData.message}
+              onChange={(e) => setFormData({...formData, message: e.target.value})}
+              placeholder="Eklemek istediğiniz notlar..."
+            />
+          </div>
+
+          <button type="submit" className={styles.submitButton}>
+            Başvuruyu Gönder
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default Apply;
+export default BasvuruPage;
