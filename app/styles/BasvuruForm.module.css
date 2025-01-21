@@ -1,3 +1,4 @@
+/* styles/ApplicationForm.module.css */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -50,7 +51,7 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-h2 {
+.formTitle {  /* h2 yerine .formTitle kullanıyoruz */
   margin-bottom: 2rem;
   color: #1E293B;
   text-align: center;
@@ -58,7 +59,7 @@ h2 {
   font-weight: 600;
 }
 
-.darkMode h2 {
+.darkMode .formTitle {
   color: #F1F5F9;
 }
 

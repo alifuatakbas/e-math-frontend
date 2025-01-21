@@ -86,91 +86,91 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ isOpen, onClose }) =>
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
-      <div
-        className={`${styles.modalContent} ${isDarkMode ? styles.darkMode : ''}`}
-        onClick={e => e.stopPropagation()}
-      >
-        <button className={styles.closeButton} onClick={onClose}>×</button>
-        <h2>Başvuru Formu</h2>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.formGroup}>
-            <label className={styles.required} htmlFor="fullName">Ad Soyad</label>
-            <input
-              type="text"
-              id="fullName"
-              required
-              value={formData.fullName}
-              onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-              placeholder="Adınız ve soyadınız"
-            />
-          </div>
+        <div
+            className={`${styles.modalContent} ${isDarkMode ? styles.darkMode : ''}`}
+            onClick={e => e.stopPropagation()}
+        >
+            <button className={styles.closeButton} onClick={onClose}>×</button>
+            <h2 className={styles.formTitle}>Başvuru Formu</h2>
+            <form onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                    <label className={styles.required} htmlFor="fullName">Ad Soyad</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        required
+                        value={formData.fullName}
+                        onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                        placeholder="Adınız ve soyadınız"
+                    />
+                </div>
 
-          <div className={styles.formGroup}>
-            <label className={styles.required} htmlFor="email">E-posta</label>
-            <input
-              type="email"
-              id="email"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              placeholder="ornek@email.com"
-            />
-          </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.required} htmlFor="email">E-posta</label>
+                    <input
+                        type="email"
+                        id="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        placeholder="ornek@email.com"
+                    />
+                </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="phone">Telefon</label>
-            <input
-              type="tel"
-              id="phone"
-              value={formData.phone}
-              onChange={(e) => setFormData({...formData, phone: e.target.value})}
-              placeholder="5XX XXX XX XX"
-            />
-          </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="phone">Telefon</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        placeholder="5XX XXX XX XX"
+                    />
+                </div>
 
-          <div className={styles.formGroup}>
-            <label className={styles.required} htmlFor="school">Okul</label>
-            <input
-              type="text"
-              id="school"
-              required
-              value={formData.school}
-              onChange={(e) => setFormData({...formData, school: e.target.value})}
-              placeholder="Okulunuzun adı"
-            />
-          </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.required} htmlFor="school">Okul</label>
+                    <input
+                        type="text"
+                        id="school"
+                        required
+                        value={formData.school}
+                        onChange={(e) => setFormData({...formData, school: e.target.value})}
+                        placeholder="Okulunuzun adı"
+                    />
+                </div>
 
-          <div className={styles.formGroup}>
-            <label className={styles.required} htmlFor="grade">Sınıf</label>
-            <select
-              id="grade"
-              required
-              value={formData.grade}
-              onChange={(e) => setFormData({...formData, grade: e.target.value})}
-            >
-              <option value="">Sınıfınızı seçin</option>
-              <option value="5">5. Sınıf</option>
-              <option value="6">6. Sınıf</option>
-              <option value="7">7. Sınıf</option>
-              <option value="8">8. Sınıf</option>
-            </select>
-          </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.required} htmlFor="grade">Sınıf</label>
+                    <select
+                        id="grade"
+                        required
+                        value={formData.grade}
+                        onChange={(e) => setFormData({...formData, grade: e.target.value})}
+                    >
+                        <option value="">Sınıfınızı seçin</option>
+                        <option value="5">5. Sınıf</option>
+                        <option value="6">6. Sınıf</option>
+                        <option value="7">7. Sınıf</option>
+                        <option value="8">8. Sınıf</option>
+                    </select>
+                </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="message">Mesaj</label>
-            <textarea
-              id="message"
-              value={formData.message}
-              onChange={(e) => setFormData({...formData, message: e.target.value})}
-              placeholder="Eklemek istediğiniz notlar..."
-            />
-          </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="message">Mesaj</label>
+                    <textarea
+                        id="message"
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                        placeholder="Eklemek istediğiniz notlar..."
+                    />
+                </div>
 
-          <button type="submit" className={styles.submitButton}>
-            Başvuruyu Gönder
-          </button>
-        </form>
-      </div>
+                <button type="submit" className={styles.submitButton}>
+                    Başvuruyu Gönder
+                </button>
+            </form>
+        </div>
     </div>
   );
 };
