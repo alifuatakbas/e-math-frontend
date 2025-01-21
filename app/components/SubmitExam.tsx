@@ -481,12 +481,12 @@ return (
         {exam.questions[currentQuestionIndex].image && (
   <div className={styles.questionImage}>
     <img
-      src={`${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`}
+      src={exam.questions[currentQuestionIndex].image} // Değişiklik burada
       alt="Soru görseli"
       className={styles.questionImg}
       onError={(e) => {
         console.error('Resim yükleme hatası:', e);
-        console.log('Denenen URL:', `${process.env.NEXT_PUBLIC_API_URL}/static${exam.questions[currentQuestionIndex].image}`);
+        console.log('Denenen URL:', exam.questions[currentQuestionIndex].image);
       }}
     />
   </div>
