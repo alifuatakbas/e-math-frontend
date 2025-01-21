@@ -70,12 +70,14 @@
 .examCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: rgba(232, 74, 95, 0.3);
 }
 
 .examCard h3 {
   font-size: 1.25rem;
   margin: 0;
   color: #2D3748;
+  padding-right: 80px; /* miniScore için yer aç */
 }
 
 .examCard.selected {
@@ -85,14 +87,16 @@
 
 .miniScore {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
   background: linear-gradient(135deg, #E84A5F 0%, #FF6B6B 100%);
   color: white;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-weight: 600;
   font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(232, 74, 95, 0.3);
 }
 
 /* Results Section */
@@ -102,6 +106,18 @@
   padding: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   margin-top: 2rem;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .statsGrid {
@@ -119,6 +135,9 @@
   transition: all 0.3s ease;
   border: 1px solid rgba(232, 74, 95, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .statCard:hover {
@@ -130,6 +149,11 @@
   font-size: 2rem;
   color: #E84A5F;
   margin-bottom: 1rem;
+}
+
+.statInfo {
+  text-align: center;
+  flex: 1;
 }
 
 .statValue {
@@ -155,6 +179,19 @@
   justify-content: center;
   margin: 2rem auto 0;
   box-shadow: 0 8px 24px rgba(232, 74, 95, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 8px 24px rgba(232, 74, 95, 0.3);
+  }
+  50% {
+    box-shadow: 0 12px 32px rgba(232, 74, 95, 0.5);
+  }
+  100% {
+    box-shadow: 0 8px 24px rgba(232, 74, 95, 0.3);
+  }
 }
 
 .scoreValue {
@@ -185,6 +222,7 @@
   padding: 3rem;
   color: #718096;
   font-size: 1.1rem;
+  animation: pulse 1.5s infinite;
 }
 
 .error {
@@ -238,17 +276,6 @@
   color: #F7FAFC;
 }
 
-/* Loading Animation */
-@keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
-}
-
-.loading {
-  animation: pulse 1.5s infinite ease-in-out;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
@@ -260,22 +287,71 @@
     margin-bottom: 2rem;
   }
 
+  .resultDetails {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
   .statsGrid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .statCard {
+    flex-direction: row;
+    text-align: left;
+    padding: 1.25rem;
+  }
+
+  .statIcon {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+
+  .statInfo {
+    text-align: left;
+  }
+
+  .statValue {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .statLabel {
+    font-size: 0.9rem;
+  }
+
+  .scoreCircle {
+    width: 120px;
+    height: 120px;
+    margin: 1.5rem auto;
+  }
+
+  .scoreValue {
+    font-size: 1.75rem;
+  }
+
+  .scoreLabel {
+    font-size: 0.9rem;
   }
 
   .examList {
     grid-template-columns: 1fr;
   }
 
-  .scoreCircle {
-    width: 120px;
-    height: 120px;
+  .examCard {
+    padding: 1.25rem;
   }
 
-  .scoreValue {
-    font-size: 1.5rem;
+  .examCard h3 {
+    font-size: 1.1rem;
+    padding-right: 70px;
+  }
+
+  .miniScore {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
   }
 
   .themeToggle {
@@ -284,4 +360,20 @@
     width: 40px;
     height: 40px;
   }
+}
+
+/* Tablet için ek düzenlemeler */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .examList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
 }
