@@ -9,7 +9,6 @@ const ExamResultsPage = () => {
 
   return (
     <div className="exam-results-page">
-      <h1>Sınav Sonuçları</h1>
       <ExamResult examId={examId} />
     </div>
   );

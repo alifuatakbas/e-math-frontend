@@ -118,6 +118,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
         {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
       </button>
 
+      <h1 className={styles.title}>Sınav Sonuçlarım</h1>
 
       {error && <div className={styles.error}>{error}</div>}
 
