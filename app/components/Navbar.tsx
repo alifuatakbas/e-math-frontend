@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Navbar.module.css';
+import Basvuru_Form from "@/app/components/Basvuru_Form";
 
 interface User {
   full_name: string;
@@ -53,6 +54,7 @@ const Navbar: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isApplicationFormOpen, setIsApplicationFormOpen] = useState(false);
 
   useEffect(() => {
 
@@ -168,16 +170,16 @@ const Navbar: React.FC = () => {
             </Link>
 
             <div
-              className={styles.navLink}
-              onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
-              onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
-              onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
+                className={styles.navLink}
+                onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+                onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
+                onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
             >
               Sınavlar
               <div
-                className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
-                onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
-                onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
+                  className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
+                  onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+                  onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
               >
                 <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
                   Sınav Oluştur
@@ -197,44 +199,51 @@ const Navbar: React.FC = () => {
             <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
               Hakkımızda
             </Link>
-            <button className={styles.ctaButton} onClick={closeMenu}>
+            <button
+                className={styles.ctaButton}
+                onClick={() => setIsApplicationFormOpen(true)}
+            >
               Başvuru
             </button>
+            <Basvuru_Form
+  isOpen={isApplicationFormOpen}
+  onClose={() => setIsApplicationFormOpen(false)}
+/>
 
             <div className={styles.authButtons}>
               {currentUser ? (
-                <>
+                  <>
                   <span className={styles.userName} onClick={toggleDropdown}>
                     {currentUser.full_name} {isAdmin && '(Admin)'}
                   </span>
-                  {isDropdownOpen && (
-                    <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
-                      <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
-                        Profil
-                      </Link>
-                      {isAdmin && (
-                        <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
-                          Admin Panel
-                        </Link>
-                      )}
-                      <Link href="/settings" className={styles.userDropdownLink} onClick={closeMenu}>
-                        Ayarlar
-                      </Link>
-                      <button onClick={handleLogout} className={styles.logoutButton}>
-                        Çıkış
-                      </button>
-                    </div>
-                  )}
-                </>
+                    {isDropdownOpen && (
+                        <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
+                          <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
+                            Profil
+                          </Link>
+                          {isAdmin && (
+                              <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
+                                Admin Panel
+                              </Link>
+                          )}
+                          <Link href="/settings" className={styles.userDropdownLink} onClick={closeMenu}>
+                            Ayarlar
+                          </Link>
+                          <button onClick={handleLogout} className={styles.logoutButton}>
+                            Çıkış
+                          </button>
+                        </div>
+                    )}
+                  </>
               ) : (
-                <>
-                  <Link href="/login" className={styles.loginButton} onClick={closeMenu}>
-                    Giriş
-                  </Link>
-                  <Link href="/register" className={styles.signupButton} onClick={closeMenu}>
-                    Kaydol
-                  </Link>
-                </>
+                  <>
+                    <Link href="/login" className={styles.loginButton} onClick={closeMenu}>
+                      Giriş
+                    </Link>
+                    <Link href="/register" className={styles.signupButton} onClick={closeMenu}>
+                      Kaydol
+                    </Link>
+                  </>
               )}
             </div>
           </div>
@@ -242,7 +251,7 @@ const Navbar: React.FC = () => {
       </nav>
       {/* Overlay for mobile menu */}
       <div
-        className={`${styles.overlay} ${isMenuOpen ? styles.active : ''}`}
+          className={`${styles.overlay} ${isMenuOpen ? styles.active : ''}`}
         onClick={closeMenu}
       />
     </>
