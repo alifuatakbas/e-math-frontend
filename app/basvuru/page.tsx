@@ -126,16 +126,17 @@ const BasvuruPage = () => {
           <div className={styles.formGroup}>
             <label className={styles.required} htmlFor="grade">Sınıf</label>
             <select
-              id="grade"
-              required
-              value={formData.grade}
-              onChange={(e) => setFormData({...formData, grade: e.target.value})}
+                id="grade"
+                required
+                value={formData.grade}
+                onChange={(e) => setFormData({...formData, grade: e.target.value})}
             >
               <option value="">Sınıfınızı seçin</option>
               <option value="5">5. Sınıf</option>
               <option value="6">6. Sınıf</option>
               <option value="7">7. Sınıf</option>
               <option value="8">8. Sınıf</option>
+              <option value="9">9. Sınıf</option>
             </select>
           </div>
 
