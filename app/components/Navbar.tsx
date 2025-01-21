@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Navbar.module.css';
-import Basvuru_Form from "@/app/components/Basvuru_Form";
+import Basvuru_Form from "../components/Basvuru_Form";
 
 interface User {
   full_name: string;
