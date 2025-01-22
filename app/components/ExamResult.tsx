@@ -304,18 +304,10 @@ const renderQuestionStatus = (question: QuestionResult) => {
 };
 
 const renderOptions = (question: QuestionResult) => {
-  console.log('Debug:', {
-    correct_option: question.correct_option,
-    student_answer: question.student_answer,
-    options: question.options
-  });
-
   return question.options.map((option, index) => {
-    // Backend'den gelen -1 değerini 0'a çevirelim
-    const correctOption = question.correct_option === -1 ? 0 : question.correct_option;
-
-    const isCorrectOption = index === correctOption;
-    const isStudentAnswer = index === question.student_answer;
+    const isCorrectOption = index === (question.correct_option + 1);
+    // Null check ekledik
+    const isStudentAnswer = question.student_answer !== null && index === (question.student_answer + 1);
 
     let optionClass = styles.option;
     if (isCorrectOption) {
