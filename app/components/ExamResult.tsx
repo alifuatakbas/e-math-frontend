@@ -294,10 +294,18 @@ if (loading) {
 {examResult.questions[currentQuestionIndex].question_image && (
   <div className={styles.imageContainer}>
     <img
-      src={`https://e-math-question-images.s3.eu-north-1.amazonaws.com${examResult.questions[currentQuestionIndex].question_image}`}
+      src={examResult.questions[currentQuestionIndex].question_image}
       alt="Soru görseli"
       className={styles.questionImage}
       loading="lazy"
+      onError={(e) => {
+        const imgElement = e.currentTarget;
+        console.log('Orijinal URL:', imgElement.src);
+        // URL'nin başında @ işareti varsa kaldır
+        if (imgElement.src.startsWith('@')) {
+          imgElement.src = imgElement.src.substring(1);
+        }
+      }}
     />
   </div>
 )}
