@@ -93,10 +93,10 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
     fetchCompletedExams();
   }, []);
 
-  const fetchExamResult = async (examId: number) => {
+const fetchExamResult = async (examId: number) => {
   try {
     setLoading(true);
-    setError(""); // Yeni request'te error'u temizle
+    setError("");
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${examId}`,
@@ -113,7 +113,9 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
     }
 
     const data = await response.json();
-    console.log('Backend response:', data.questions[0]?.question_image);
+    // Tüm veriyi kontrol edelim
+    console.log('Backend full response:', data.questions[0]);
+
     setExamResult(data);
     setSelectedExamId(examId);
     setCurrentQuestionIndex(0);
