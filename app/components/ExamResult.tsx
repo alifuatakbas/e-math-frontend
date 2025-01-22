@@ -274,35 +274,39 @@ if (loading) {
             </div>
 
             <AnimatePresence mode="wait">
-              <motion.div
-                key={currentQuestionIndex}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                className={styles.questionCard}
-              >
-                <div className={styles.questionHeader}>
-                  <h3>Soru {currentQuestionIndex + 1}</h3>
-                  {renderQuestionStatus(examResult.questions[currentQuestionIndex])}
-                </div>
+  <motion.div
+    key={currentQuestionIndex}
+    initial={{ opacity: 0, x: 100 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: -100 }}
+    className={styles.questionCard}
+  >
+    <div className={styles.questionHeader}>
+      <h3>Soru {currentQuestionIndex + 1}</h3>
+      {renderQuestionStatus(examResult.questions[currentQuestionIndex])}
+    </div>
 
-                <p className={styles.questionText}>
-                  {examResult.questions[currentQuestionIndex].question_text}
-                </p>
+    <p className={styles.questionText}>
+      {examResult.questions[currentQuestionIndex].question_text}
+    </p>
 
-                {examResult.questions[currentQuestionIndex].question_image && (
-                  <img
-                    src={examResult.questions[currentQuestionIndex].question_image}
-                    alt="Soru görseli"
-                    className={styles.questionImage}
-                  />
-                )}
+    {/* Görsel kontrolünü ve gösterimini düzelttik */}
+    {examResult.questions[currentQuestionIndex].question_image && (
+      <div className={styles.imageContainer}>
+        <img
+          src={`${process.env.NEXT_PUBLIC_API_URL}${examResult.questions[currentQuestionIndex].question_image}`}
+          alt="Soru görseli"
+          className={styles.questionImage}
+          loading="lazy"
+        />
+      </div>
+    )}
 
-                <div className={styles.options}>
-                  {renderOptions(examResult.questions[currentQuestionIndex])}
-                </div>
-              </motion.div>
-            </AnimatePresence>
+    <div className={styles.options}>
+      {renderOptions(examResult.questions[currentQuestionIndex])}
+    </div>
+  </motion.div>
+</AnimatePresence>
           </motion.div>
         )}
       </div>
