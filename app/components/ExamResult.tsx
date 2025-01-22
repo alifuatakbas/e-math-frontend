@@ -159,7 +159,21 @@ if (loading) {
       </button>
 
       <div className={styles.header}>
-        <h1>Sınav Sonuçlarım</h1>
+      <h1>Sınav Sonuçlarım</h1>
+
+      {!selectedExamId && completedExams.length > 0 && (
+        <div className={styles.examList}>
+          {completedExams.map((exam) => (
+            <div
+              key={exam.id}
+              className={styles.examCard}
+              onClick={() => fetchExamResult(exam.id)}
+            >
+              <h3>{exam.title}</h3>
+            </div>
+          ))}
+        </div>
+      )}
         {examResult && (
           <div className={styles.overallScore}>
             <div className={styles.scoreRing}>

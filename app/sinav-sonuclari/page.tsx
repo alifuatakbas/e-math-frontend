@@ -11,15 +11,7 @@ function ExamResultContent() {
   const examId = searchParams.get('examId');
 
   if (!examId) {
-    return (
-      <div style={{
-        textAlign: 'center',
-        padding: '2rem',
-        color: '#666'
-      }}>
-        Sınav sonucu bulunamadı.
-      </div>
-    );
+    return <ExamResult />; // examId olmadan çağır, böylece completed exams listelenecek
   }
 
   return <ExamResult examId={parseInt(examId)} />;
