@@ -205,60 +205,60 @@ if (loading) {
         </div>
       )}
         {examResult && (
-          <div className={styles.overallScore}>
-            <div className={styles.scoreRing}>
-              <svg viewBox="0 0 36 36" className={styles.circularChart}>
-                <path
-                  d="M18 2.0845
+            <div className={styles.overallScore}>
+              <div className={styles.scoreRing}>
+                <svg viewBox="0 0 36 36" className={styles.circularChart}>
+                  <path
+                      d="M18 2.0845
                     a 15.9155 15.9155 0 0 1 0 31.831
                     a 15.9155 15.9155 0 0 1 0 -31.831"
-                  fill="none"
-                  stroke="#eee"
-                  strokeWidth="3"
-                />
-                <path
-                  d="M18 2.0845
+                      fill="none"
+                      stroke="#eee"
+                      strokeWidth="3"
+                  />
+                  <path
+                      d="M18 2.0845
                     a 15.9155 15.9155 0 0 1 0 31.831
                     a 15.9155 15.9155 0 0 1 0 -31.831"
-                  fill="none"
-                  stroke={examResult.score_percentage >= 50 ? "#4CAF50" : "#FF5252"}
-                  strokeWidth="3"
-                  strokeDasharray={`${examResult.score_percentage}, 100`}
-                />
-                <text x="18" y="20.35" className={styles.percentage}>
-                  {examResult.score_percentage.toFixed(0)}%
-                </text>
-              </svg>
+                      fill="none"
+                      stroke={examResult.score_percentage >= 50 ? "#4CAF50" : "#FF5252"}
+                      strokeWidth="3"
+                      strokeDasharray={`${examResult.score_percentage}, 100`}
+                  />
+                  <text x="18" y="20.35" className={styles.percentage}>
+                    {examResult.score_percentage.toFixed(0)}%
+                  </text>
+                </svg>
+              </div>
+              <div className={styles.stats}>
+                <div className={styles.stat}>
+                  <FiCheckCircle className={styles.correctIcon}/>
+                  <span>{examResult.correct_answers} Doğru</span>
+                </div>
+                <div className={styles.stat}>
+                  <FiXCircle className={styles.wrongIcon}/>
+                  <span>{examResult.incorrect_answers} Yanlış</span>
+                </div>
+                <div className={styles.stat}>
+                  <span>{examResult.questions.length} Toplam Soru</span>
+                </div>
+              </div>
             </div>
-            <div className={styles.stats}>
-              <div className={styles.stat}>
-                <FiCheckCircle className={styles.correctIcon} />
-                <span>{examResult.correct_answers} Doğru</span>
-              </div>
-              <div className={styles.stat}>
-                <FiXCircle className={styles.wrongIcon} />
-                <span>{examResult.incorrect_answers} Yanlış</span>
-              </div>
-              <div className={styles.stat}>
-                <span>{examResult.total_questions} Toplam Soru</span>
-              </div>
-            </div>
-          </div>
         )}
       </div>
 
       <div className={styles.examContent}>
         {examResult && (
-          <motion.div
-            className={styles.questionContainer}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-          >
-            <div className={styles.navigation}>
-              <button
-                onClick={handlePreviousQuestion}
-                disabled={currentQuestionIndex === 0}
+            <motion.div
+                className={styles.questionContainer}
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}
+                exit={{opacity: 0, y: -20}}
+            >
+              <div className={styles.navigation}>
+                <button
+                    onClick={handlePreviousQuestion}
+                    disabled={currentQuestionIndex === 0}
                 className={styles.navButton}
               >
                 <FiArrowLeft /> Önceki
