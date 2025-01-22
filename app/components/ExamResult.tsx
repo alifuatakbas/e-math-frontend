@@ -310,7 +310,6 @@ if (loading) {
       onLoad={() => {
         console.log('Görsel başarıyla yüklendi');
       }}
-      style={{ border: '2px solid red' }}
     />
   </div>
 )}
