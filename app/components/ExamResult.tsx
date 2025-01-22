@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/ExamResult.module.css";
 import { FiCheckCircle, FiXCircle, FiSun, FiMoon } from 'react-icons/fi';
-import Navbar from '../components/Navbar';
 
 interface ExamResultProps {
   examId?: number;
@@ -122,8 +121,6 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
   }
 
    return (
-    <>
-      <Navbar /> {/* Navbar'ı ekliyoruz */}
     <div className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
       <button
         onClick={toggleTheme}
@@ -192,7 +189,6 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
         </div>
       )}
     </div>
-      </>
   );
 };
 

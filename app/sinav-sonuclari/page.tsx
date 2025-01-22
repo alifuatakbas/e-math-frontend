@@ -2,15 +2,18 @@
 
 import React from "react";
 import ExamResult from "../components/ExamResult";
+import Navbar from "../components/Navbar";  // Navbar'ı import ediyoruz
 
-// Page component'i için props tipini kaldırıyoruz
 const ExamResultsPage = () => {
-  const examId = 1; // Sabit değer veya başka bir şekilde alınan ID
+  const examId = 1;
 
   return (
-    <div className="exam-results-page">
-      <ExamResult examId={examId} />
-    </div>
+    <>
+      <Navbar />
+      <div className="exam-results-page">
+        <ExamResult examId={examId} />
+      </div>
+    </>
   );
 };
 
