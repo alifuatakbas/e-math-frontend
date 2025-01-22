@@ -304,17 +304,22 @@ const renderQuestionStatus = (question: QuestionResult) => {
 };
 
 const renderOptions = (question: QuestionResult) => {
+  console.log('Debug:', {
+    correct_option: question.correct_option,
+    student_answer: question.student_answer,
+    options: question.options
+  });
+
   return question.options.map((option, index) => {
-     const isCorrectOption = index === question.correct_option + 1;
-    const isStudentAnswer = index === (question.student_answer ? question.student_answer + 1 : null);
+    // Backend'den gelen değer 0-based (0=1.şık, 1=2.şık, ...)
+    const isCorrectOption = index === question.correct_option;
+    const isStudentAnswer = index === question.student_answer;
 
     let optionClass = styles.option;
     if (isCorrectOption) {
-      // Doğru cevap her zaman yeşil olmalı
       optionClass += ` ${styles.correctOption}`;
     }
     if (isStudentAnswer && !isCorrectOption) {
-      // Öğrencinin yanlış cevabı kırmızı olmalı
       optionClass += ` ${styles.wrongOption}`;
     }
 
