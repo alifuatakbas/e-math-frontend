@@ -294,17 +294,10 @@ if (loading) {
 {examResult.questions[currentQuestionIndex].question_image && (
   <div className={styles.imageContainer}>
     <img
-      src={examResult.questions[currentQuestionIndex].question_image}
+      src={`https://e-math-question-images.s3.eu-north-1.amazonaws.com${examResult.questions[currentQuestionIndex].question_image}`}
       alt="Soru görseli"
       className={styles.questionImage}
       loading="lazy"
-      onLoad={() => {
-        console.log('Görsel URL:', examResult.questions[currentQuestionIndex].question_image);
-      }}
-      onError={(e) => {
-        console.error('Görsel yüklenme hatası:', e);
-        console.log('Hatalı URL:', e.currentTarget.src);
-      }}
     />
   </div>
 )}
