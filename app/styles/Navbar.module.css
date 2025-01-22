@@ -376,7 +376,7 @@
     border-radius: 8px;
   }
 
-  .examDropdownMenu {
+   .examDropdownMenu {
     position: static;
     width: 100%;
     transform: none;
@@ -384,20 +384,23 @@
     box-shadow: none;
     border: none;
     padding: 0;
-    margin-top: 0.5rem;
+    margin: 0; /* margin-top kaldırıldı */
+    max-height: 0; /* Başlangıçta kapalı */
+    overflow: hidden; /* Taşan kısmı gizle */
   }
 
-  .examDropdownMenu.show {
+    .examDropdownMenu.show {
     transform: none;
+    max-height: 500px; /* Açıldığında yeterli yükseklik */
+    transition: max-height 0.3s ease;
   }
 
   .examDropdownLink {
     padding: 1rem;
-    margin: 0.2rem 0;
+    margin: 0; /* margin kaldırıldı */
     background: rgba(255, 51, 102, 0.1);
   }
 
- @media (max-width: 768px) {
   .authButtons {
     position: static;
     width: 100%;
@@ -432,7 +435,7 @@
     text-align: center;
     padding: 1rem 2rem;
   }
-}
+
 
 @media (max-width: 480px) {
   .navLinks {
