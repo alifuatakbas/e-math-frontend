@@ -150,6 +150,11 @@
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 2rem;
+  word-wrap: break-word;      /* Uzun kelimeleri böler */
+  white-space: pre-wrap;      /* Boşlukları ve satır sonlarını korur */
+  overflow-wrap: break-word;  /* Taşan kelimeleri böler */
+  max-width: 100%;           /* Container'ın dışına taşmasını engeller */
+  padding: 0 1rem;           /* Kenarlardan biraz boşluk */
 }
 
 .questionImage {
