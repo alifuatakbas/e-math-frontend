@@ -137,6 +137,36 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
     }
   };
 
+  const renderOptions = (question: QuestionResult) => {
+  return question.options.map((option, index) => {
+    // Sadece burada +1 ekliyoruz
+    const correctOptionIndex = question.correct_option + 1;
+    const studentAnswerIndex = question.student_answer !== null ? question.student_answer + 1 : null;
+
+    const isCorrectOption = index === correctOptionIndex;
+    const isStudentAnswer = studentAnswerIndex !== null && index === studentAnswerIndex;
+
+    let optionClass = styles.option;
+    if (isCorrectOption) {
+      optionClass += ` ${styles.correctOption}`;
+    }
+    if (isStudentAnswer && !isCorrectOption) {
+      optionClass += ` ${styles.wrongOption}`;
+    }
+
+    return (
+      <div key={index} className={optionClass}>
+        <span className={styles.optionLetter}>
+          {String.fromCharCode(65 + index)}
+        </span>
+        <span className={styles.optionText}>{option}</span>
+        {isCorrectOption && <FiCheckCircle className={styles.optionIcon} />}
+        {isStudentAnswer && !isCorrectOption && <FiXCircle className={styles.optionIcon} />}
+      </div>
+    );
+  });
+};
+
 if (loading) {
   return (
     <div className={styles.loadingContainer}>
@@ -303,30 +333,5 @@ const renderQuestionStatus = (question: QuestionResult) => {
   }
 };
 
-const renderOptions = (question: QuestionResult) => {
-  return question.options.map((option, index) => {
-    const isCorrectOption = index === (question.correct_option + 1);
-    // Null check ekledik
-    const isStudentAnswer = question.student_answer !== null && index === (question.student_answer + 1);
 
-    let optionClass = styles.option;
-    if (isCorrectOption) {
-      optionClass += ` ${styles.correctOption}`;
-    }
-    if (isStudentAnswer && !isCorrectOption) {
-      optionClass += ` ${styles.wrongOption}`;
-    }
-
-    return (
-      <div key={index} className={optionClass}>
-        <span className={styles.optionLetter}>
-          {String.fromCharCode(65 + index)}
-        </span>
-        <span className={styles.optionText}>{option}</span>
-        {isCorrectOption && <FiCheckCircle className={styles.optionIcon} />}
-        {isStudentAnswer && !isCorrectOption && <FiXCircle className={styles.optionIcon} />}
-      </div>
-    );
-  });
-};
 export default ExamResult;
