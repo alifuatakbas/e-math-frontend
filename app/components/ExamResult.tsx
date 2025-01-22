@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/ExamResult.module.css";
 import { FiCheckCircle, FiXCircle, FiSun, FiMoon, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ExamResultProps {
   examId?: number;
@@ -129,196 +130,167 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
     return <div className={styles.loading}>Yükleniyor...</div>;
   }
 
-  return (
-      <div className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
-        <button
-            onClick={toggleTheme}
-            className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
-            aria-label="Toggle theme"
-        >
-          {darkMode ? <FiSun className={styles.themeIcon}/> : <FiMoon className={styles.themeIcon}/>}
-        </button>
+ return (
+    <div className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
+      <button
+        onClick={toggleTheme}
+        className={styles.themeToggle}
+        aria-label="Toggle theme"
+      >
+        {darkMode ? <FiSun /> : <FiMoon />}
+      </button>
 
-        <h1 className={styles.title}>Sınav Sonuçlarım</h1>
-
-        {error && <div className={styles.error}>{error}</div>}
-
-        {!loading && completedExams.length === 0 && (
-            <div className={styles.noExams}>
-              Henüz çözülmüş sınav bulunmamaktadır.
-            </div>
-        )}
-
-        {completedExams.length > 0 && (
-            <div className={styles.examList}>
-              {completedExams.map((exam) => (
-                  <div
-                      key={exam.id}
-                      className={`${styles.examCard} ${
-                          selectedExamId === exam.id ? styles.selected : ""
-                      }`}
-                      onClick={() => fetchExamResult(exam.id)}
-                  >
-                    <h3>{exam.title}</h3>
-                    {selectedExamId === exam.id && examResult && (
-                        <div className={styles.miniScore}>
-                          %{examResult.score_percentage.toFixed(0)}
-                        </div>
-                    )}
-                  </div>
-              ))}
-            </div>
-        )}
-
+      <div className={styles.header}>
+        <h1>Sınav Sonuçlarım</h1>
         {examResult && (
-            <>
-              <div className={styles.resultDetails}>
-                <div className={styles.statsGrid}>
-                  <div className={styles.statCard}>
-                    <FiCheckCircle className={styles.statIcon}/>
-                    <div className={styles.statValue}>{examResult.correct_answers}</div>
-                    <div className={styles.statLabel}>Doğru</div>
-                  </div>
-                  <div className={styles.statCard}>
-                    <FiXCircle className={styles.statIcon}/>
-                    <div className={styles.statValue}>{examResult.incorrect_answers}</div>
-                    <div className={styles.statLabel}>Yanlış</div>
-                  </div>
-                  <div className={styles.statCard}>
-                    <div className={styles.statValue}>{examResult.total_questions}</div>
-                    <div className={styles.statLabel}>Toplam Soru</div>
-                  </div>
-                </div>
-
-                <div className={styles.scoreCircle}>
-                  <div className={styles.scoreValue}>
-                    %{examResult.score_percentage.toFixed(0)}
-                  </div>
-                  <div className={styles.scoreLabel}>Başarı</div>
-                </div>
+          <div className={styles.overallScore}>
+            <div className={styles.scoreRing}>
+              <svg viewBox="0 0 36 36" className={styles.circularChart}>
+                <path
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#eee"
+                  strokeWidth="3"
+                />
+                <path
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke={examResult.score_percentage >= 50 ? "#4CAF50" : "#FF5252"}
+                  strokeWidth="3"
+                  strokeDasharray={`${examResult.score_percentage}, 100`}
+                />
+                <text x="18" y="20.35" className={styles.percentage}>
+                  {examResult.score_percentage.toFixed(0)}%
+                </text>
+              </svg>
+            </div>
+            <div className={styles.stats}>
+              <div className={styles.stat}>
+                <FiCheckCircle className={styles.correctIcon} />
+                <span>{examResult.correct_answers} Doğru</span>
               </div>
-
-              <div className={styles.questionsReview}>
-                <h2>Soru Detayları</h2>
-
-                <div className={styles.questionNavigation}>
-                  <button
-                      onClick={handlePreviousQuestion}
-                      disabled={currentQuestionIndex === 0}
-                      className={styles.navButton}
-                  >
-                    <FiArrowLeft/> Önceki
-                  </button>
-                  <span className={styles.questionCounter}>
-                Soru {currentQuestionIndex + 1} / {examResult.questions.length}
-              </span>
-                  <button
-                      onClick={handleNextQuestion}
-                      disabled={currentQuestionIndex === examResult.questions.length - 1}
-                      className={styles.navButton}
-                  >
-                    Sonraki <FiArrowRight/>
-                  </button>
-                </div>
-
-                <div className={styles.questionCard}>
-                  <div className={`${styles.questionContent} ${
-                      examResult.questions[currentQuestionIndex].is_correct
-                          ? styles.correctAnswer
-                          : styles.incorrectAnswer
-                  }`}>
-                    <h3>Soru {currentQuestionIndex + 1}</h3>
-                    <p className={styles.questionText}>
-                      {examResult.questions[currentQuestionIndex].question_text}
-                    </p>
-
-                    {examResult.questions[currentQuestionIndex].question_image && (
-                        <div className={styles.imageContainer}>
-                          <img
-                              src={examResult.questions[currentQuestionIndex].question_image}
-                              alt="Soru görseli"
-                              className={styles.questionImage}
-                          />
-                        </div>
-                    )}
-
-                    <div className={styles.options}>
-                      {examResult.questions[currentQuestionIndex].options.map((option, optIndex) => {
-                        const currentQuestion = examResult.questions[currentQuestionIndex];
-                        const isCorrectOption = (optIndex + 1) === currentQuestion.correct_option;
-                        const isStudentAnswer = (optIndex + 1) === currentQuestion.student_answer;
-                        const isWrongAnswer = isStudentAnswer && !currentQuestion.is_correct;
-
-                        return (
-                            <div
-                                key={optIndex}
-                                className={`${styles.option} 
-          ${isCorrectOption ? styles.correctOption : ''}
-          ${isWrongAnswer ? styles.wrongAnswer : ''}
-        `}
-                            >
-        <span className={styles.optionIndex}>
-          {String.fromCharCode(65 + optIndex)}.
-        </span>
-                              <span className={styles.optionText}>{option}</span>
-
-                              {/* Doğru cevap işareti - her zaman göster */}
-                              {isCorrectOption && (
-                                  <span className={styles.correctMark} title="Doğru Cevap">✓</span>
-                              )}
-
-                              {/* Yanlış cevap işareti - sadece yanlış işaretlenmişse göster */}
-                              {isWrongAnswer && (
-                                  <span className={styles.wrongMark} title="Sizin Cevabınız">✗</span>
-                              )}
-                            </div>
-                        );
-                      })}
-
-                      {/* Boş bırakılan sorular için bilgi - sadece gerçekten boşsa göster */}
-                      {examResult.questions[currentQuestionIndex].student_answer === null && (
-                          <div className={styles.unanswered}>Bu soru cevaplanmamış</div>
-                      )}
-                    </div>
-
-                    <div className={styles.answerStatus}>
-                      {examResult.questions[currentQuestionIndex].student_answer === null ? (
-                          <span className={styles.unanswered}>
-      <FiXCircle/> Cevaplanmamış
-    </span>
-                      ) : examResult.questions[currentQuestionIndex].is_correct ? (
-                          <span className={styles.correct}>
-      <FiCheckCircle/> Doğru Cevap
-    </span>
-                      ) : (
-                          <span className={styles.incorrect}>
-      <FiXCircle/> Yanlış Cevap
-    </span>
-                      )}
-                    </div>
-
-                    <div className={styles.answerStatus}>
-                      {examResult.questions[currentQuestionIndex].is_correct ? (
-                          <span className={styles.correct}>
-                      <FiCheckCircle/> Doğru Cevap
-                    </span>
-                      ) : examResult.questions[currentQuestionIndex].student_answer ? (
-                          <span className={styles.incorrect}>
-                      <FiXCircle/> Yanlış Cevap
-                    </span>
-                      ) : (
-                          <span className={styles.unanswered}>
-                      <FiXCircle/> Cevaplanmamış
-                    </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
+              <div className={styles.stat}>
+                <FiXCircle className={styles.wrongIcon} />
+                <span>{examResult.incorrect_answers} Yanlış</span>
               </div>
-            </>
+              <div className={styles.stat}>
+                <span>{examResult.total_questions} Toplam Soru</span>
+              </div>
+            </div>
+          </div>
         )}
       </div>
+
+      <div className={styles.examContent}>
+        {examResult && (
+          <motion.div
+            className={styles.questionContainer}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <div className={styles.navigation}>
+              <button
+                onClick={handlePreviousQuestion}
+                disabled={currentQuestionIndex === 0}
+                className={styles.navButton}
+              >
+                <FiArrowLeft /> Önceki
+              </button>
+              <span>Soru {currentQuestionIndex + 1} / {examResult.questions.length}</span>
+              <button
+                onClick={handleNextQuestion}
+                disabled={currentQuestionIndex === examResult.questions.length - 1}
+                className={styles.navButton}
+              >
+                Sonraki <FiArrowRight />
+              </button>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentQuestionIndex}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                className={styles.questionCard}
+              >
+                <div className={styles.questionHeader}>
+                  <h3>Soru {currentQuestionIndex + 1}</h3>
+                  {renderQuestionStatus(examResult.questions[currentQuestionIndex])}
+                </div>
+
+                <p className={styles.questionText}>
+                  {examResult.questions[currentQuestionIndex].question_text}
+                </p>
+
+                {examResult.questions[currentQuestionIndex].question_image && (
+                  <img
+                    src={examResult.questions[currentQuestionIndex].question_image}
+                    alt="Soru görseli"
+                    className={styles.questionImage}
+                  />
+                )}
+
+                <div className={styles.options}>
+                  {renderOptions(examResult.questions[currentQuestionIndex])}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+// Yardımcı fonksiyonlar
+const renderQuestionStatus = (question: QuestionResult) => {
+  if (question.is_correct) {
+    return (
+      <div className={styles.statusCorrect}>
+        <FiCheckCircle /> Doğru Cevap
+      </div>
+    );
+  } else if (question.student_answer === null) {
+    return (
+      <div className={styles.statusUnanswered}>
+        <FiXCircle /> Cevaplanmamış
+      </div>
+    );
+  } else {
+    return (
+      <div className={styles.statusWrong}>
+        <FiXCircle /> Yanlış Cevap
+      </div>
+    );
+  }
+};
+
+const renderOptions = (question: QuestionResult) => {
+  return question.options.map((option, index) => {
+    const isCorrectOption = index + 1 === question.correct_option;
+    const isStudentAnswer = index + 1 === question.student_answer;
+
+    let optionClass = styles.option;
+    if (isCorrectOption) optionClass += ` ${styles.correctOption}`;
+    if (isStudentAnswer && !question.is_correct) optionClass += ` ${styles.wrongOption}`;
+
+    return (
+      <div key={index} className={optionClass}>
+        <span className={styles.optionLetter}>
+          {String.fromCharCode(65 + index)}
+        </span>
+        <span className={styles.optionText}>{option}</span>
+        {isCorrectOption && <FiCheckCircle className={styles.optionIcon} />}
+        {isStudentAnswer && !question.is_correct && <FiXCircle className={styles.optionIcon} />}
+      </div>
+    );
+  });
+};
 
 export default ExamResult;
