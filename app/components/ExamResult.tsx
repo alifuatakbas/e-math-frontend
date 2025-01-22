@@ -304,24 +304,29 @@ const renderQuestionStatus = (question: QuestionResult) => {
 };
 
 const renderOptions = (question: QuestionResult) => {
-  console.log('Debug:', {
-    correct_option: question.correct_option,
-    student_answer: question.student_answer,
-    options: question.options
+  // Her soru için backend'den gelen verileri görelim
+  console.log('SORU BİLGİLERİ:', {
+    soru_metni: question.question_text,
+    dogru_cevap_index: question.correct_option,
+    ogrenci_cevabi: question.student_answer,
+    secenekler: question.options
   });
 
   return question.options.map((option, index) => {
-    // Backend'den gelen değer 0-based (0=1.şık, 1=2.şık, ...)
+    // Her seçenek için kontrol yapalım
+    console.log(`SEÇENEK ${index + 1}:`, {
+      secenek_metni: option,
+      secenek_index: index,
+      dogru_mu: index === question.correct_option,
+      ogrenci_secimi_mi: index === question.student_answer
+    });
+
     const isCorrectOption = index === question.correct_option;
     const isStudentAnswer = index === question.student_answer;
 
     let optionClass = styles.option;
-    if (isCorrectOption) {
-      optionClass += ` ${styles.correctOption}`;
-    }
-    if (isStudentAnswer && !isCorrectOption) {
-      optionClass += ` ${styles.wrongOption}`;
-    }
+    if (isCorrectOption) optionClass += ` ${styles.correctOption}`;
+    if (isStudentAnswer && !isCorrectOption) optionClass += ` ${styles.wrongOption}`;
 
     return (
       <div key={index} className={optionClass}>
@@ -335,5 +340,4 @@ const renderOptions = (question: QuestionResult) => {
     );
   });
 };
-
 export default ExamResult;
