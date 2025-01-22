@@ -373,4 +373,222 @@
   }
 }
 
-/* Smooth Scrolling */
+
+/* Mevcut CSS'e eklenecek yeni stiller */
+
+/* Questions Review Section */
+.questionsReview {
+  margin-top: 3rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.questionsReview h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #2D3748;
+}
+
+.darkMode .questionsReview h2 {
+  color: #F7FAFC;
+}
+
+.questionCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(232, 74, 95, 0.1);
+}
+
+.darkMode .questionCard {
+  background: #2D3748;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.correctAnswer {
+  border-left: 4px solid #22C55E;
+}
+
+.incorrectAnswer {
+  border-left: 4px solid #EF4444;
+}
+
+.questionText {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+  color: #2D3748;
+}
+
+.darkMode .questionText {
+  color: #F7FAFC;
+}
+
+.imageContainer {
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #F8FAFC;
+  padding: 1rem;
+  text-align: center;
+}
+
+.darkMode .imageContainer {
+  background: #1A202C;
+}
+
+.questionImage {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.options {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  background: #F8FAFC;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.darkMode .option {
+  background: #1A202C;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.optionIndex {
+  font-weight: 600;
+  margin-right: 1rem;
+  color: #718096;
+  min-width: 24px;
+}
+
+.darkMode .optionIndex {
+  color: #A0AEC0;
+}
+
+.optionText {
+  flex: 1;
+  color: #2D3748;
+}
+
+.darkMode .optionText {
+  color: #F7FAFC;
+}
+
+.correctOption {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: #22C55E;
+}
+
+.wrongAnswer {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #EF4444;
+}
+
+.correctMark, .wrongMark {
+  position: absolute;
+  right: 1.5rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.correctMark {
+  color: #22C55E;
+}
+
+.wrongMark {
+  color: #EF4444;
+}
+
+.answerStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #F8FAFC;
+}
+
+.darkMode .answerStatus {
+  background: #1A202C;
+}
+
+.correct, .incorrect {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.correct {
+  color: #22C55E;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.incorrect {
+  color: #EF4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design için ek düzenlemeler */
+@media (max-width: 768px) {
+  .questionsReview {
+    margin-top: 2rem;
+  }
+
+  .questionCard {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .questionText {
+    font-size: 1rem;
+  }
+
+  .option {
+    padding: 0.8rem 1rem;
+  }
+
+  .optionIndex {
+    min-width: 20px;
+    margin-right: 0.8rem;
+  }
+
+  .correctMark, .wrongMark {
+    right: 1rem;
+    font-size: 1rem;
+  }
+
+  .answerStatus {
+    padding: 0.8rem;
+    margin-top: 1rem;
+  }
+}
