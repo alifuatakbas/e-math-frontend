@@ -291,16 +291,16 @@ if (loading) {
     </p>
 
     {/* Görsel kontrolünü ve gösterimini düzelttik */}
-    {examResult.questions[currentQuestionIndex].question_image && (
-      <div className={styles.imageContainer}>
-        <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}${examResult.questions[currentQuestionIndex].question_image}`}
-          alt="Soru görseli"
-          className={styles.questionImage}
-          loading="lazy"
-        />
-      </div>
-    )}
+{examResult.questions[currentQuestionIndex].question_image && (
+  <div className={styles.imageContainer}>
+    <img
+      src={examResult.questions[currentQuestionIndex].question_image}
+      alt="Soru görseli"
+      className={styles.questionImage}
+      loading="lazy"
+    />
+  </div>
+)}
 
     <div className={styles.options}>
       {renderOptions(examResult.questions[currentQuestionIndex])}
