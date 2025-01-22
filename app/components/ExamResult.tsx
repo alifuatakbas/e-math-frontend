@@ -223,9 +223,9 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
 
             <div className={styles.questionCard}>
               <div className={`${styles.questionContent} ${
-                examResult.questions[currentQuestionIndex].is_correct 
-                  ? styles.correctAnswer 
-                  : styles.incorrectAnswer
+                  examResult.questions[currentQuestionIndex].is_correct
+                      ? styles.correctAnswer
+                      : styles.incorrectAnswer
               }`}>
                 <h3>Soru {currentQuestionIndex + 1}</h3>
                 <p className={styles.questionText}>
@@ -233,49 +233,49 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
                 </p>
 
                 {examResult.questions[currentQuestionIndex].question_image && (
-                  <div className={styles.imageContainer}>
-                    <img
-                      src={examResult.questions[currentQuestionIndex].question_image}
-                      alt="Soru görseli"
-                      className={styles.questionImage}
-                    />
-                  </div>
+                    <div className={styles.imageContainer}>
+                      <img
+                          src={examResult.questions[currentQuestionIndex].question_image}
+                          alt="Soru görseli"
+                          className={styles.questionImage}
+                      />
+                    </div>
                 )}
 
                 <div className={styles.options}>
                   {examResult.questions[currentQuestionIndex].options.map((option, optIndex) => (
-                    <div
-                      key={optIndex}
-                      className={`${styles.option} 
-                        ${optIndex === examResult.questions[currentQuestionIndex].correct_option ? styles.correctOption : ''}
-                        ${optIndex === examResult.questions[currentQuestionIndex].student_answer ? styles.studentAnswer : ''}
-                        ${optIndex === examResult.questions[currentQuestionIndex].student_answer && 
+                      <div
+                          key={optIndex}
+                          className={`${styles.option} 
+        ${(optIndex + 1) === examResult.questions[currentQuestionIndex].correct_option ? styles.correctOption : ''}
+        ${(optIndex + 1) === examResult.questions[currentQuestionIndex].student_answer ? styles.studentAnswer : ''}
+        ${(optIndex + 1) === examResult.questions[currentQuestionIndex].student_answer &&
                           !examResult.questions[currentQuestionIndex].is_correct ? styles.wrongAnswer : ''}
-                      `}
-                    >
-                      <span className={styles.optionIndex}>
-                        {String.fromCharCode(65 + optIndex)}.
-                      </span>
-                      <span className={styles.optionText}>{option}</span>
-                      {optIndex === examResult.questions[currentQuestionIndex].correct_option && (
-                        <span className={styles.correctMark}>✓</span>
-                      )}
-                      {optIndex === examResult.questions[currentQuestionIndex].student_answer &&
-                        !examResult.questions[currentQuestionIndex].is_correct && (
-                        <span className={styles.wrongMark}>✗</span>
-                      )}
-                    </div>
+      `}
+                      >
+      <span className={styles.optionIndex}>
+        {String.fromCharCode(65 + optIndex)}.
+      </span>
+                        <span className={styles.optionText}>{option}</span>
+                        {(optIndex + 1) === examResult.questions[currentQuestionIndex].correct_option && (
+                            <span className={styles.correctMark}>✓</span>
+                        )}
+                        {(optIndex + 1) === examResult.questions[currentQuestionIndex].student_answer &&
+                            !examResult.questions[currentQuestionIndex].is_correct && (
+                                <span className={styles.wrongMark}>✗</span>
+                            )}
+                      </div>
                   ))}
                 </div>
 
                 <div className={styles.answerStatus}>
                   {examResult.questions[currentQuestionIndex].is_correct ? (
-                    <span className={styles.correct}>
-                      <FiCheckCircle /> Doğru Cevap
+                      <span className={styles.correct}>
+                      <FiCheckCircle/> Doğru Cevap
                     </span>
                   ) : (
-                    <span className={styles.incorrect}>
-                      <FiXCircle /> Yanlış Cevap
+                      <span className={styles.incorrect}>
+                      <FiXCircle/> Yanlış Cevap
                     </span>
                   )}
                 </div>
