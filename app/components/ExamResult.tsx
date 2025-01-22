@@ -54,6 +54,11 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
       document.body.style.backgroundColor = '#F8FAFC';
     }
   }, [darkMode]);
+  useEffect(() => {
+    if (propExamId) {
+      fetchExamResult(propExamId);
+    }
+  }, [propExamId]);
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
@@ -89,30 +94,36 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
   }, []);
 
   const fetchExamResult = async (examId: number) => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${examId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-      );
+  try {
+    setLoading(true);
+    setError(""); // Yeni request'te error'u temizle
 
-      if (!response.ok) throw new Error("Sonuç yüklenirken bir hata oluştu");
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${examId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
-      const data = await response.json();
-      setExamResult(data);
-      setSelectedExamId(examId);
-      setCurrentQuestionIndex(0); // Yeni sınav seçildiğinde ilk sorudan başla
-
-    } catch (error) {
-      setError("Sonuç yüklenemedi");
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Sonuç yüklenirken bir hata oluştu");
     }
-  };
+
+    const data = await response.json();
+    setExamResult(data);
+    setSelectedExamId(examId);
+    setCurrentQuestionIndex(0);
+
+  } catch (error) {
+    setError(error instanceof Error ? error.message : "Sonuç yüklenemedi");
+    console.error("Hata:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleNextQuestion = () => {
     if (examResult && currentQuestionIndex < examResult.questions.length - 1) {
@@ -126,9 +137,16 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
     }
   };
 
-  if (loading) {
-    return <div className={styles.loading}>Yükleniyor...</div>;
-  }
+if (loading) {
+  return (
+    <div className={styles.loadingContainer}>
+      <div className={styles.loading}>
+        <div className={styles.spinner}></div>
+        Yükleniyor...
+      </div>
+    </div>
+  );
+}
 
  return (
     <div className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
@@ -273,8 +291,8 @@ const renderQuestionStatus = (question: QuestionResult) => {
 
 const renderOptions = (question: QuestionResult) => {
   return question.options.map((option, index) => {
-    const isCorrectOption = index + 1 === question.correct_option;
-    const isStudentAnswer = index + 1 === question.student_answer;
+    const isCorrectOption = index === question.correct_option - 1; // 1-based'den 0-based'e çevir
+    const isStudentAnswer = index === (question.student_answer ? question.student_answer - 1 : null); // 1-based'den 0-based'e çevir
 
     let optionClass = styles.option;
     if (isCorrectOption) optionClass += ` ${styles.correctOption}`;
