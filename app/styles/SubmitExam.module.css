@@ -1,21 +1,3 @@
-/* SubmitExam.module.css */
-:root {
-  /* Light theme variables */
-  --bg-primary: #F8FAFC;
-  --bg-secondary: #FFFFFF;
-  --text-primary: #1E293B;
-  --text-secondary: #475569;
-  --border-color: #E2E8F0;
-  --accent-color: #3B82F6;
-
-  /* Dark theme variables */
-  --dark-bg-primary: #0F172A;
-  --dark-bg-secondary: #1E293B;
-  --dark-text-primary: #F1F5F9;
-  --dark-text-secondary: #CBD5E1;
-  --dark-border-color: #334155;
-  --dark-accent-color: #60A5FA;
-}
 /* Modal Stilleri */
 .modalOverlay {
   position: fixed;
@@ -124,14 +106,14 @@
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
-  background: var(--bg-secondary);
+  background: #FFFFFF;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .questionContainer h3 {
   font-size: 1.1rem;
-  color: var(--text-primary);
+  color: #1E293B;
   margin-bottom: 20px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -140,6 +122,9 @@
   min-height: 50px;
   max-height: none;
   overflow-y: visible;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #F8FAFC;
 }
 
 .questionImage {
@@ -735,13 +720,13 @@
 .darkMode .examWarning li:before {
   color: #FF6B6B;
 }
-
 .darkMode .questionContainer {
-  background: var(--dark-bg-secondary);
+  background: #1E293B;
 }
 
 .darkMode .questionContainer h3 {
-  color: var(--dark-text-primary);
+  color: #F1F5F9;
+  background-color: #0F172A;
 }
 
 .darkMode .optionContainer {
@@ -848,6 +833,7 @@
 
   .questionContainer h3 {
     font-size: 1rem;
+    padding: 8px;
   }
 }
 
