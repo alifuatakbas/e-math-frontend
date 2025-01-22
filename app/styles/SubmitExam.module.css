@@ -818,13 +818,6 @@
 
 @media (max-width: 768px) {
 
-    html, body {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* iOS için smooth scroll */
-    height: 100%;
-    position: fixed;
-    width: 100%;
-  }
   /* Ana container */
   .submitExamContainer {
     margin: 1rem;
@@ -832,13 +825,9 @@
     border-radius: 16px;
     height: 100vh;
     overflow-y: auto;
-    padding-bottom: 120px; /* Butonlar için extra padding */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 120px;
+    position: relative;
   }
 
   /* Timer */

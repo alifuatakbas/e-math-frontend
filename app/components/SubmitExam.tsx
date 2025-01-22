@@ -304,6 +304,40 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
     initializeExam();
   }, [examId]);
 
+// Diğer useEffect'lerin yanına ekleyin
+useEffect(() => {
+  // Mobil scroll davranışını düzeltmek için
+  const fixMobileScroll = () => {
+    if (window.innerWidth <= 768 && examStarted) {
+      const container = document.querySelector(`.${styles.submitExamContainer}`);
+      if (container) {
+        container.addEventListener('touchmove', (e) => {
+          e.stopPropagation();
+        }, { passive: true });
+      }
+
+      // Bottom padding ayarla
+      const questionContainer = document.querySelector(`.${styles.questionContainer}`);
+      if (questionContainer) {
+        const buttonHeight = document.querySelector(`.${styles.buttonContainer}`)?.clientHeight || 0;
+        (questionContainer as HTMLElement).style.paddingBottom = `${buttonHeight + 40}px`;
+      }
+    }
+  };
+
+  fixMobileScroll();
+
+  // Cleanup
+  return () => {
+    const container = document.querySelector(`.${styles.submitExamContainer}`);
+    if (container) {
+      container.removeEventListener('touchmove', (e) => {
+        e.stopPropagation();
+      });
+    }
+  };
+}, [examStarted]); // examStarted değiştiğinde tekrar çalışsın
+
  const handleStartExam = async () => {
   try {
     const response = await fetch(
