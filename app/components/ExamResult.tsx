@@ -301,6 +301,16 @@ if (loading) {
       alt="Soru görseli"
       className={styles.questionImage}
       loading="lazy"
+      onError={(e) => {
+        console.error('Görsel yükleme hatası:', {
+          src: e.currentTarget.src,
+          error: e
+        });
+      }}
+      onLoad={() => {
+        console.log('Görsel başarıyla yüklendi');
+      }}
+      style={{ border: '2px solid red' }}
     />
   </div>
 )}
