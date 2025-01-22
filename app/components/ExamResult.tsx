@@ -305,8 +305,8 @@ const renderQuestionStatus = (question: QuestionResult) => {
 
 const renderOptions = (question: QuestionResult) => {
   return question.options.map((option, index) => {
-    const isCorrectOption = index === question.correct_option - 1;
-    const isStudentAnswer = index === (question.student_answer ? question.student_answer - 1 : null);
+    const isCorrectOption = index === question.correct_option; // -1 kaldırıldı
+    const isStudentAnswer = index === question.student_answer; // -1 kaldırıldı
 
     let optionClass = styles.option;
     if (isCorrectOption) {
