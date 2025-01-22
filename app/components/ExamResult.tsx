@@ -304,29 +304,26 @@ const renderQuestionStatus = (question: QuestionResult) => {
 };
 
 const renderOptions = (question: QuestionResult) => {
-  // Her soru için backend'den gelen verileri görelim
-  console.log('SORU BİLGİLERİ:', {
-    soru_metni: question.question_text,
-    dogru_cevap_index: question.correct_option,
-    ogrenci_cevabi: question.student_answer,
-    secenekler: question.options
+  console.log('Debug:', {
+    correct_option: question.correct_option,
+    student_answer: question.student_answer,
+    options: question.options
   });
 
   return question.options.map((option, index) => {
-    // Her seçenek için kontrol yapalım
-    console.log(`SEÇENEK ${index + 1}:`, {
-      secenek_metni: option,
-      secenek_index: index,
-      dogru_mu: index === question.correct_option,
-      ogrenci_secimi_mi: index === question.student_answer
-    });
+    // Backend'den gelen -1 değerini 0'a çevirelim
+    const correctOption = question.correct_option === -1 ? 0 : question.correct_option;
 
-    const isCorrectOption = index === question.correct_option;
+    const isCorrectOption = index === correctOption;
     const isStudentAnswer = index === question.student_answer;
 
     let optionClass = styles.option;
-    if (isCorrectOption) optionClass += ` ${styles.correctOption}`;
-    if (isStudentAnswer && !isCorrectOption) optionClass += ` ${styles.wrongOption}`;
+    if (isCorrectOption) {
+      optionClass += ` ${styles.correctOption}`;
+    }
+    if (isStudentAnswer && !isCorrectOption) {
+      optionClass += ` ${styles.wrongOption}`;
+    }
 
     return (
       <div key={index} className={optionClass}>
