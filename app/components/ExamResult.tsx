@@ -305,12 +305,18 @@ const renderQuestionStatus = (question: QuestionResult) => {
 
 const renderOptions = (question: QuestionResult) => {
   return question.options.map((option, index) => {
-    const isCorrectOption = index === question.correct_option - 1; // 1-based'den 0-based'e çevir
-    const isStudentAnswer = index === (question.student_answer ? question.student_answer - 1 : null); // 1-based'den 0-based'e çevir
+    const isCorrectOption = index === question.correct_option - 1;
+    const isStudentAnswer = index === (question.student_answer ? question.student_answer - 1 : null);
 
     let optionClass = styles.option;
-    if (isCorrectOption) optionClass += ` ${styles.correctOption}`;
-    if (isStudentAnswer && !question.is_correct) optionClass += ` ${styles.wrongOption}`;
+    if (isCorrectOption) {
+      // Doğru cevap her zaman yeşil olmalı
+      optionClass += ` ${styles.correctOption}`;
+    }
+    if (isStudentAnswer && !isCorrectOption) {
+      // Öğrencinin yanlış cevabı kırmızı olmalı
+      optionClass += ` ${styles.wrongOption}`;
+    }
 
     return (
       <div key={index} className={optionClass}>
@@ -319,7 +325,7 @@ const renderOptions = (question: QuestionResult) => {
         </span>
         <span className={styles.optionText}>{option}</span>
         {isCorrectOption && <FiCheckCircle className={styles.optionIcon} />}
-        {isStudentAnswer && !question.is_correct && <FiXCircle className={styles.optionIcon} />}
+        {isStudentAnswer && !isCorrectOption && <FiXCircle className={styles.optionIcon} />}
       </div>
     );
   });
