@@ -244,15 +244,17 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
 
                     <div className={styles.options}>
                       {examResult.questions[currentQuestionIndex].options.map((option, optIndex) => {
-                        const isCorrectOption = (optIndex + 1) === examResult.questions[currentQuestionIndex].correct_option;
-                        const isStudentAnswer = (optIndex + 1) === examResult.questions[currentQuestionIndex].student_answer;
+                        const currentQuestion = examResult.questions[currentQuestionIndex];
+                        const isCorrectOption = (optIndex + 1) === currentQuestion.correct_option;
+                        const isStudentAnswer = (optIndex + 1) === currentQuestion.student_answer;
+                        const isWrongAnswer = isStudentAnswer && !currentQuestion.is_correct;
 
                         return (
                             <div
                                 key={optIndex}
                                 className={`${styles.option} 
           ${isCorrectOption ? styles.correctOption : ''}
-          ${isStudentAnswer && !examResult.questions[currentQuestionIndex].is_correct ? styles.wrongAnswer : ''}
+          ${isWrongAnswer ? styles.wrongAnswer : ''}
         `}
                             >
         <span className={styles.optionIndex}>
@@ -260,22 +262,38 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
         </span>
                               <span className={styles.optionText}>{option}</span>
 
-                              {/* Doğru cevap işareti */}
+                              {/* Doğru cevap işareti - her zaman göster */}
                               {isCorrectOption && (
-                                  <span className={styles.correctMark}>✓</span>
+                                  <span className={styles.correctMark} title="Doğru Cevap">✓</span>
                               )}
 
-                              {/* Yanlış cevap işareti */}
-                              {isStudentAnswer && !examResult.questions[currentQuestionIndex].is_correct && (
-                                  <span className={styles.wrongMark}>✗</span>
+                              {/* Yanlış cevap işareti - sadece yanlış işaretlenmişse göster */}
+                              {isWrongAnswer && (
+                                  <span className={styles.wrongMark} title="Sizin Cevabınız">✗</span>
                               )}
                             </div>
                         );
                       })}
 
-                      {/* Boş soru mesajı */}
-                      {!examResult.questions[currentQuestionIndex].student_answer && (
+                      {/* Boş bırakılan sorular için bilgi - sadece gerçekten boşsa göster */}
+                      {examResult.questions[currentQuestionIndex].student_answer === null && (
                           <div className={styles.unanswered}>Bu soru cevaplanmamış</div>
+                      )}
+                    </div>
+
+                    <div className={styles.answerStatus}>
+                      {examResult.questions[currentQuestionIndex].student_answer === null ? (
+                          <span className={styles.unanswered}>
+      <FiXCircle/> Cevaplanmamış
+    </span>
+                      ) : examResult.questions[currentQuestionIndex].is_correct ? (
+                          <span className={styles.correct}>
+      <FiCheckCircle/> Doğru Cevap
+    </span>
+                      ) : (
+                          <span className={styles.incorrect}>
+      <FiXCircle/> Yanlış Cevap
+    </span>
                       )}
                     </div>
 
