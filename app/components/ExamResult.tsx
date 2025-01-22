@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "../styles/ExamResult.module.css";
-import { FiCheckCircle, FiXCircle, FiSun, FiMoon } from 'react-icons/fi';
+import { FiCheckCircle, FiXCircle, FiSun, FiMoon, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 interface ExamResultProps {
   examId?: number;
@@ -34,6 +34,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
   const [completedExams, setCompletedExams] = useState<Exam[]>([]);
   const [selectedExamId, setSelectedExamId] = useState<number | null>(propExamId || null);
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [darkMode, setDarkMode] = useState(() => {
@@ -103,21 +104,24 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
       const data = await response.json();
       setExamResult(data);
       setSelectedExamId(examId);
-
-      setTimeout(() => {
-        const resultElement = document.querySelector(`.${styles.resultDetails}`);
-        if (resultElement) {
-          resultElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest'
-          });
-        }
-      }, 100);
+      setCurrentQuestionIndex(0); // Yeni sınav seçildiğinde ilk sorudan başla
 
     } catch (error) {
       setError("Sonuç yüklenemedi");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (examResult && currentQuestionIndex < examResult.questions.length - 1) {
+      setCurrentQuestionIndex(prev => prev + 1);
+    }
+  };
+
+  const handlePreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
     }
   };
 
@@ -158,7 +162,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
               <h3>{exam.title}</h3>
               {selectedExamId === exam.id && examResult && (
                 <div className={styles.miniScore}>
-                  %{examResult.score_percentage}
+                  %{examResult.score_percentage.toFixed(0)}
                 </div>
               )}
             </div>
@@ -188,7 +192,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
 
             <div className={styles.scoreCircle}>
               <div className={styles.scoreValue}>
-                %{examResult.score_percentage}
+                %{examResult.score_percentage.toFixed(0)}
               </div>
               <div className={styles.scoreLabel}>Başarı</div>
             </div>
@@ -196,20 +200,42 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
 
           <div className={styles.questionsReview}>
             <h2>Soru Detayları</h2>
-            {examResult.questions.map((question, index) => (
-              <div
-                key={index}
-                className={`${styles.questionCard} ${
-                  question.is_correct ? styles.correctAnswer : styles.incorrectAnswer
-                }`}
-              >
-                <h3>Soru {index + 1}</h3>
-                <p className={styles.questionText}>{question.question_text}</p>
 
-                {question.question_image && (
+            <div className={styles.questionNavigation}>
+              <button
+                onClick={handlePreviousQuestion}
+                disabled={currentQuestionIndex === 0}
+                className={styles.navButton}
+              >
+                <FiArrowLeft /> Önceki
+              </button>
+              <span className={styles.questionCounter}>
+                Soru {currentQuestionIndex + 1} / {examResult.questions.length}
+              </span>
+              <button
+                onClick={handleNextQuestion}
+                disabled={currentQuestionIndex === examResult.questions.length - 1}
+                className={styles.navButton}
+              >
+                Sonraki <FiArrowRight />
+              </button>
+            </div>
+
+            <div className={styles.questionCard}>
+              <div className={`${styles.questionContent} ${
+                examResult.questions[currentQuestionIndex].is_correct 
+                  ? styles.correctAnswer 
+                  : styles.incorrectAnswer
+              }`}>
+                <h3>Soru {currentQuestionIndex + 1}</h3>
+                <p className={styles.questionText}>
+                  {examResult.questions[currentQuestionIndex].question_text}
+                </p>
+
+                {examResult.questions[currentQuestionIndex].question_image && (
                   <div className={styles.imageContainer}>
                     <img
-                      src={question.question_image}
+                      src={examResult.questions[currentQuestionIndex].question_image}
                       alt="Soru görseli"
                       className={styles.questionImage}
                     />
@@ -217,23 +243,25 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
                 )}
 
                 <div className={styles.options}>
-                  {question.options.map((option, optIndex) => (
+                  {examResult.questions[currentQuestionIndex].options.map((option, optIndex) => (
                     <div
                       key={optIndex}
                       className={`${styles.option} 
-                        ${optIndex === question.correct_option ? styles.correctOption : ''}
-                        ${optIndex === question.student_answer ? styles.studentAnswer : ''}
-                        ${optIndex === question.student_answer && !question.is_correct ? styles.wrongAnswer : ''}
+                        ${optIndex === examResult.questions[currentQuestionIndex].correct_option ? styles.correctOption : ''}
+                        ${optIndex === examResult.questions[currentQuestionIndex].student_answer ? styles.studentAnswer : ''}
+                        ${optIndex === examResult.questions[currentQuestionIndex].student_answer && 
+                          !examResult.questions[currentQuestionIndex].is_correct ? styles.wrongAnswer : ''}
                       `}
                     >
                       <span className={styles.optionIndex}>
                         {String.fromCharCode(65 + optIndex)}.
                       </span>
                       <span className={styles.optionText}>{option}</span>
-                      {optIndex === question.correct_option && (
+                      {optIndex === examResult.questions[currentQuestionIndex].correct_option && (
                         <span className={styles.correctMark}>✓</span>
                       )}
-                      {optIndex === question.student_answer && !question.is_correct && (
+                      {optIndex === examResult.questions[currentQuestionIndex].student_answer &&
+                        !examResult.questions[currentQuestionIndex].is_correct && (
                         <span className={styles.wrongMark}>✗</span>
                       )}
                     </div>
@@ -241,7 +269,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
                 </div>
 
                 <div className={styles.answerStatus}>
-                  {question.is_correct ? (
+                  {examResult.questions[currentQuestionIndex].is_correct ? (
                     <span className={styles.correct}>
                       <FiCheckCircle /> Doğru Cevap
                     </span>
@@ -252,7 +280,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
                   )}
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </>
       )}
