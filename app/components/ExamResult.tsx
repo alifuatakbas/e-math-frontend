@@ -246,14 +246,13 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
                       {examResult.questions[currentQuestionIndex].options.map((option, optIndex) => {
                         const isCorrectOption = (optIndex + 1) === examResult.questions[currentQuestionIndex].correct_option;
                         const isStudentAnswer = (optIndex + 1) === examResult.questions[currentQuestionIndex].student_answer;
-                        const isWrongAnswer = isStudentAnswer && !examResult.questions[currentQuestionIndex].is_correct;
 
                         return (
                             <div
                                 key={optIndex}
                                 className={`${styles.option} 
           ${isCorrectOption ? styles.correctOption : ''}
-          ${isStudentAnswer ? (examResult.questions[currentQuestionIndex].is_correct ? styles.correctAnswer : styles.wrongAnswer) : ''}
+          ${isStudentAnswer && !examResult.questions[currentQuestionIndex].is_correct ? styles.wrongAnswer : ''}
         `}
                             >
         <span className={styles.optionIndex}>
@@ -261,20 +260,20 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
         </span>
                               <span className={styles.optionText}>{option}</span>
 
-                              {/* Doğru cevabı her zaman göster */}
+                              {/* Doğru cevap işareti */}
                               {isCorrectOption && (
-                                  <span className={styles.correctMark} title="Doğru Cevap">✓</span>
+                                  <span className={styles.correctMark}>✓</span>
                               )}
 
-                              {/* Öğrencinin yanlış cevabını göster */}
-                              {isWrongAnswer && (
-                                  <span className={styles.wrongMark} title="Sizin Cevabınız">✗</span>
+                              {/* Yanlış cevap işareti */}
+                              {isStudentAnswer && !examResult.questions[currentQuestionIndex].is_correct && (
+                                  <span className={styles.wrongMark}>✗</span>
                               )}
                             </div>
                         );
                       })}
 
-                      {/* Boş bırakılan sorular için bilgi */}
+                      {/* Boş soru mesajı */}
                       {!examResult.questions[currentQuestionIndex].student_answer && (
                           <div className={styles.unanswered}>Bu soru cevaplanmamış</div>
                       )}
