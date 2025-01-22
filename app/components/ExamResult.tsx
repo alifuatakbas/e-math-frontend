@@ -16,8 +16,7 @@ interface Exam {
 
 interface QuestionResult {
   question_text: string;
-  question_image?: string;  // bunu değiştirmeyelim
-  image?: string;  // bunu ekleyelim
+  image?: string;  // sadece image kullanıyoruz
   options: string[];
   correct_option: number;
   student_answer: number | null;
@@ -295,10 +294,10 @@ if (loading) {
     </p>
 
     {/* Görsel kontrolünü ve gösterimini düzelttik */}
-{(examResult.questions[currentQuestionIndex].image || examResult.questions[currentQuestionIndex].question_image) && (
+{examResult.questions[currentQuestionIndex].image && (
   <div className={styles.imageContainer}>
     <img
-      src={`https://e-math-question-images.s3.eu-north-1.amazonaws.com${examResult.questions[currentQuestionIndex].image || examResult.questions[currentQuestionIndex].question_image}`}
+      src={`https://e-math-question-images.s3.eu-north-1.amazonaws.com${examResult.questions[currentQuestionIndex].image}`}
       alt="Soru görseli"
       className={styles.questionImage}
       loading="lazy"
