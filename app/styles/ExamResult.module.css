@@ -273,14 +273,13 @@
 }
 .imageContainer {
   width: 100%;
-  margin: 1rem 0;
-  display: flex;
-  justify-content: center;
+  max-width: 600px; /* veya istediğiniz bir değer */
+  margin: 1rem auto;
 }
 
 .questionImage {
-  max-width: 100%;
+  width: 100%;
   height: auto;
+  object-fit: contain;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
