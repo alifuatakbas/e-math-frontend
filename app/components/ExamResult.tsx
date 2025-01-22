@@ -13,11 +13,21 @@ interface Exam {
   has_been_taken: boolean;
 }
 
+interface QuestionResult {
+  question_text: string;
+  question_image?: string;
+  options: string[];
+  correct_option: number;
+  student_answer: number | null;
+  is_correct: boolean;
+}
+
 interface ExamResult {
   correct_answers: number;
   incorrect_answers: number;
   total_questions: number;
   score_percentage: number;
+  questions: QuestionResult[];
 }
 
 const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
@@ -53,7 +63,7 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
       try {
         setLoading(true);
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/user/completed-exams`, // URL değişti
+          `${process.env.NEXT_PUBLIC_API_URL}/user/completed-exams`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -65,10 +75,6 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
 
         const data = await response.json();
         setCompletedExams(data);
-
-        // Debug için
-        console.log('Çözülmüş sınavlar:', data);
-
       } catch (error) {
         setError("Sınavlar yüklenemedi");
         console.error("Hata:", error);
@@ -81,46 +87,45 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
   }, []);
 
   const fetchExamResult = async (examId: number) => {
-  try {
-    setLoading(true);
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${examId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/exam-results/${examId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-    if (!response.ok) throw new Error("Sonuç yüklenirken bir hata oluştu");
+      if (!response.ok) throw new Error("Sonuç yüklenirken bir hata oluştu");
 
-    const data = await response.json();
-    setExamResult(data);
-    setSelectedExamId(examId);
+      const data = await response.json();
+      setExamResult(data);
+      setSelectedExamId(examId);
 
-    // Sonuçlara smooth scroll
-    setTimeout(() => {
-      const resultElement = document.querySelector(`.${styles.resultDetails}`);
-      if (resultElement) {
-        resultElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest'
-        });
-      }
-    }, 100); // Küçük bir gecikme ekleyerek DOM'un güncellenmesini bekleyelim
+      setTimeout(() => {
+        const resultElement = document.querySelector(`.${styles.resultDetails}`);
+        if (resultElement) {
+          resultElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+          });
+        }
+      }, 100);
 
-  } catch (error) {
-    setError("Sonuç yüklenemedi");
-  } finally {
-    setLoading(false);
-  }
-};
+    } catch (error) {
+      setError("Sonuç yüklenemedi");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div className={styles.loading}>Yükleniyor...</div>;
   }
 
-   return (
+  return (
     <div className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
       <button
         onClick={toggleTheme}
@@ -162,31 +167,94 @@ const ExamResult: React.FC<ExamResultProps> = ({ examId: propExamId }) => {
       )}
 
       {examResult && (
-        <div className={styles.resultDetails}>
-          <div className={styles.statsGrid}>
-            <div className={styles.statCard}>
-              <FiCheckCircle className={styles.statIcon} />
-              <div className={styles.statValue}>{examResult.correct_answers}</div>
-              <div className={styles.statLabel}>Doğru</div>
+        <>
+          <div className={styles.resultDetails}>
+            <div className={styles.statsGrid}>
+              <div className={styles.statCard}>
+                <FiCheckCircle className={styles.statIcon} />
+                <div className={styles.statValue}>{examResult.correct_answers}</div>
+                <div className={styles.statLabel}>Doğru</div>
+              </div>
+              <div className={styles.statCard}>
+                <FiXCircle className={styles.statIcon} />
+                <div className={styles.statValue}>{examResult.incorrect_answers}</div>
+                <div className={styles.statLabel}>Yanlış</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={styles.statValue}>{examResult.total_questions}</div>
+                <div className={styles.statLabel}>Toplam Soru</div>
+              </div>
             </div>
-            <div className={styles.statCard}>
-              <FiXCircle className={styles.statIcon} />
-              <div className={styles.statValue}>{examResult.incorrect_answers}</div>
-              <div className={styles.statLabel}>Yanlış</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={styles.statValue}>{examResult.total_questions}</div>
-              <div className={styles.statLabel}>Toplam Soru</div>
+
+            <div className={styles.scoreCircle}>
+              <div className={styles.scoreValue}>
+                %{examResult.score_percentage}
+              </div>
+              <div className={styles.scoreLabel}>Başarı</div>
             </div>
           </div>
 
-          <div className={styles.scoreCircle}>
-            <div className={styles.scoreValue}>
-              %{examResult.score_percentage}
-            </div>
-            <div className={styles.scoreLabel}>Başarı</div>
+          <div className={styles.questionsReview}>
+            <h2>Soru Detayları</h2>
+            {examResult.questions.map((question, index) => (
+              <div
+                key={index}
+                className={`${styles.questionCard} ${
+                  question.is_correct ? styles.correctAnswer : styles.incorrectAnswer
+                }`}
+              >
+                <h3>Soru {index + 1}</h3>
+                <p className={styles.questionText}>{question.question_text}</p>
+
+                {question.question_image && (
+                  <div className={styles.imageContainer}>
+                    <img
+                      src={question.question_image}
+                      alt="Soru görseli"
+                      className={styles.questionImage}
+                    />
+                  </div>
+                )}
+
+                <div className={styles.options}>
+                  {question.options.map((option, optIndex) => (
+                    <div
+                      key={optIndex}
+                      className={`${styles.option} 
+                        ${optIndex === question.correct_option ? styles.correctOption : ''}
+                        ${optIndex === question.student_answer ? styles.studentAnswer : ''}
+                        ${optIndex === question.student_answer && !question.is_correct ? styles.wrongAnswer : ''}
+                      `}
+                    >
+                      <span className={styles.optionIndex}>
+                        {String.fromCharCode(65 + optIndex)}.
+                      </span>
+                      <span className={styles.optionText}>{option}</span>
+                      {optIndex === question.correct_option && (
+                        <span className={styles.correctMark}>✓</span>
+                      )}
+                      {optIndex === question.student_answer && !question.is_correct && (
+                        <span className={styles.wrongMark}>✗</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className={styles.answerStatus}>
+                  {question.is_correct ? (
+                    <span className={styles.correct}>
+                      <FiCheckCircle /> Doğru Cevap
+                    </span>
+                  ) : (
+                    <span className={styles.incorrect}>
+                      <FiXCircle /> Yanlış Cevap
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+        </>
       )}
     </div>
   );
