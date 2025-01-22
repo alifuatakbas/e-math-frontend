@@ -2,18 +2,18 @@
 
 import React from "react";
 import ExamResult from "../components/ExamResult";
-import Navbar from "../components/Navbar";  // Navbar'ı import ediyoruz
+import Navbar from "../components/Navbar";
 
 const ExamResultsPage = () => {
   const examId = 1;
 
   return (
-    <>
+    <div style={{ minHeight: '100vh' }}>
       <Navbar />
-      <div className="exam-results-page">
+      <main>
         <ExamResult examId={examId} />
-      </div>
-    </>
+      </main>
+    </div>
   );
 };
 
