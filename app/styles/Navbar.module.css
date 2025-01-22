@@ -401,6 +401,7 @@
     background: rgba(255, 51, 102, 0.1);
   }
 
+ @media (max-width: 768px) {
   .authButtons {
     position: static;
     width: 100%;
@@ -435,7 +436,7 @@
     text-align: center;
     padding: 1rem 2rem;
   }
-
+}
 
 @media (max-width: 480px) {
   .navLinks {
