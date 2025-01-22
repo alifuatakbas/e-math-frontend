@@ -16,7 +16,7 @@ interface Exam {
 
 interface QuestionResult {
   question_text: string;
-  image?: string;  // sadece image kullanıyoruz
+  question_image?: string;  // image yerine question_image
   options: string[];
   correct_option: number;
   student_answer: number | null;
@@ -294,10 +294,10 @@ if (loading) {
     </p>
 
     {/* Görsel kontrolünü ve gösterimini düzelttik */}
-{examResult.questions[currentQuestionIndex].image && (
+{examResult.questions[currentQuestionIndex].question_image && (
   <div className={styles.imageContainer}>
     <img
-      src={examResult.questions[currentQuestionIndex].image}
+      src={examResult.questions[currentQuestionIndex].question_image}
       alt="Soru görseli"
       className={styles.questionImage}
       loading="lazy"
