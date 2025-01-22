@@ -297,7 +297,7 @@ if (loading) {
 {examResult.questions[currentQuestionIndex].image && (
   <div className={styles.imageContainer}>
     <img
-      src={`https://e-math-question-images.s3.eu-north-1.amazonaws.com${examResult.questions[currentQuestionIndex].image}`}
+      src={examResult.questions[currentQuestionIndex].image}
       alt="Soru görseli"
       className={styles.questionImage}
       loading="lazy"
