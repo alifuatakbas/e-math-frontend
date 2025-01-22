@@ -1,5 +1,21 @@
 /* SubmitExam.module.css */
+:root {
+  /* Light theme variables */
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #FFFFFF;
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --border-color: #E2E8F0;
+  --accent-color: #3B82F6;
 
+  /* Dark theme variables */
+  --dark-bg-primary: #0F172A;
+  --dark-bg-secondary: #1E293B;
+  --dark-text-primary: #F1F5F9;
+  --dark-text-secondary: #CBD5E1;
+  --dark-border-color: #334155;
+  --dark-accent-color: #60A5FA;
+}
 /* Modal Stilleri */
 .modalOverlay {
   position: fixed;
@@ -104,19 +120,26 @@
 }
 
 .questionContainer {
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
-  border: 1px solid rgba(232, 74, 95, 0.1);
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .questionContainer h3 {
-  color: #1E293B;
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-height: 50px;
+  max-height: none;
+  overflow-y: visible;
 }
 
 .questionImage {
@@ -714,12 +737,11 @@
 }
 
 .darkMode .questionContainer {
-  background: rgba(30, 41, 59, 0.95);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--dark-bg-secondary);
 }
 
 .darkMode .questionContainer h3 {
-  color: #F1F5F9;
+  color: var(--dark-text-primary);
 }
 
 .darkMode .optionContainer {
@@ -819,7 +841,16 @@
     width: 18px;
     height: 18px;
   }
+  .questionContainer {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .questionContainer h3 {
+    font-size: 1rem;
+  }
 }
+
 
 /* Timer'ın üstüne gelmemesi için margin ekleyelim */
 .timer {
