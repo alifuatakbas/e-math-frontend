@@ -118,7 +118,7 @@ const Profile = () => {
             <div className={styles.infoItem}>
               <FiBookOpen className={styles.icon} />
               <div className={styles.infoContent}>
-                <label>Branş</label>
+                <label>Sınıf</label>
                 <span>{user.branch || 'Belirtilmemiş'}</span>
               </div>
             </div>

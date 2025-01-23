@@ -40,13 +40,13 @@ const toggleTheme = () => {
   localStorage.setItem('theme', darkMode ? 'light' : 'dark');
 };
 
- const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -94,70 +94,75 @@ const toggleTheme = () => {
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email:</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className={styles.input}
-              placeholder="ornek@email.com"
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className={styles.input}
+                placeholder="ornek@email.com"
             />
           </div>
 
           <div className={styles.inputGroup}>
             <label htmlFor="full_name">Ad Soyad:</label>
             <input
-              type="text"
-              id="full_name"
-              name="full_name"
-              value={formData.full_name}
-              onChange={handleChange}
-              required
-              className={styles.input}
-              placeholder="Ad Soyad giriniz"
+                type="text"
+                id="full_name"
+                name="full_name"
+                value={formData.full_name}
+                onChange={handleChange}
+                required
+                className={styles.input}
+                placeholder="Ad Soyad giriniz"
             />
           </div>
 
           <div className={styles.inputGroup}>
             <label htmlFor="school_name">Okul Adı:</label>
             <input
-              type="text"
-              id="school_name"
-              name="school_name"
-              value={formData.school_name}
-              onChange={handleChange}
-              required
-              className={styles.input}
-              placeholder="Okul adını giriniz"
+                type="text"
+                id="school_name"
+                name="school_name"
+                value={formData.school_name}
+                onChange={handleChange}
+                required
+                className={styles.input}
+                placeholder="Okul adını giriniz"
             />
           </div>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="branch">Şube:</label>
-            <input
-              type="text"
-              id="branch"
-              name="branch"
-              value={formData.branch}
-              onChange={handleChange}
-              required
-              className={styles.input}
-              placeholder="Şubeyi giriniz"
-            />
+            <label htmlFor="branch">Sınıf:</label>
+            <select
+                id="branch"
+                name="branch"
+                value={formData.branch}
+                onChange={handleChange}
+                required
+                className={styles.input}
+            >
+              <option value="">Sınıfınızı seçin</option>
+              <option value="5. Sınıf">5. Sınıf</option>
+              <option value="6. Sınıf">6. Sınıf</option>
+              <option value="7. Sınıf">7. Sınıf</option>
+              <option value="8. Sınıf">8. Sınıf</option>
+              <option value="9. Sınıf">9. Sınıf</option>
+            </select>
           </div>
 
           <div className={styles.inputGroup}>
             <label htmlFor="password">Şifre:</label>
             <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className={styles.input}
-              placeholder="••••••••"
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className={styles.input}
+                placeholder="••••••••"
             />
           </div>
 
