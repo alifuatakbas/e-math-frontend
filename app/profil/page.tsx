@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/Profile.module.css';
 import { FiUser, FiMail, FiBook, FiBookOpen } from 'react-icons/fi';
+import Navbar from '../components/Navbar';
 
 interface UserProfile {
   full_name: string;
@@ -14,6 +15,30 @@ interface UserProfile {
 const Profile = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.nodeName === 'HTML') {
+          const isDark = document.documentElement.classList.contains('dark-theme');
+          setDarkMode(isDark);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -41,50 +66,61 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner}></div>
-        <p>Yükleniyor...</p>
-      </div>
+      <>
+        <Navbar />
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <p>Yükleniyor...</p>
+        </div>
+      </>
     );
   }
 
   if (!user) {
-    return <div className={styles.error}>Kullanıcı bilgileri bulunamadı.</div>;
+    return (
+      <>
+        <Navbar />
+        <div className={styles.error}>Kullanıcı bilgileri bulunamadı.</div>
+      </>
+    );
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.profileCard}>
-        <div className={styles.header}>
-          <div className={styles.avatar}>
-            {user.full_name.charAt(0).toUpperCase()}
-          </div>
-          <h1>{user.full_name}</h1>
-          <span className={styles.role}>{user.role === 'admin' ? 'Yönetici' : 'Öğrenci'}</span>
-        </div>
-
-        <div className={styles.infoGrid}>
-          <div className={styles.infoItem}>
-            <FiMail className={styles.icon} />
-            <div className={styles.infoContent}>
-              <label>E-posta</label>
-              <span>{user.email}</span>
+    <div className={`${darkMode ? styles.darkMode : ''}`}>
+      <Navbar />
+      <div className={styles.container}>
+        <div className={styles.profileCard}>
+          <div className={styles.header}>
+            <div className={styles.avatar}>
+              {user.full_name.charAt(0).toUpperCase()}
             </div>
+            <h1>{user.full_name}</h1>
+            <span className={styles.role}>{user.role === 'admin' ? 'Yönetici' : 'Öğrenci'}</span>
           </div>
 
-          <div className={styles.infoItem}>
-            <FiBook className={styles.icon} />
-            <div className={styles.infoContent}>
-              <label>Okul</label>
-              <span>{user.school_name || 'Belirtilmemiş'}</span>
+          <div className={styles.infoGrid}>
+            <div className={styles.infoItem}>
+              <FiMail className={styles.icon} />
+              <div className={styles.infoContent}>
+                <label>E-posta</label>
+                <span>{user.email}</span>
+              </div>
             </div>
-          </div>
 
-          <div className={styles.infoItem}>
-            <FiBookOpen className={styles.icon} />
-            <div className={styles.infoContent}>
-              <label>Branş</label>
-              <span>{user.branch || 'Belirtilmemiş'}</span>
+            <div className={styles.infoItem}>
+              <FiBook className={styles.icon} />
+              <div className={styles.infoContent}>
+                <label>Okul</label>
+                <span>{user.school_name || 'Belirtilmemiş'}</span>
+              </div>
+            </div>
+
+            <div className={styles.infoItem}>
+              <FiBookOpen className={styles.icon} />
+              <div className={styles.infoContent}>
+                <label>Branş</label>
+                <span>{user.branch || 'Belirtilmemiş'}</span>
+              </div>
             </div>
           </div>
         </div>

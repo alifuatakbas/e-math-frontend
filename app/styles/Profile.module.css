@@ -2,6 +2,12 @@
   max-width: 800px;
   margin: 2rem auto;
   padding: 0 1rem;
+  min-height: calc(100vh - 64px); /* Navbar yüksekliğini çıkar */
+}
+
+.darkMode {
+  background-color: #0F172A;
+  min-height: 100vh;
 }
 
 .profileCard {
@@ -9,6 +15,12 @@
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.darkMode .profileCard {
+  background: #1E293B;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .header {
@@ -30,6 +42,7 @@
   font-size: 2.5rem;
   color: #3B82F6;
   font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .role {
@@ -51,9 +64,14 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
-  background: #f8fafc;
+  padding: 1.5rem;
+  background: #F8FAFC;
   border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.darkMode .infoItem {
+  background: #2D3748;
 }
 
 .icon {
@@ -68,13 +86,21 @@
 
 .infoContent label {
   font-size: 0.875rem;
-  color: #64748b;
+  color: #64748B;
   margin-bottom: 0.25rem;
 }
 
 .infoContent span {
   font-weight: 500;
-  color: #1e293b;
+  color: #1E293B;
+}
+
+.darkMode .infoContent label {
+  color: #A0AEC0;
+}
+
+.darkMode .infoContent span {
+  color: #F7FAFC;
 }
 
 .loading {
@@ -82,7 +108,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: calc(100vh - 64px);
 }
 
 .spinner {
@@ -102,23 +128,31 @@
 
 .error {
   text-align: center;
-  color: #ef4444;
+  color: #EF4444;
   padding: 2rem;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Dark mode desteği */
-:global(.dark-theme) .profileCard {
-  background: #1a1a1a;
-}
+/* Responsive tasarım */
+@media (max-width: 640px) {
+  .container {
+    margin: 1rem auto;
+  }
 
-:global(.dark-theme) .infoItem {
-  background: #2d2d2d;
-}
+  .infoGrid {
+    padding: 1rem;
+  }
 
-:global(.dark-theme) .infoContent label {
-  color: #94a3b8;
-}
+  .infoItem {
+    padding: 1rem;
+  }
 
-:global(.dark-theme) .infoContent span {
-  color: #e2e8f0;
+  .avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
 }
