@@ -208,23 +208,20 @@ const Navbar: React.FC = () => {
                     {currentUser.full_name} {isAdmin && '(Admin)'}
                   </span>
                     {isDropdownOpen && (
-                        <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
-                          <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
-                            Profil
-                          </Link>
-                          {isAdmin && (
-                              <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
-                                Admin Panel
-                              </Link>
-                          )}
-                          <Link href="/settings" className={styles.userDropdownLink} onClick={closeMenu}>
-                            Ayarlar
-                          </Link>
-                          <button onClick={handleLogout} className={styles.logoutButton}>
-                            Çıkış
-                          </button>
-                        </div>
-                    )}
+  <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
+    <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
+      Profil
+    </Link>
+    {isAdmin && (
+      <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
+        Admin Panel
+      </Link>
+    )}
+    <button onClick={handleLogout} className={styles.logoutButton}>
+      Çıkış
+    </button>
+  </div>
+)}
                   </>
               ) : (
                   <>
