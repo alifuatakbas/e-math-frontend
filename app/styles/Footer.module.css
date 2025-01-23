@@ -110,3 +110,11 @@
     font-size: 1.1rem;
   }
 }
+/* styles/Footer.module.css içine ekle */
+.footerSection ul li a {
+  color: #a0aec0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+  cursor: pointer; /* Tıklanabilir olduğunu belli etmek için */
+}

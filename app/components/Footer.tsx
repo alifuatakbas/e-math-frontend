@@ -2,10 +2,25 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from '../styles/Footer.module.css';
 import { FiMail, FiPhone, FiInstagram, FiYoutube } from 'react-icons/fi';
 
 const Footer = () => {
+  const router = useRouter();
+
+  // Korumalı sayfalara erişim kontrolü
+  const handleProtectedLink = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      router.push('/login');
+    } else {
+      router.push(path);
+    }
+  };
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
@@ -32,8 +47,22 @@ const Footer = () => {
           <h4>Hızlı Erişim</h4>
           <ul>
             <li><Link href="/">Ana Sayfa</Link></li>
-            <li><Link href="/sinav-coz">Sınav Çöz</Link></li>
-            <li><Link href="/sinav-sonuclari">Sınav Sonuçları</Link></li>
+            <li>
+              <a
+                href="/sinav-coz"
+                onClick={(e) => handleProtectedLink(e, '/sinav-coz')}
+              >
+                Sınav Çöz
+              </a>
+            </li>
+            <li>
+              <a
+                href="/sinav-sonuclari"
+                onClick={(e) => handleProtectedLink(e, '/sinav-sonuclari')}
+              >
+                Sınav Sonuçları
+              </a>
+            </li>
             <li><Link href="/hakkimizda">Hakkımızda</Link></li>
           </ul>
         </div>
@@ -53,7 +82,6 @@ const Footer = () => {
           <h4>İletişim</h4>
           <ul>
             <li><Link href="/basvuru">Başvuru Yap</Link></li>
-            <li><Link href="/iletisim">İletişim</Link></li>
             <li><Link href="/sss">Sık Sorulan Sorular</Link></li>
             <li><Link href="/gizlilik">Gizlilik Politikası</Link></li>
           </ul>
