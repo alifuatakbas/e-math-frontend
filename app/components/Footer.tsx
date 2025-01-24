@@ -70,11 +70,11 @@ const Footer = () => {
         <div className={styles.footerSection}>
           <h4>Sınıflar</h4>
           <ul>
-            <li><Link href="/sinif/5">5. Sınıf</Link></li>
-            <li><Link href="/sinif/6">6. Sınıf</Link></li>
-            <li><Link href="/sinif/7">7. Sınıf</Link></li>
-            <li><Link href="/sinif/8">8. Sınıf</Link></li>
-            <li><Link href="/sinif/9">9. Sınıf</Link></li>
+            <li><Link href="">5. Sınıf</Link></li>
+            <li><Link href="">6. Sınıf</Link></li>
+            <li><Link href="">7. Sınıf</Link></li>
+            <li><Link href="">8. Sınıf</Link></li>
+            <li><Link href="">9. Sınıf</Link></li>
           </ul>
         </div>
 
@@ -83,7 +83,6 @@ const Footer = () => {
           <ul>
             <li><Link href="/basvuru">Başvuru Yap</Link></li>
             <li><Link href="/sss">Sık Sorulan Sorular</Link></li>
-            <li><Link href="/gizlilik">Gizlilik Politikası</Link></li>
           </ul>
         </div>
       </div>
