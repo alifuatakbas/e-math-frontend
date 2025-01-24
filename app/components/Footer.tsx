@@ -28,16 +28,16 @@ const Footer = () => {
           <h3>E-MATH</h3>
           <p>Matematik öğrenmeyi kolaylaştırıyoruz.</p>
           <div className={styles.socialLinks}>
-            <a href="mailto:contact@emath.com" aria-label="Email">
+            <a href="huseyin.yildiz@eolimpiyat.com" aria-label="Email">
               <FiMail />
             </a>
-            <a href="tel:+901234567890" aria-label="Phone">
+            <a href="tel:+905010871213" aria-label="Phone">
               <FiPhone />
             </a>
-            <a href="https://instagram.com/emath" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href="" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <FiInstagram />
             </a>
-            <a href="https://youtube.com/emath" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <a href="" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
               <FiYoutube />
             </a>
           </div>
