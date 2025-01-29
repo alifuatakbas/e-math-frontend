@@ -452,3 +452,14 @@
     font-size: 1.2rem;
   }
 }
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
+}
