@@ -152,7 +152,7 @@ const Navbar: React.FC = () => {
         <div className={styles.navContainer}>
       <Link href="/" className={styles.logo}>
     <Image
-        src="../public/logo.png"  // public klasöründeki yol
+        src="../public/logo.jpg"  // public klasöründeki yol
         alt="E-Math Logo"
         width={150}
         height={50}
