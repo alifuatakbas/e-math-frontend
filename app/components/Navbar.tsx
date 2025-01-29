@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Navbar.module.css';
 import Image from 'next/image'
+import Logo from '../components/Logo';
 
 interface User {
   full_name: string;
