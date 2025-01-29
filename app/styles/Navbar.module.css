@@ -456,10 +456,18 @@
 .logo {
     display: flex;
     align-items: center;
+    padding: 10px 0;
 }
 
-.logo img {
-    max-height: 50px;
-    width: auto;
-    object-fit: contain;
+/* Dark mode için */
+.darkMode .logo {
+    color: #fff;
+}
+
+/* Mobil için */
+@media (max-width: 768px) {
+    .logo svg {
+        width: 120px;
+        height: 40px;
+    }
 }

@@ -150,14 +150,9 @@ const Navbar: React.FC = () => {
     <>
       <nav className={`${styles.navbar} ${isDarkMode ? styles.darkMode : ''}`}>
         <div className={styles.navContainer}>
-      <Link href="/" className={styles.logo}>
-    <Image
-        src="/logo.jpg"  // public klasöründeki yol
-        alt="E-Math Logo"
-        width={150}
-        height={50}
-    />
-</Link>
+     <Link href="/" className={styles.logo}>
+          <Logo />  {/* Logo komponenti burada kullanılıyor */}
+        </Link>
 
           <div
             className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
