@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Navbar.module.css';
 import Image from 'next/image'
-import Logo from '../components/Logo';
 
 interface User {
   full_name: string;
@@ -153,7 +152,7 @@ const Navbar: React.FC = () => {
         <div className={styles.navContainer}>
     <Link href="/" className={styles.logo}>
     <Image
-        src="/logo.png"    // public klasöründeki logo
+        src="/logo.jpg"    // public klasöründeki logo
         alt="E-Olimpiyat Logo"
         width={200}        // logoyu daha büyük yapalım
         height={80}        // oranı koruyalım
