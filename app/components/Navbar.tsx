@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Navbar.module.css';
+import Image from 'next/image'
 
 interface User {
   full_name: string;
@@ -149,9 +150,14 @@ const Navbar: React.FC = () => {
     <>
       <nav className={`${styles.navbar} ${isDarkMode ? styles.darkMode : ''}`}>
         <div className={styles.navContainer}>
-          <Link href="/" className={styles.logo}>
-            LOGO
-          </Link>
+      <Link href="/" className={styles.logo}>
+    <Image
+        src="/logo.png"  // public klasöründeki yol
+        alt="E-Math Logo"
+        width={150}
+        height={50}
+    />
+</Link>
 
           <div
             className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
