@@ -150,14 +150,14 @@ const Navbar: React.FC = () => {
     <>
       <nav className={`${styles.navbar} ${isDarkMode ? styles.darkMode : ''}`}>
         <div className={styles.navContainer}>
-    <Link href="/" className={styles.logo}>
+   <Link href="/" className={styles.logo}>
     <Image
-        src="/logo.jpg"    // public klasöründeki logo
+        src="/logo.svg"    // .svg uzantısını kullanın
         alt="E-Olimpiyat Logo"
-        width={100}        // logoyu daha büyük yapalım
-        height={40}        // oranı koruyalım
-        priority          // hızlı yüklenme için
-        style={{          // stil ekleyelim
+        width={200}
+        height={80}
+        priority
+        style={{
             objectFit: 'contain',
             margin: '10px 0'
         }}

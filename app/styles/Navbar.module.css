@@ -307,10 +307,12 @@
     align-items: center;
     padding: 5px 0;
 }
+
 .logo img {
     max-width: 200px;
     height: auto;
     object-fit: contain;
+    filter: brightness(1); /* Dark mode için ayarlanabilir */
 }
 
 /* Mobile Styles */
@@ -471,3 +473,9 @@
         max-width: 150px;
     }
 }
+
+.darkMode .logo img {
+    filter: brightness(10); /* Logoyu beyaz yapar */
+}
+
+/* Mobil için */
