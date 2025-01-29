@@ -151,9 +151,19 @@ const Navbar: React.FC = () => {
     <>
       <nav className={`${styles.navbar} ${isDarkMode ? styles.darkMode : ''}`}>
         <div className={styles.navContainer}>
-     <Link href="/" className={styles.logo}>
-          <Logo />  {/* Logo komponenti burada kullanılıyor */}
-        </Link>
+    <Link href="/" className={styles.logo}>
+    <Image
+        src="/logo.png"    // public klasöründeki logo
+        alt="E-Olimpiyat Logo"
+        width={200}        // logoyu daha büyük yapalım
+        height={80}        // oranı koruyalım
+        priority          // hızlı yüklenme için
+        style={{          // stil ekleyelim
+            objectFit: 'contain',
+            margin: '10px 0'
+        }}
+    />
+</Link>
 
           <div
             className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
