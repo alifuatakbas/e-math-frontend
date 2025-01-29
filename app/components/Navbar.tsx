@@ -154,8 +154,8 @@ const Navbar: React.FC = () => {
     <Image
         src="/logo.jpg"    // public klasöründeki logo
         alt="E-Olimpiyat Logo"
-        width={200}        // logoyu daha büyük yapalım
-        height={80}        // oranı koruyalım
+        width={100}        // logoyu daha büyük yapalım
+        height={40}        // oranı koruyalım
         priority          // hızlı yüklenme için
         style={{          // stil ekleyelim
             objectFit: 'contain',
