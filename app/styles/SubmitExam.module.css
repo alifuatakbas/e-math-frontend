@@ -823,12 +823,11 @@
     margin: 1rem;
     padding: 1rem;
     border-radius: 16px;
-    height: 100vh;
+    min-height: 100vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)); /* Butonlar için alan */
   }
 
   /* Timer */
@@ -842,12 +841,11 @@
  .questionContainer {
     margin: 1rem 0;
     padding: 1rem;
-    overflow-y: visible;
+    padding-bottom: 2rem; /* Son seçenek ile butonlar arası boşluk */
   }
 
   .questionContainer {
     flex: 1;
-    margin: 1rem 0;
     padding: 1rem;
     overflow-y: visible;
     margin-bottom: calc(70px + env(safe-area-inset-bottom)); /* Buton yüksekliği + ekstra alan */
@@ -927,33 +925,35 @@
   }
 
   /* Alt navigasyon butonları */
-   .buttonContainer {
+    .buttonContainer {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 1rem;
-    background: inherit;
-    z-index: 100;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    background: #fff; /* Açık tema için arka plan */
     margin: 0;
     display: flex;
     gap: 0.5rem;
-    height: 70px; /* Sabit yükseklik */
-    padding-bottom: env(safe-area-inset-bottom); /* iPhone X ve üzeri için güvenli alan */
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
   .buttonContainer {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
-  .buttonContainer button {
+   .buttonContainer button {
     flex: 1;
-    padding: 0.8rem;
+    min-height: 44px;
     font-size: 1rem;
+    padding: 0.8rem;
     border-radius: 8px;
-    min-height: 48px; /* Kolay tıklama için */
+    white-space: nowrap;
   }
- .darkMode .buttonContainer {
+  .darkMode .buttonContainer {
     background: rgba(30, 41, 59, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
@@ -971,6 +971,10 @@
 
   .darkMode .optionContainer input[type="radio"]:checked + label {
     background: rgba(255, 255, 255, 0.1);
+  }
+
+   .optionContainer:last-of-type {
+    margin-bottom: 1rem;
   }
 
   /* Tema toggle butonu */
