@@ -2,7 +2,7 @@
 
 Online olimpiyat eğitim platformunun frontend uygulaması.
 
-## 🚀 Teknolojiler
+##  Teknolojiler
 
 - Next.js
 - TypeScript
