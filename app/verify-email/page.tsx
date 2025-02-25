@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from '../styles/VerifyEmail.module.css';
 
-// Verification component'i ayrı bir component olarak oluştur
+// Verification component
 const VerificationComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,9 +21,14 @@ const VerificationComponent = () => {
       }
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify-email?token=${token}`, {
+        const response = await fetch(`https://api.eolimpiyat.com/verify-email?token=${token}`, {
           method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
         });
+
+        const data = await response.json();
 
         if (response.ok) {
           setStatus('success');
@@ -33,7 +38,6 @@ const VerificationComponent = () => {
             router.push('/login');
           }, 3000);
         } else {
-          const data = await response.json();
           setStatus('error');
           setMessage(data.detail || 'Doğrulama işlemi başarısız oldu.');
         }
