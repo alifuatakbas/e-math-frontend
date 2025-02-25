@@ -12,6 +12,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Yeni eklendi
 
   useEffect(() => {
     // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
@@ -38,38 +39,64 @@ const Login: React.FC = () => {
 };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  e.preventDefault();
+  setIsLoading(true); // Loading durumunu ekleyin
+  setError('');
+  setMessage('');
 
-    setError('');
-    setMessage('');
+  const formData = new FormData();
+  formData.append('username', email);
+  formData.append('password', password);
 
-    const formData = new FormData();
-    formData.append('username', email);
-    formData.append('password', password);
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token`, {
+      method: 'POST',
+      body: formData
+    });
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token`, {
-        method: 'POST',
-        body: formData
+    const data = await response.json();
+
+    if (response.ok) {
+      // Başarılı giriş
+      localStorage.setItem('token', data.access_token);
+      setMessage('Giriş başarılı! Yönlendiriliyorsunuz...');
+
+      // Kullanıcı bilgilerini al
+      const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+        headers: {
+          'Authorization': `Bearer ${data.access_token}`
+        }
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.access_token);
-        setMessage('Login successful!');
-
-        setTimeout(() => {
-          router.push('/');
-          router.refresh();
-        }, 1000);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.detail || 'Login failed.');
+      if (userResponse.ok) {
+        const userData = await userResponse.json();
+        localStorage.setItem('user', JSON.stringify(userData));
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
+
+      setTimeout(() => {
+        router.push('/');
+        router.refresh();
+      }, 1000);
+
+    } else {
+      // Hata durumları
+      if (data.detail === "Lütfen email adresinizi doğrulayın") {
+        setError(
+          'Lütfen giriş yapmadan önce email adresinizi doğrulayın. ' +
+          'Doğrulama linkini kontrol edin veya spam klasörünüze bakın.'
+        );
+      } else if (data.detail === "Email veya şifre hatalı") {
+        setError('Email veya şifre hatalı. Lütfen tekrar deneyin.');
+      } else {
+        setError(data.detail || 'Giriş başarısız.');
+      }
     }
-  };
+  } catch (error) {
+    setError('Bir hata oluştu. Lütfen tekrar deneyin.');
+  } finally {
+    setIsLoading(false); // Loading durumunu kapat
+  }
+};
 
   const handleForgotPassword = async () => {
     if (!email) {
@@ -148,15 +175,19 @@ const Login: React.FC = () => {
               placeholder="••••••••"
             />
           </div>
-          <button type="submit" className={styles.submitButton}>
-            Giriş Yap
+          <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isLoading}
+          >
+            {isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
           </button>
         </form>
 
         <div className={styles.forgotPasswordContainer}>
           <button
-            onClick={handleForgotPassword}
-            className={styles.forgotPasswordButton}
+              onClick={handleForgotPassword}
+              className={styles.forgotPasswordButton}
             type="button"
           >
             Şifremi Unuttum

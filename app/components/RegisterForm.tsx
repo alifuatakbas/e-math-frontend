@@ -16,6 +16,7 @@ const Register: React.FC = () => {
   });
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
    const theme = localStorage.getItem('theme');
@@ -39,6 +40,22 @@ const toggleTheme = () => {
   // Tema tercihini localStorage'a kaydet
   localStorage.setItem('theme', darkMode ? 'light' : 'dark');
 };
+// Password validation
+const validatePassword = (password: string) => {
+  if (password.length < 8) {
+    return 'Şifre en az 8 karakter olmalıdır.';
+  }
+  if (!/[A-Z]/.test(password)) {
+    return 'Şifre en az bir büyük harf içermelidir.';
+  }
+  if (!/[a-z]/.test(password)) {
+    return 'Şifre en az bir küçük harf içermelidir.';
+  }
+  if (!/[0-9]/.test(password)) {
+    return 'Şifre en az bir rakam içermelidir.';
+  }
+  return '';
+};
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
   const { name, value } = e.target;
@@ -48,9 +65,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   }));
 };
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true); // Yükleme başladı
     setError('');
     setMessage('');
 
@@ -66,17 +83,32 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
       const data = await response.json();
 
       if (response.ok) {
-        setMessage('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
-        setTimeout(() => {
-          router.push('/login');
-        }, 2000);
+        setMessage(
+          'Kayıt başarılı! Lütfen email adresinize gönderilen doğrulama linkine tıklayın. ' +
+          'Spam klasörünü kontrol etmeyi unutmayın.'
+        );
+
+        // Form alanlarını temizle
+        setFormData({
+          email: '',
+          password: '',
+          full_name: '',
+          school_name: '',
+          branch: ''
+        });
       } else {
-        setError(data.detail?.[0]?.msg || data.detail || 'Kayıt başarısız.');
+        if (data.detail === "Email adresi zaten kayıtlı") {
+          setError('Bu email adresi zaten kullanılıyor. Lütfen başka bir email adresi deneyin.');
+        } else {
+          setError(data.detail?.[0]?.msg || data.detail || 'Kayıt başarısız.');
+        }
       }
     } catch (error) {
       setError('Bir hata oluştu, lütfen tekrar deneyin.');
+    } finally {
+      setIsLoading(false); // Yükleme bitti
     }
-  };
+};
 
   return (
     <div className={styles.registerContainer}>
@@ -166,8 +198,12 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
             />
           </div>
 
-          <button type="submit" className={styles.submitButton}>
-            Kayıt Ol
+          <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isLoading}
+          >
+            {isLoading ? 'Kaydediliyor...' : 'Kayıt Ol'}
           </button>
         </form>
 

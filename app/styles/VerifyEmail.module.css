@@ -1,0 +1,107 @@
+.verifyContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #F8FAFC;
+}
+
+.dark-theme .verifyContainer {
+  background-color: #0F172A;
+}
+
+.verifyBox {
+  background: #FFFFFF;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.dark-theme .verifyBox {
+  background: #1E293B;
+}
+
+.title {
+  color: #1E293B;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.dark-theme .title {
+  color: #F8FAFC;
+}
+
+.statusContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.message {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.message.verifying {
+  color: #666;
+}
+
+.dark-theme .message.verifying {
+  color: #94A3B8;
+}
+
+.message.success {
+  color: #22c55e;
+}
+
+.message.error {
+  color: #ef4444;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.dark-theme .loadingSpinner {
+  border: 3px solid #334155;
+  border-top: 3px solid #60A5FA;
+}
+
+.successIcon {
+  width: 40px;
+  height: 40px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.errorIcon {
+  width: 40px;
+  height: 40px;
+  background: #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

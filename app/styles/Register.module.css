@@ -271,3 +271,63 @@ select.input:focus {
 select.input option[value=""] {
   color: #666;
 }
+.successMessage {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #dcfce7;
+  border: 1px solid #22c55e;
+  border-radius: 0.5rem;
+  color: #166534;
+}
+
+.dark-theme .successMessage {
+  background-color: #064e3b;
+  border-color: #22c55e;
+  color: #dcfce7;
+}
+
+.emailNote {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #166534;
+}
+
+.dark-theme .emailNote {
+  color: #dcfce7;
+}
+
+/* Mevcut submitButton stilini güncelle */
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.successMessage {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #dcfce7;
+  border: 1px solid #22c55e;
+  border-radius: 0.5rem;
+  color: #166534;
+}
+
+.dark-theme .successMessage {
+  background-color: #064e3b;
+  border-color: #22c55e;
+  color: #dcfce7;
+}
+
+.emailNote {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #166534;
+}
+
+.dark-theme .emailNote {
+  color: #dcfce7;
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
