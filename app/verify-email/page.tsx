@@ -21,30 +21,35 @@ const VerificationComponent = () => {
       }
 
       try {
-        const response = await fetch(`https://api.eolimpiyat.com/verify-email?token=${token}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
+  const response = await fetch(`https://api.eolimpiyat.com/verify-email?token=${token}`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
 
-        const data = await response.json();
+  console.log('Response status:', response.status); // Debug log
 
-        if (response.ok) {
-          setStatus('success');
-          setMessage('Email adresiniz başarıyla doğrulandı! Giriş sayfasına yönlendiriliyorsunuz...');
+  const data = await response.json();
+  console.log('Response data:', data); // Debug log
 
-          setTimeout(() => {
-            router.push('/login');
-          }, 3000);
-        } else {
-          setStatus('error');
-          setMessage(data.detail || 'Doğrulama işlemi başarısız oldu.');
-        }
-      } catch (error) {
-        setStatus('error');
-        setMessage('Bir hata oluştu. Lütfen tekrar deneyin.');
-      }
+  if (response.ok) {
+    setStatus('success');
+    setMessage('Email adresiniz başarıyla doğrulandı! Giriş sayfasına yönlendiriliyorsunuz...');
+    setTimeout(() => {
+      router.push('/login');
+    }, 3000);
+  } else {
+    setStatus('error');
+    setMessage(data.detail || 'Doğrulama işlemi başarısız oldu.');
+    console.error('Error details:', data); // Debug log
+  }
+} catch (error) {
+  console.error('Verification error:', error); // Debug log
+  setStatus('error');
+  setMessage('Sunucuya bağlanırken bir hata oluştu. Lütfen tekrar deneyin.');
+}
     };
 
     verifyEmail();
