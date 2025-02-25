@@ -42,6 +42,13 @@
   gap: 1rem;
 }
 
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
 .message {
   margin-top: 1rem;
   font-size: 1rem;
@@ -49,10 +56,6 @@
 
 .message.verifying {
   color: #666;
-}
-
-.dark-theme .message.verifying {
-  color: #94A3B8;
 }
 
 .message.success {
@@ -70,11 +73,6 @@
   border-top: 3px solid #3498db;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-}
-
-.dark-theme .loadingSpinner {
-  border: 3px solid #334155;
-  border-top: 3px solid #60A5FA;
 }
 
 .successIcon {

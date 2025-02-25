@@ -1,15 +1,16 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import styles from '../styles/VerifyEmail.module.css';  // Stil dosyasını oluşturacağız
+import styles from '../styles/VerifyEmail.module.css';
 
-const VerifyEmail = () => {
+// Verification component'i ayrı bir component olarak oluştur
+const VerificationComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
-  const [message, setMessage] = useState<string>('Email adresiniz doğrulanıyor...');
+  const [status, setStatus] = React.useState<'verifying' | 'success' | 'error'>('verifying');
+  const [message, setMessage] = React.useState<string>('Email adresiniz doğrulanıyor...');
 
-  useEffect(() => {
+  React.useEffect(() => {
     const verifyEmail = async () => {
       const token = searchParams.get('token');
 
@@ -28,7 +29,6 @@ const VerifyEmail = () => {
           setStatus('success');
           setMessage('Email adresiniz başarıyla doğrulandı! Giriş sayfasına yönlendiriliyorsunuz...');
 
-          // 3 saniye sonra login sayfasına yönlendir
           setTimeout(() => {
             router.push('/login');
           }, 3000);
@@ -47,27 +47,45 @@ const VerifyEmail = () => {
   }, [searchParams, router]);
 
   return (
+    <div className={styles.statusContainer}>
+      {status === 'verifying' && (
+        <div className={styles.loadingSpinner}></div>
+      )}
+
+      {status === 'success' && (
+        <div className={styles.successIcon}>✓</div>
+      )}
+
+      {status === 'error' && (
+        <div className={styles.errorIcon}>✗</div>
+      )}
+
+      <p className={`${styles.message} ${styles[status]}`}>
+        {message}
+      </p>
+    </div>
+  );
+};
+
+// Loading component
+const LoadingComponent = () => {
+  return (
+    <div className={styles.loadingContainer}>
+      <div className={styles.loadingSpinner}></div>
+      <p>Yükleniyor...</p>
+    </div>
+  );
+};
+
+// Ana component
+const VerifyEmail = () => {
+  return (
     <div className={styles.verifyContainer}>
       <div className={styles.verifyBox}>
         <h2 className={styles.title}>Email Doğrulama</h2>
-
-        <div className={styles.statusContainer}>
-          {status === 'verifying' && (
-            <div className={styles.loadingSpinner}></div>
-          )}
-
-          {status === 'success' && (
-            <div className={styles.successIcon}>✓</div>
-          )}
-
-          {status === 'error' && (
-            <div className={styles.errorIcon}>✗</div>
-          )}
-
-          <p className={`${styles.message} ${styles[status]}`}>
-            {message}
-          </p>
-        </div>
+        <Suspense fallback={<LoadingComponent />}>
+          <VerificationComponent />
+        </Suspense>
       </div>
     </div>
   );
