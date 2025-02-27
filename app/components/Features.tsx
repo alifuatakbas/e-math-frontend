@@ -22,7 +22,7 @@ const features = [
   {
     icon: <FiClock className={styles.icon} />,
     title: "Koçluk",
-    description: "Sadece matematik öğretmiyoruz. Aynı zamanda öğrencilerimizi yönlendiriyoruz."
+    description: "Sadece matematik öğretmiyoruz. Aynı zamanda öğrencilerimizi LGS/YKS için yönlendiriyoruz."
   }
 ];
 
