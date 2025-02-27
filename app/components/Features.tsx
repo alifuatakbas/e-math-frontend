@@ -7,7 +7,7 @@ const features = [
   {
     icon: <FiTarget className={styles.icon} />,
     title: "Olay matematik değil",
-    description: "Olays matematik değil düşünme sanatı."
+    description: "Olay matematik değil düşünme sanatı."
   },
   {
     icon: <FiShield className={styles.icon} />,
