@@ -64,7 +64,7 @@ const Hero = () => {
               <h1 className={styles.title}>
                 MATEMATİKTE
                 <span className={styles.titleAccent}>FARK</span>
-                AÇ
+                YARAT
               </h1>
             </div>
 
