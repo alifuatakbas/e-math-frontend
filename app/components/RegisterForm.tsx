@@ -71,6 +71,13 @@ const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     setError('');
     setMessage('');
 
+     const passwordError = validatePassword(formData.password);
+    if (passwordError) {
+        setError(passwordError);
+        setIsLoading(false);
+        return;
+    }
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
         method: 'POST',
