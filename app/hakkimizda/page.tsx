@@ -69,20 +69,20 @@ const AboutUs = () => {
 
           <section className={styles.numbersSection}>
             <div className={styles.numberBox}>
-              <span className={styles.number}>500+</span>
-              <span className={styles.label}>Mutlu Müşteri</span>
+              <span className={styles.number}>200+</span>
+              <span className={styles.label}>Öğrenci</span>
             </div>
             <div className={styles.numberBox}>
-              <span className={styles.number}>100+</span>
-              <span className={styles.label}>Tamamlanan Proje</span>
+              <span className={styles.number}>1000+</span>
+              <span className={styles.label}>Verilen Ders</span>
             </div>
             <div className={styles.numberBox}>
-              <span className={styles.number}>50+</span>
-              <span className={styles.label}>Uzman Ekip</span>
+              <span className={styles.number}>10+</span>
+              <span className={styles.label}>Uzman Hoca</span>
             </div>
             <div className={styles.numberBox}>
-              <span className={styles.number}>15+</span>
-              <span className={styles.label}>Ödül</span>
+              <span className={styles.number}>5+</span>
+              <span className={styles.label}>Uluslararası Başarı</span>
             </div>
           </section>
         </div>
