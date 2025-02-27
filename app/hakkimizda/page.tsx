@@ -52,7 +52,7 @@ const AboutUs = () => {
           <div className={styles.heroOverlay}></div>
           <div className={styles.heroContent}>
             <h1>Hakkımızda</h1>
-            <p>2020&apos;den beri teknoloji çözümleri sunuyoruz</p>
+            <p>2020&apos;den beri olimpiyat alanında eğitim veriyoruz.</p>
           </div>
         </section>
 
@@ -60,7 +60,7 @@ const AboutUs = () => {
           <section className={styles.introSection}>
             <div className={styles.introText}>
               <h2>Biz Kimiz?</h2>
-              <p>Teknoloji dünyasında yenilikçi çözümler üreten bir ekibiz. Müşterilerimizin ihtiyaçlarını en iyi şekilde anlayarak, onlara özel çözümler sunuyoruz.</p>
+              <p> Matematik olimpiyatlarında edindiğimiz 15 yılı aşkın deneyimi, erken yaşta matematik eğitiminin değerini bizzat yaşamış uzman kadromuzla yeni nesillere aktarıyoruz. Beş yıldır, öğrencilerimizin matematiksel düşünme becerilerini geliştiriyor, onları uluslararası başarılara hazırlıyoruz</p>
             </div>
             <div className={styles.introImage}>
               <div className={styles.imagePlaceholder}></div>
