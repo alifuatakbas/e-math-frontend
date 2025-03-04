@@ -10,9 +10,11 @@ const Register: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    full_name: '',  // Eklendi
+    full_name: '',
     school_name: '',
-    branch: ''
+    branch: '',
+    parent_name: '',  // Eklendi
+    phone: ''
   });
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('');
@@ -64,13 +66,21 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     [name]: value
   }));
 };
-
+const validatePhone = (phone: string) => {
+    const phoneRegex = /^[0-9]{10,11}$/;
+    return phoneRegex.test(phone);
+};
 const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true); // Yükleme başladı
     setError('');
     setMessage('');
-
+      // Telefon numarası doğrulama
+    if (!validatePhone(formData.phone)) {
+        setError('Lütfen geçerli bir telefon numarası giriniz');
+        setIsLoading(false);
+        return;
+    }
      const passwordError = validatePassword(formData.password);
     if (passwordError) {
         setError(passwordError);
@@ -97,11 +107,13 @@ const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
 
         // Form alanlarını temizle
         setFormData({
-          email: '',
-          password: '',
-          full_name: '',
-          school_name: '',
-          branch: ''
+    email: '',
+    password: '',
+    full_name: '',
+    school_name: '',
+    branch: '',
+    parent_name: '',  // Eklendi
+    phone: ''
         });
       } else {
         if (data.detail === "Email adresi zaten kayıtlı") {
@@ -202,6 +214,35 @@ const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
                 required
                 className={styles.input}
                 placeholder="••••••••"
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="parent_name">Veli Adı Soyadı:</label>
+            <input
+                type="text"
+                id="parent_name"
+                name="parent_name"
+                value={formData.parent_name}
+                onChange={handleChange}
+                required
+                className={styles.input}
+                placeholder="Veli adı soyadı giriniz"
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label htmlFor="phone">Telefon Numarası:</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                className={styles.input}
+                placeholder="05XX XXX XX XX"
+                pattern="[0-9]{10,11}"  // Telefon numarası formatı
+                title="Lütfen geçerli bir telefon numarası giriniz"
             />
           </div>
 
