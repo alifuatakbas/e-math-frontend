@@ -67,8 +67,15 @@
   color: #333333;
   margin: 0;
   letter-spacing: -0.02em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;  /* Satırlar arası boşluk */
+  text-align: center;
 }
 
+.slogan div {
+  display: block;  /* Her satırı ayrı blok olarak göster */
+}
 .titleAccent {
   color: #E84A5F;
   position: relative;

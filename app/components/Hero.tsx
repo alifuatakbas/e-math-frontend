@@ -52,17 +52,16 @@ const Hero = () => {
           {/* Slogan */}
           <div className={styles.sloganBox}>
             <h1 className={styles.slogan}>
-              BİZE EMANET EDİN
-              <span className={styles.titleAccent}>
-                GELECEĞİNİ </span>
-              GARANTİLEYİN
+              <div>BİZE EMANET EDİN</div>
+              <div><span className={styles.titleAccent}>GELECEĞİNİ</span></div>
+              <div>GARANTİLEYİN</div>
             </h1>
           </div>
-
           {/* Bilgi Metni */}
           <div className={styles.infoBox}>
             <p className={styles.infoText}>
-            Yüksek potansiyelli öğrencilerin özel ihtiyaçlarını fark edip destekleyerek, onların yeteneklerini en iyi şekilde geliştirmelerine yardımcı oluyoruz.
+              Yüksek potansiyelli öğrencilerin özel ihtiyaçlarını fark edip destekleyerek, onların yeteneklerini en iyi
+              şekilde geliştirmelerine yardımcı oluyoruz.
             </p>
           </div>
 
