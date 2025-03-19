@@ -2,7 +2,7 @@
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: #FFFFFF;
 }
 
 .backgroundAnimation {
@@ -55,14 +55,14 @@
   font-size: 4rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #ffffff;
+  color: #16213e;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin: 0;
   letter-spacing: -0.02em;
 }
 
 .titleAccent {
-  color: #E84A5F;
+  color: #0A0A0B;
   position: relative;
   display: inline-block;
 }
