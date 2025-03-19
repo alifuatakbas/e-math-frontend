@@ -54,9 +54,9 @@ const Hero = () => {
           {/* Slogan Kutusu */}
           <div className={styles.sloganBox}>
             <h1 className={styles.slogan}>
-              BİZİ EMANET EDİN
-              <span className={styles.titleAccent}> GELECEĞİNİZİN </span>
-              GARANTİSİYİZ
+              BİZE EMANET EDİN
+              <span className={styles.titleAccent}> GELECEĞİNİ </span>
+              GARANTİLEYİN
             </h1>
           </div>
 
@@ -70,7 +70,7 @@ const Hero = () => {
           {/* Deneme Butonu */}
           <div className={styles.buttonWrapper}>
             <button className={styles.demoButton}>
-              DENEME SÜRÜMÜNÜ DENE
+              DENEME DERSİ AL
             </button>
           </div>
         </div>
