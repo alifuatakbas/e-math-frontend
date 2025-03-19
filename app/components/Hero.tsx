@@ -63,11 +63,7 @@ const Hero = () => {
           {/* Bilgi Kutusu */}
           <div className={styles.infoBox}>
             <p className={styles.infoText}>
-              E-Olimpiyat, öğrencilerin matematik becerilerini geliştirmek ve
-              olimpiyatlara hazırlanmalarını sağlamak için tasarlanmış online bir
-              eğitim platformudur. Uzman eğitmenler eşliğinde, interaktif içerikler
-              ve özel hazırlanmış sorularla matematik yolculuğunuzda size rehberlik
-              ediyoruz.
+             Günümüzdeki eğitim yaklaşımları, bazen yüksek potansiyele sahip, farklı düşünebilen ya da algı hızı ortalamanın üstünde olan çocukların özel ihtiyaçlarına yeterince cevap veremeyebilir.Bu noktada, onların özel yeteneklerini fark edebilecek bir tecrübeye sahip olduğumuzu ve bu becerilerini geliştirerek destekleyebileceğimizi içtenlikle söyleyebiliriz. Amacımız, öğrencilerimizin kendi potansiyelini keşfetmesine ve en iyi şekilde geliştirmesine yardımcı olmaktır.
             </p>
           </div>
 
