@@ -2,7 +2,7 @@
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: #FFFFFF;
+  background: #FFFFFF;  /* Beyaz arka plan */
 }
 
 .backgroundAnimation {
@@ -11,9 +11,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(232, 74, 95, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(74, 144, 226, 0.15) 0%, transparent 50%);
+  background:
+    radial-gradient(circle at 20% 30%, rgba(232, 74, 95, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(74, 144, 226, 0.05) 0%, transparent 50%);
   z-index: 1;
 }
 
@@ -23,12 +23,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, 
-    rgba(26, 26, 46, 0.7) 0%,
-    rgba(22, 33, 62, 0.7) 100%
+  background: linear-gradient(45deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.5) 100%
   );
   z-index: 2;
 }
+
 
 .container {
   position: relative;
@@ -55,65 +56,26 @@
   font-size: 4rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #16213e;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #16213e;  /* Koyu mavi */
+  text-shadow: none;  /* Gölgeyi kaldırdım */
   margin: 0;
   letter-spacing: -0.02em;
 }
 
 .titleAccent {
-  color: #0A0A0B;
+  color: #E84A5F;  /* Vurgu rengi */
   position: relative;
   display: inline-block;
-}
-
-.titleAccent::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #E84A5F;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s ease;
-}
-
-.titleAccent:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
 }
 
 .infoText {
   font-size: 1.25rem;
   line-height: 1.8;
   text-align: center;
-  color: #F1F5F9;
+  color: #4A5568;  /* Koyu gri metin */
   max-width: 800px;
   margin: 0 auto;
-  opacity: 0.9;
-}
-
-.demoButton {
-  padding: 1.2rem 3rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(45deg, #E84A5F 0%, #FF6B6B 100%);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 15px rgba(232, 74, 95, 0.3);
-}
-
-.demoButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(232, 74, 95, 0.4);
-  background: linear-gradient(45deg, #FF6B6B 0%, #E84A5F 100%);
+  opacity: 1;  /* Opaklığı artırdım */
 }
 
 .themeToggle {
@@ -123,8 +85,8 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);  /* İnce kenarlık ekledim */
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   cursor: pointer;
   display: flex;
@@ -132,50 +94,32 @@
   justify-content: center;
   z-index: 1000;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);  /* Hafif gölge */
 }
 
 .themeIcon {
-  color: #ffffff;
+  color: #16213e;  /* Koyu mavi icon */
   font-size: 1.5rem;
 }
 
-/* Responsive Tasarım */
-@media (max-width: 768px) {
-  .slogan {
-    font-size: 2.5rem;
-  }
-
-  .infoText {
-    font-size: 1.1rem;
-    padding: 0 1rem;
-  }
-
-  .demoButton {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
+/* Dark mode için özel stiller ekleyebilirsiniz */
+:global(.dark-theme) .hero {
+  background: #0F172A;
 }
 
-/* Animasyonlar */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:global(.dark-theme) .slogan {
+  color: #F1F5F9;
 }
 
-.sloganBox, .infoBox, .buttonWrapper {
-  animation: fadeIn 1s ease-out forwards;
+:global(.dark-theme) .infoText {
+  color: #E2E8F0;
 }
 
-.infoBox {
-  animation-delay: 0.2s;
+:global(.dark-theme) .themeToggle {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
-.buttonWrapper {
-  animation-delay: 0.4s;
+:global(.dark-theme) .themeIcon {
+  color: #F1F5F9;
 }
