@@ -12,13 +12,13 @@ const Hero = () => {
     return false;
   });
 
+  const [message, setMessage] = useState('');
+
   useEffect(() => {
-    // Sayfa yüklendiğinde mevcut tema durumunu kontrol et
     const theme = localStorage.getItem('theme');
     const isDark = theme === 'dark';
     setDarkMode(isDark);
 
-    // Tema durumunu HTML'e yansıt
     if (isDark) {
       document.documentElement.classList.add('dark-theme');
       document.body.style.backgroundColor = '#0F172A';
@@ -32,8 +32,13 @@ const Hero = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark-theme');
     document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
-    // Tema tercihini localStorage'a kaydet
     localStorage.setItem('theme', darkMode ? 'light' : 'dark');
+  };
+
+  const handleSubmit = () => {
+    // Buton işlevselliği buraya
+    console.log('Gönderilen mesaj:', message);
+    setMessage(''); // Mesajı gönderdikten sonra input'u temizle
   };
 
   return (
@@ -68,34 +73,24 @@ const Hero = () => {
               </h1>
             </div>
 
-            <div className={styles.subtitleWrapper}>
-              <p className={styles.subtitle}>
-                Matematik düşünme sanatıdır.
-              </p>
+            <div className={styles.messageBox}>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Mesajınızı buraya yazın..."
+                className={styles.messageInput}
+              />
             </div>
 
-            <div className={styles.ctaWrapper}>
-              <button className={styles.mainCta}>
-                KEŞFET
+            <div className={styles.buttonWrapper}>
+              <button
+                onClick={handleSubmit}
+                className={styles.submitButton}
+              >
+                Gönder
               </button>
             </div>
           </div>
-
-          <div className={styles.scrollIndicator}>
-            <div className={styles.mouse}>
-              <div className={styles.wheel}></div>
-            </div>
-            <div className={styles.scrollText}>AŞAĞI KAYDIR</div>
-          </div>
-        </div>
-
-        <div className={styles.sideNav}>
-          <div className={styles.navDot}></div>
-          <div className={styles.navDot}></div>
-          <div className={styles.navDot}></div>
-        </div>
-
-        <div className={styles.cornerInfo}>
         </div>
       </div>
     </section>

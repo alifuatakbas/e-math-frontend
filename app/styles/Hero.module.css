@@ -383,3 +383,63 @@
     height: 1rem;
   }
 }
+
+.messageBox {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.messageInput {
+  width: 100%;
+  height: 150px;
+  padding: 1rem;
+  border: 2px solid rgba(232, 74, 95, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  resize: none;
+  transition: all 0.3s ease;
+}
+
+.messageInput:focus {
+  outline: none;
+  border-color: #E84A5F;
+  box-shadow: 0 0 0 3px rgba(232, 74, 95, 0.1);
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.submitButton {
+  padding: 0.75rem 2rem;
+  background: #E84A5F;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submitButton:hover {
+  background: #d43d51;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 74, 95, 0.2);
+}
+
+/* Dark mode için */
+:global(.dark-theme) .messageInput {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(241, 245, 249, 0.1);
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .messageInput:focus {
+  border-color: #E84A5F;
+}
