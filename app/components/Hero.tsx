@@ -52,27 +52,23 @@ const Hero = () => {
           {/* Slogan */}
           <div className={styles.sloganBox}>
             <h1 className={styles.slogan}>
-              BİZİ EMANET EDİN
-              <span className={styles.titleAccent}> GELECEĞİNİZİN </span>
-              GARANTİSİYİZ
+              BİZE EMANET EDİN
+              <span className={styles.titleAccent}> GELECEĞİNİ </span>
+              GARANTİLEYİN
             </h1>
           </div>
 
           {/* Bilgi Metni */}
           <div className={styles.infoBox}>
             <p className={styles.infoText}>
-              E-Olimpiyat, öğrencilerin matematik becerilerini geliştirmek ve
-              olimpiyatlara hazırlanmalarını sağlamak için tasarlanmış yenilikçi bir
-              eğitim platformudur. Uzman eğitmenler eşliğinde, interaktif içerikler
-              ve özel hazırlanmış sorularla matematik yolculuğunuzda size rehberlik
-              ediyoruz.
+            Yüksek potansiyelli öğrencilerin özel ihtiyaçlarını fark edip destekleyerek, onların yeteneklerini en iyi şekilde geliştirmelerine yardımcı oluyoruz.
             </p>
           </div>
 
           {/* Demo Butonu */}
           <div className={styles.buttonWrapper}>
             <button className={styles.demoButton}>
-              DENEME SÜRÜMÜNÜ DENE
+              DENEME DERSİ ALMAK İSTİYORUM
             </button>
           </div>
         </div>
