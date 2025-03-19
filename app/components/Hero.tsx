@@ -12,8 +12,6 @@ const Hero = () => {
     return false;
   });
 
-  const [message, setMessage] = useState('');
-
   useEffect(() => {
     const theme = localStorage.getItem('theme');
     const isDark = theme === 'dark';
@@ -35,12 +33,6 @@ const Hero = () => {
     localStorage.setItem('theme', darkMode ? 'light' : 'dark');
   };
 
-  const handleSubmit = () => {
-    // Buton işlevselliği buraya
-    console.log('Gönderilen mesaj:', message);
-    setMessage(''); // Mesajı gönderdikten sonra input'u temizle
-  };
-
   return (
     <section
       className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}
@@ -57,39 +49,33 @@ const Hero = () => {
         {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
       </button>
 
-      <div className={styles.heroBackground}>
-        <div className={styles.circle1}></div>
-        <div className={styles.circle2}></div>
-      </div>
-
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.mainContent}>
-            <div className={styles.headingWrapper}>
-              <h1 className={styles.title}>
-                BİZİ EMANET EDİN
-                <span className={styles.titleAccent}>GELECEĞİNİZİN</span>
-                GARANTİSİYİZ
-              </h1>
-            </div>
+          {/* Slogan Kutusu */}
+          <div className={styles.sloganBox}>
+            <h1 className={styles.slogan}>
+              BİZİ EMANET EDİN
+              <span className={styles.titleAccent}> GELECEĞİNİZİN </span>
+              GARANTİSİYİZ
+            </h1>
+          </div>
 
-            <div className={styles.messageBox}>
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Mesajınızı buraya yazın..."
-                className={styles.messageInput}
-              />
-            </div>
+          {/* Bilgi Kutusu */}
+          <div className={styles.infoBox}>
+            <p className={styles.infoText}>
+              E-Olimpiyat, öğrencilerin matematik becerilerini geliştirmek ve
+              olimpiyatlara hazırlanmalarını sağlamak için tasarlanmış online bir
+              eğitim platformudur. Uzman eğitmenler eşliğinde, interaktif içerikler
+              ve özel hazırlanmış sorularla matematik yolculuğunuzda size rehberlik
+              ediyoruz.
+            </p>
+          </div>
 
-            <div className={styles.buttonWrapper}>
-              <button
-                onClick={handleSubmit}
-                className={styles.submitButton}
-              >
-                Gönder
-              </button>
-            </div>
+          {/* Deneme Butonu */}
+          <div className={styles.buttonWrapper}>
+            <button className={styles.demoButton}>
+              DENEME SÜRÜMÜNÜ DENE
+            </button>
           </div>
         </div>
       </div>

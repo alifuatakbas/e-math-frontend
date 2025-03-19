@@ -443,3 +443,101 @@
 :global(.dark-theme) .messageInput:focus {
   border-color: #E84A5F;
 }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+}
+
+.sloganBox {
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.slogan {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.titleAccent {
+  color: #E84A5F;
+}
+
+.infoBox {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.infoText {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  margin: 0;
+}
+
+.buttonWrapper {
+  margin-top: 2rem;
+}
+
+.demoButton {
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  background: #E84A5F;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.demoButton:hover {
+  background: #d43d51;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 74, 95, 0.2);
+}
+
+/* Dark mode styles */
+:global(.dark-theme) .infoBox {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(241, 245, 249, 0.1);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .slogan {
+    font-size: 2rem;
+  }
+
+  .infoText {
+    font-size: 1rem;
+  }
+
+  .demoButton {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}
