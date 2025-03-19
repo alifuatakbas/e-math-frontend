@@ -14,7 +14,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.4;
+  opacity: 0.15;
   background:
     linear-gradient(45deg, transparent 48%, #E84A5F 48%, #E84A5F 52%, transparent 52%),
     linear-gradient(-45deg, transparent 48%, #E84A5F 48%, #E84A5F 52%, transparent 52%);
