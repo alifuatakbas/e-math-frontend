@@ -56,26 +56,65 @@
   font-size: 4rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #16213e;  /* Koyu mavi */
-  text-shadow: none;  /* Gölgeyi kaldırdım */
+  color: #16213e;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin: 0;
   letter-spacing: -0.02em;
 }
 
 .titleAccent {
-  color: #E84A5F;  /* Vurgu rengi */
+  color: #0A0A0B;
   position: relative;
   display: inline-block;
+}
+
+.titleAccent::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #E84A5F;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.titleAccent:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .infoText {
   font-size: 1.25rem;
   line-height: 1.8;
   text-align: center;
-  color: #4A5568;  /* Koyu gri metin */
+  color: #F1F5F9;
   max-width: 800px;
   margin: 0 auto;
-  opacity: 1;  /* Opaklığı artırdım */
+  opacity: 0.9;
+}
+
+.demoButton {
+  padding: 1.2rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(45deg, #E84A5F 0%, #FF6B6B 100%);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(232, 74, 95, 0.3);
+}
+
+.demoButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232, 74, 95, 0.4);
+  background: linear-gradient(45deg, #FF6B6B 0%, #E84A5F 100%);
 }
 
 .themeToggle {
@@ -85,8 +124,8 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);  /* İnce kenarlık ekledim */
-  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   cursor: pointer;
   display: flex;
@@ -94,32 +133,50 @@
   justify-content: center;
   z-index: 1000;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);  /* Hafif gölge */
 }
 
 .themeIcon {
-  color: #16213e;  /* Koyu mavi icon */
+  color: #ffffff;
   font-size: 1.5rem;
 }
 
-/* Dark mode için özel stiller ekleyebilirsiniz */
-:global(.dark-theme) .hero {
-  background: #0F172A;
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+  .slogan {
+    font-size: 2.5rem;
+  }
+
+  .infoText {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+
+  .demoButton {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
 }
 
-:global(.dark-theme) .slogan {
-  color: #F1F5F9;
+/* Animasyonlar */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-:global(.dark-theme) .infoText {
-  color: #E2E8F0;
+.sloganBox, .infoBox, .buttonWrapper {
+  animation: fadeIn 1s ease-out forwards;
 }
 
-:global(.dark-theme) .themeToggle {
-  background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(255, 255, 255, 0.1);
+.infoBox {
+  animation-delay: 0.2s;
 }
 
-:global(.dark-theme) .themeIcon {
-  color: #F1F5F9;
+.buttonWrapper {
+  animation-delay: 0.4s;
 }
