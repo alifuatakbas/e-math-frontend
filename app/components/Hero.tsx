@@ -34,13 +34,11 @@ const Hero = () => {
   };
 
   return (
-    <section
-      className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}
-      style={{
-        backgroundColor: darkMode ? '#0F172A' : '#F8FAFC',
-        color: darkMode ? '#F1F5F9' : '#1E293B'
-      }}
-    >
+    <section className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}>
+      <div className={styles.backgroundAnimation}>
+        <div className={styles.gradientOverlay}></div>
+      </div>
+
       <button
         onClick={toggleTheme}
         className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
@@ -51,26 +49,30 @@ const Hero = () => {
 
       <div className={styles.container}>
         <div className={styles.content}>
-          {/* Slogan Kutusu */}
+          {/* Slogan */}
           <div className={styles.sloganBox}>
             <h1 className={styles.slogan}>
-              BİZE EMANET EDİN
-              <span className={styles.titleAccent}> GELECEĞİNİ </span>
-              GARANTİLEYİN
+              BİZİ EMANET EDİN
+              <span className={styles.titleAccent}> GELECEĞİNİZİN </span>
+              GARANTİSİYİZ
             </h1>
           </div>
 
-          {/* Bilgi Kutusu */}
+          {/* Bilgi Metni */}
           <div className={styles.infoBox}>
             <p className={styles.infoText}>
-             Günümüzdeki eğitim yaklaşımları, bazen yüksek potansiyele sahip, farklı düşünebilen ya da algı hızı ortalamanın üstünde olan çocukların özel ihtiyaçlarına yeterince cevap veremeyebilir.Bu noktada, onların özel yeteneklerini fark edebilecek bir tecrübeye sahip olduğumuzu ve bu becerilerini geliştirerek destekleyebileceğimizi içtenlikle söyleyebiliriz. Amacımız, öğrencilerimizin kendi potansiyelini keşfetmesine ve en iyi şekilde geliştirmesine yardımcı olmaktır.
+              E-Olimpiyat, öğrencilerin matematik becerilerini geliştirmek ve
+              olimpiyatlara hazırlanmalarını sağlamak için tasarlanmış yenilikçi bir
+              eğitim platformudur. Uzman eğitmenler eşliğinde, interaktif içerikler
+              ve özel hazırlanmış sorularla matematik yolculuğunuzda size rehberlik
+              ediyoruz.
             </p>
           </div>
 
-          {/* Deneme Butonu */}
+          {/* Demo Butonu */}
           <div className={styles.buttonWrapper}>
             <button className={styles.demoButton}>
-              DENEME DERSİ AL
+              DENEME SÜRÜMÜNÜ DENE
             </button>
           </div>
         </div>
