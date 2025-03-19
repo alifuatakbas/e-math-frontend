@@ -62,9 +62,9 @@ const Hero = () => {
           <div className={styles.mainContent}>
             <div className={styles.headingWrapper}>
               <h1 className={styles.title}>
-                MATEMATİKTE
-                <span className={styles.titleAccent}>FARK</span>
-                YARAT
+                BİZİ EMANET EDİN
+                <span className={styles.titleAccent}>GELECEĞİNİZİN</span>
+                GARANTİSİYİZ
               </h1>
             </div>
 
