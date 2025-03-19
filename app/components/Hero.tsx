@@ -53,7 +53,8 @@ const Hero = () => {
           <div className={styles.sloganBox}>
             <h1 className={styles.slogan}>
               BİZE EMANET EDİN
-              <span className={styles.titleAccent}> GELECEĞİNİ </span>
+              <span className={styles.titleAccent}>
+                GELECEĞİNİ </span>
               GARANTİLEYİN
             </h1>
           </div>
