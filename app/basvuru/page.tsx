@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 
 const BasvuruPage = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(''); // Başvuru durumu için state
+  const [submitStatus, setSubmitStatus] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -36,7 +36,7 @@ const BasvuruPage = () => {
     return () => observer.disconnect();
   }, []);
 
-    const resetForm = () => {
+  const resetForm = () => {
     setFormData({
       fullName: '',
       email: '',
@@ -49,7 +49,7 @@ const BasvuruPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitStatus('pending'); // Başvuru gönderilirken
+    setSubmitStatus('pending');
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/applications`, {
@@ -62,21 +62,21 @@ const BasvuruPage = () => {
 
       if (response.ok) {
         setSubmitStatus('success');
-        resetForm(); // Formu temizle
+        resetForm();
         setTimeout(() => {
-          setSubmitStatus(''); // 5 saniye sonra mesajı kaldır
+          setSubmitStatus('');
         }, 5000);
       } else {
         setSubmitStatus('error');
         setTimeout(() => {
-          setSubmitStatus(''); // 5 saniye sonra mesajı kaldır
+          setSubmitStatus('');
         }, 5000);
       }
     } catch (error) {
       console.error('Başvuru hatası:', error);
       setSubmitStatus('error');
       setTimeout(() => {
-        setSubmitStatus(''); // 5 saniye sonra mesajı kaldır
+        setSubmitStatus('');
       }, 5000);
     }
   };
@@ -91,7 +91,6 @@ const BasvuruPage = () => {
             Matematik eğitimi için başvurunuzu aşağıdaki formu doldurarak yapabilirsiniz.
           </p>
 
-          {/* Durum mesajları */}
           {submitStatus === 'success' && (
             <div className={styles.successMessage}>
               Başvurunuz başarıyla alındı! Size en kısa sürede dönüş yapacağız.
@@ -109,7 +108,79 @@ const BasvuruPage = () => {
           )}
 
           <form onSubmit={handleSubmit} className={styles.form}>
-            {/* ... form alanları aynı kalacak ... */}
+            <div className={styles.formGroup}>
+              <label className={styles.required} htmlFor="fullName">Ad Soyad</label>
+              <input
+                type="text"
+                id="fullName"
+                required
+                value={formData.fullName}
+                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                placeholder="Adınız ve soyadınız"
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.required} htmlFor="email">E-posta</label>
+              <input
+                type="email"
+                id="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                placeholder="ornek@email.com"
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="phone">Telefon</label>
+              <input
+                type="tel"
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                placeholder="5XX XXX XX XX"
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.required} htmlFor="school">Okul</label>
+              <input
+                type="text"
+                id="school"
+                required
+                value={formData.school}
+                onChange={(e) => setFormData({...formData, school: e.target.value})}
+                placeholder="Okulunuzun adı"
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.required} htmlFor="grade">Sınıf</label>
+              <select
+                id="grade"
+                required
+                value={formData.grade}
+                onChange={(e) => setFormData({...formData, grade: e.target.value})}
+              >
+                <option value="">Sınıfınızı seçin</option>
+                <option value="5">5. Sınıf</option>
+                <option value="6">6. Sınıf</option>
+                <option value="7">7. Sınıf</option>
+                <option value="8">8. Sınıf</option>
+                <option value="9">9. Sınıf</option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="message">Mesaj</label>
+              <textarea
+                id="message"
+                value={formData.message}
+                onChange={(e) => setFormData({...formData, message: e.target.value})}
+                placeholder="Eklemek istediğiniz notlar..."
+              />
+            </div>
 
             <button
               type="submit"
