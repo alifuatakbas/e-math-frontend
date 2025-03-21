@@ -136,6 +136,8 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: 0 4px 15px rgba(232, 74, 95, 0.2);
+   text-decoration: none;  /* Link altı çizgiyi kaldırır */
+  display: inline-block;  /* Link'in button gibi davranmasını sağlar */
 }
 
 .demoButton:hover {

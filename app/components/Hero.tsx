@@ -67,9 +67,9 @@ const Hero = () => {
 
           {/* Demo Butonu */}
           <div className={styles.buttonWrapper}>
-            <button className={styles.demoButton}>
+            <a href="https://eolimpiyat.com/basvuru" className={styles.demoButton}>
               DENEME DERSİ ALMAK İSTİYORUM
-            </button>
+            </a>
           </div>
         </div>
       </div>
