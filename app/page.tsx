@@ -12,7 +12,7 @@ export default function Home() {
       <Head>
         <title>Modern Website</title>
         <meta name="description" content="Modern ve şık bir website" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/app/favicon.ico" />
       </Head>
 
       <Navbar />

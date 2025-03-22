@@ -11,7 +11,7 @@ const Register = () => {
       <Head>
         <title>Kayıt Ol</title>
         <meta name="description" content="Kayıt ol sayfası" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/app/favicon.ico" />
       </Head>
 
 
