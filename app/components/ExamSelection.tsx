@@ -69,6 +69,7 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
       }
 
       const data = await response.json();
+      console.log('Sınavlar:',data);
       setExams(data);
     } catch (error: any) {
       console.error('Hata:', error);
@@ -144,34 +145,40 @@ return (
 
     <div className={styles.examList}>
       {exams.map((exam) => (
-        <div key={exam.id} className={styles.examCard}>
-          <h2>{exam.title}</h2>
-          <div className={styles.examInfo}>
-            <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
-            <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
-            <p>Sınav Başlangıç: {formatDate(exam.exam_start_date)}</p>
-            <p>Sınav Bitiş: {formatDate(exam.exam_end_date)}</p>
+          <div key={exam.id} className={styles.examCard}>
+            <h2>{exam.title}</h2>
+            <div className={styles.examInfo}>
+              <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
+              <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
+              <p>Sınav Başlangıç: {formatDate(exam.exam_start_date)}</p>
+              <p>Sınav Bitiş: {formatDate(exam.exam_end_date)}</p>
+            </div>
+            <div className={styles.examActions}>
+              {/* Başvur butonu için koşulu düzenleyelim */}
+              {(exam.status === 'registration_open' || exam.status === 'registration_pending') && (
+                  <button
+                      onClick={() => handleRegister(exam.id)}
+                      className={`${styles.registerButton} ${exam.is_registered ? styles.disabled : ''}`}
+                      disabled={exam.is_registered || exam.status === 'registration_pending'}
+                  >
+                    {exam.is_registered
+                        ? 'Başvuru Yapıldı'
+                        : exam.status === 'registration_pending'
+                            ? 'Başvurular Henüz Başlamadı'
+                            : 'Başvur'
+                    }
+                  </button>
+              )}
+              {exam.status === 'exam_active' && exam.is_registered && (
+                  <button
+                      onClick={() => onSelect(exam.id)}
+                      className={styles.startButton}
+                  >
+                    Sınava Başla
+                  </button>
+              )}
+            </div>
           </div>
-          <div className={styles.examActions}>
-            {exam.status === 'registration_open' && (
-              <button
-                onClick={() => handleRegister(exam.id)}
-                className={`${styles.registerButton} ${exam.is_registered ? styles.disabled : ''}`}
-                disabled={exam.is_registered}
-              >
-                {exam.is_registered ? 'Başvuru Yapıldı' : 'Başvur'}
-              </button>
-            )}
-            {exam.status === 'exam_active' && exam.is_registered && (
-              <button
-                onClick={() => onSelect(exam.id)}
-                className={styles.startButton}
-              >
-                Sınava Başla
-              </button>
-            )}
-          </div>
-        </div>
       ))}
     </div>
   </div>
