@@ -111,37 +111,44 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
     }
   };
 
-  const handlePublishExam = async (examId: number, currentStatus: boolean) => {
-    const token = localStorage.getItem('token');
-    const newPublishStatus = currentStatus ? 0 : 1;
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${examId}/publish/${newPublishStatus}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+ const handlePublishExam = async (examId: number, currentStatus: boolean) => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${examId}/publish`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        is_published: !currentStatus
+      })
+    });
 
-      if (response.ok) {
-        alert(`Sınav başarıyla ${currentStatus ? 'kaldırıldı' : 'yayınlandı'}.`);
-        const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        const updatedData = await updatedExams.json();
-        if (Array.isArray(updatedData)) {
-          setExams(updatedData);
-        } else {
-          setError('Failed to fetch updated exams');
-        }
-      } else {
-        alert('Sınav yayınlama işlemi başarısız oldu.');
-      }
-    } catch (error) {
-      alert('Bir hata oluştu. Lütfen tekrar deneyiniz.');
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || 'Yayınlama işlemi başarısız oldu');
     }
-  };
+
+    // Başarılı mesajı göster
+    setSuccess(currentStatus ? 'Sınav yayından kaldırıldı' : 'Sınav yayınlandı');
+    setTimeout(() => setSuccess(null), 3000);
+
+    // Sınavları yenile
+    const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const updatedData = await updatedExams.json();
+    if (Array.isArray(updatedData)) {
+      setExams(updatedData);
+    }
+  } catch (error: any) {
+    setError(error.message);
+    setTimeout(() => setError(null), 3000);
+  }
+};
 
  return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -246,35 +253,46 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
       </form>
 
       <h3 className="text-xl font-bold mt-6">Tüm Sınavlar</h3>
-      <table className="w-full border-collapse mt-4">
-        <thead>
-          <tr>
-            <th className="border px-4 py-2">ID</th>
-            <th className="border px-4 py-2">Başlık</th>
-            <th className="border px-4 py-2">Yayınlandı mı?</th>
-            <th className="border px-4 py-2">Soru Sayısı</th>
-            <th className="border px-4 py-2">İşlemler</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.isArray(exams) && exams.map((exam) => (
-            <tr key={exam.id}>
-              <td className="border px-4 py-2">{exam.id}</td>
-              <td className="border px-4 py-2">{exam.title}</td>
-              <td className="border px-4 py-2">{exam.is_published ? 'Evet' : 'Hayır'}</td>
-              <td className="border px-4 py-2">{exam.question_counter}</td>
-              <td className="border px-4 py-2">
-                <button
-                  onClick={() => handlePublishExam(exam.id, exam.is_published)}
-                  className={`py-1 px-2 rounded-md transition-colors ${exam.is_published ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white`}
-                >
-                  {exam.is_published ? 'Kaldır' : 'Yayınla'}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    // Tablo kısmını güncelleyelim
+<table className="w-full border-collapse mt-4">
+  <thead>
+    <tr>
+      <th className="border px-4 py-2">ID</th>
+      <th className="border px-4 py-2">Başlık</th>
+      <th className="border px-4 py-2">Yayın Durumu</th>
+      <th className="border px-4 py-2">Başvuru Başlangıç</th>
+      <th className="border px-4 py-2">Soru Sayısı</th>
+      <th className="border px-4 py-2">İşlemler</th>
+    </tr>
+  </thead>
+  <tbody>
+    {Array.isArray(exams) && exams.map((exam) => (
+      <tr key={exam.id}>
+        <td className="border px-4 py-2">{exam.id}</td>
+        <td className="border px-4 py-2">{exam.title}</td>
+        <td className="border px-4 py-2">
+          {exam.is_published ? 'Yayında' : 'Yayında Değil'}
+        </td>
+        <td className="border px-4 py-2">
+          {new Date(exam.registration_start_date).toLocaleString('tr-TR')}
+        </td>
+        <td className="border px-4 py-2">{exam.question_counter}</td>
+        <td className="border px-4 py-2">
+          <button
+            onClick={() => handlePublishExam(exam.id, exam.is_published)}
+            className={`py-1 px-2 rounded-md transition-colors ${
+              exam.is_published 
+                ? 'bg-red-500 hover:bg-red-600' 
+                : 'bg-green-500 hover:bg-green-600'
+            } text-white`}
+          >
+            {exam.is_published ? 'Yayından Kaldır' : 'Yayınla'}
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
     </div>
   );
 };
