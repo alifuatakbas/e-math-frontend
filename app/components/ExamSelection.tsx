@@ -69,14 +69,7 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
       }
 
       const data = await response.json();
-          data.forEach((exam: Exam) => {
-        console.log('Sınav Detayı:', {
-          id: exam.id,
-          title: exam.title,
-          status: exam.status,
-          is_registered: exam.is_registered
-        });
-      });
+
       setExams(data);
     } catch (error: any) {
       console.error('Hata:', error);
@@ -161,17 +154,19 @@ return (
               <p>Sınav Bitiş: {formatDate(exam.exam_end_date)}</p>
             </div>
             <div className={styles.examActions}>
-              {/* Debug için status'u göster */}
-              <div style={{fontSize: '12px', color: 'gray'}}>Status: {exam.status}</div>
-
-              {/* Başvur butonu için koşulu basitleştirelim */}
-              {exam.status === 'registration_open' && (
+              {/* Başvur butonu için koşulu düzenleyelim */}
+              {(exam.status === 'registration_open' || exam.status === 'registration_pending') && (
                   <button
                       onClick={() => handleRegister(exam.id)}
                       className={`${styles.registerButton} ${exam.is_registered ? styles.disabled : ''}`}
-                      disabled={exam.is_registered}
+                      disabled={exam.is_registered || exam.status === 'registration_pending'}
                   >
-                    {exam.is_registered ? 'Başvuru Yapıldı' : 'Başvur'}
+                    {exam.is_registered
+                        ? 'Başvuru Yapıldı'
+                        : exam.status === 'registration_pending'
+                            ? 'Başvurular Henüz Başlamadı'
+                            : 'Başvur'
+                    }
                   </button>
               )}
               {exam.status === 'exam_active' && exam.is_registered && (
