@@ -7,6 +7,10 @@ interface CreateExamProps {
 
 const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
   const [title, setTitle] = useState<string>('');
+  const [registrationStartDate, setRegistrationStartDate] = useState<string>('');
+  const [registrationEndDate, setRegistrationEndDate] = useState<string>('');
+  const [examStartDate, setExamStartDate] = useState<string>('');
+  const [examEndDate, setExamEndDate] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -48,6 +52,11 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
       return;
     }
 
+    if (!registrationStartDate || !registrationEndDate || !examStartDate || !examEndDate) {
+      setError('Tüm tarih alanları doldurulmalıdır');
+      return;
+    }
+
     setIsLoading(true);
     const token = localStorage.getItem('token');
 
@@ -58,7 +67,13 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ title })
+        body: JSON.stringify({
+          title,
+          registration_start_date: new Date(registrationStartDate).toISOString(),
+          registration_end_date: new Date(registrationEndDate).toISOString(),
+          exam_start_date: new Date(examStartDate).toISOString(),
+          exam_end_date: new Date(examEndDate).toISOString()
+        })
       });
 
       const data = await response.json();
@@ -69,6 +84,10 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
 
       setSuccess('Sınav başarıyla oluşturuldu');
       setTitle('');
+      setRegistrationStartDate('');
+      setRegistrationEndDate('');
+      setExamStartDate('');
+      setExamEndDate('');
 
       const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
         headers: {
@@ -124,7 +143,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
     }
   };
 
-  return (
+ return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Yeni Sınav Oluştur</h2>
 
@@ -156,6 +175,67 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+
+        <div>
+          <label htmlFor="registration-start" className="block mb-2 text-sm font-medium">
+            Başvuru Başlangıç Tarihi
+          </label>
+          <input
+            id="registration-start"
+            type="datetime-local"
+            value={registrationStartDate}
+            onChange={(e) => setRegistrationStartDate(e.target.value)}
+            required
+            disabled={isLoading}
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="registration-end" className="block mb-2 text-sm font-medium">
+            Başvuru Bitiş Tarihi
+          </label>
+          <input
+            id="registration-end"
+            type="datetime-local"
+            value={registrationEndDate}
+            onChange={(e) => setRegistrationEndDate(e.target.value)}
+            required
+            disabled={isLoading}
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="exam-start" className="block mb-2 text-sm font-medium">
+            Sınav Başlangıç Tarihi
+          </label>
+          <input
+            id="exam-start"
+            type="datetime-local"
+            value={examStartDate}
+            onChange={(e) => setExamStartDate(e.target.value)}
+            required
+            disabled={isLoading}
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="exam-end" className="block mb-2 text-sm font-medium">
+            Sınav Bitiş Tarihi
+          </label>
+          <input
+            id="exam-end"
+            type="datetime-local"
+            value={examEndDate}
+            onChange={(e) => setExamEndDate(e.target.value)}
+            required
+            disabled={isLoading}
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
