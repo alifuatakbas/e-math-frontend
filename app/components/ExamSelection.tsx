@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/ExamSelection.module.css';
 import { ExamSCH,ExamStatusType } from '../schemas/schemas';
 import { FiSun, FiMoon } from 'react-icons/fi';
+import { formatDateForDisplay } from '../utils/dateUtils';
 
 
 
@@ -150,10 +151,10 @@ return (
           <div key={exam.id} className={styles.examCard}>
             <h2>{exam.title}</h2>
             <div className={styles.examInfo}>
-              <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
-              <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
-              <p>Sınav Başlangıç: {formatDate(exam.exam_start_date)}</p>
-              <p>Sınav Bitiş: {formatDate(exam.exam_end_date)}</p>
+              <p>Başvuru Başlangıç: {formatDateForDisplay(exam.registration_start_date)}</p>
+              <p>Başvuru Bitiş: {formatDateForDisplay(exam.registration_end_date)}</p>
+              <p>Sınav Başlangıç: {formatDateForDisplay(exam.exam_start_date)}</p>
+              <p>Sınav Bitiş: {formatDateForDisplay(exam.exam_end_date)}</p>
             </div>
             <div className={styles.examActions}>
               {/* Başvur butonu için koşulu düzenleyelim */}

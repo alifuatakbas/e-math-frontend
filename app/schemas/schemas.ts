@@ -37,3 +37,4 @@ export interface ExamResponse extends ExamSCH {
   status: ExamStatusType;  // keyof ExamStatus yerine ExamStatusType
   registration_status: string;
 }
+

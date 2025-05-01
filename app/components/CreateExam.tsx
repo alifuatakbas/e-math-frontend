@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { ExamSCH } from '../schemas/schemas';
+import { formatDateForDisplay, convertLocalToUTC, convertUTCToLocal } from '../utils/dateUtils';
 
 
 interface CreateExamProps {
@@ -79,21 +80,22 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
     setIsLoading(true);
     const token = localStorage.getItem('token');
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          title,
-          registration_start_date: new Date(registrationStartDate).toISOString(),
-          registration_end_date: new Date(registrationEndDate).toISOString(),
-          exam_start_date: new Date(examStartDate).toISOString(),
-          exam_end_date: new Date(examEndDate).toISOString()
-        })
-      });
+      try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        title,
+        // Yerel saatleri UTC'ye çevir
+        registration_start_date: convertLocalToUTC(registrationStartDate),
+        registration_end_date: convertLocalToUTC(registrationEndDate),
+        exam_start_date: convertLocalToUTC(examStartDate),
+        exam_end_date: convertLocalToUTC(examEndDate)
+      })
+    });
 
       const data = await response.json();
 
@@ -289,7 +291,7 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
                  {exam.is_published ? 'Yayında' : 'Yayında Değil'}
                </td>
                <td className="border px-4 py-2">
-                 {new Date(exam.registration_start_date).toLocaleString('tr-TR')}
+                 {formatDateForDisplay(exam.registration_start_date)}
                </td>
                <td className="border px-4 py-2">{exam.question_counter}</td>
                <td className="border px-4 py-2">
