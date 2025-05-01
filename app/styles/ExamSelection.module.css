@@ -307,3 +307,24 @@
     width: 100%;
   }
 }
+.successMessage {
+  background-color: #dcfce7;
+  border: 1px solid #22c55e;
+  color: #16a34a;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.registerButton.disabled {
+  background-color: #d1d5db !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.registerButton:disabled {
+  background-color: #d1d5db !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}

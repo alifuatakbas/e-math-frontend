@@ -16,6 +16,7 @@ interface Exam extends ExamSCH {
 const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSelect }) => {
   const [exams, setExams] = useState<Exam[]>([]);
   const [error, setError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -26,27 +27,34 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
   });
 
   // Başvuru işlemi
+  // Başvuru işlemi
   const handleRegister = async (examId: number) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/${examId}/register`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
         },
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.detail || 'Başvuru yapılırken bir hata oluştu');
       }
 
+      // Başarılı mesajını göster
+      setSuccessMessage('Sınava başarıyla kayıt oldunuz!');
+      setTimeout(() => setSuccessMessage(''), 3000); // 3 saniye sonra mesajı kaldır
+
       // Başvuru başarılı olduğunda sınavları yeniden getir
-      fetchExams();
+      await fetchExams();
+      setError('');
     } catch (error: any) {
       setError(error.message);
     }
   };
-
   const fetchExams = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
@@ -132,6 +140,7 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
 
       <h1 className={styles.title}>Sınavlar</h1>
       {error && <div className={styles.errorMessage}>{error}</div>}
+      {successMessage && <div className={styles.successMessage}>{successMessage}</div>}
 
       <div className={styles.examList}>
         {exams.map((exam) => (
@@ -144,12 +153,13 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
               <p>Sınav Bitiş: {formatDate(exam.exam_end_date)}</p>
             </div>
             <div className={styles.examActions}>
-              {exam.status === 'registration_open' && !exam.is_registered && (
+              {exam.status === 'registration_open' && (
                 <button
                   onClick={() => handleRegister(exam.id)}
-                  className={styles.registerButton}
+                  className={`${styles.registerButton} ${exam.is_registered ? styles.disabled : ''}`}
+                  disabled={exam.is_registered}
                 >
-                  Başvur
+                  {exam.is_registered ? 'Başvuru Yapıldı' : 'Başvur'}
                 </button>
               )}
               {exam.status === 'exam_active' && exam.is_registered && (
