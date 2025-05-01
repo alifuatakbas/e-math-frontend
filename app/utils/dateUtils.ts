@@ -3,6 +3,9 @@
 // Görüntüleme için (Sınavlar listesinde kullanılacak)
 export const formatDateForDisplay = (dateString: string) => {
   const date = new Date(dateString);
+  // UTC saatini yerel saate çevir
+  date.setHours(date.getHours() + 3);
+
   return date.toLocaleString('tr-TR', {
     day: 'numeric',
     month: 'long',
@@ -10,7 +13,6 @@ export const formatDateForDisplay = (dateString: string) => {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false
-    // timeZone kaldırıldı çünkü otomatik dönüşüm yapılsın istiyoruz
   });
 };
 
