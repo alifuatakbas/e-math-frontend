@@ -80,28 +80,21 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
     setIsLoading(true);
     const token = localStorage.getItem('token');
 
-    try {
-      // Tarihleri UTC'ye çevir
-      const convertLocalToUTC = (dateString: string) => {
-        const date = new Date(dateString);
-        date.setHours(date.getHours() - 3); // UTC+3'ten UTC'ye çevir
-        return date.toISOString();
-      };
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          title,
-          registration_start_date: convertLocalToUTC(registrationStartDate),
-          registration_end_date: convertLocalToUTC(registrationEndDate),
-          exam_start_date: convertLocalToUTC(examStartDate),
-          exam_end_date: convertLocalToUTC(examEndDate)
-        })
-      });
+     try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        title,
+        registration_start_date: new Date(registrationStartDate).toISOString(),
+        registration_end_date: new Date(registrationEndDate).toISOString(),
+        exam_start_date: new Date(examStartDate).toISOString(),
+        exam_end_date: new Date(examEndDate).toISOString()
+      })
+    });
 
       const data = await response.json();
 
