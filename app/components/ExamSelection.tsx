@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/ExamSelection.module.css';
-import { ExamSCH } from '../schemas/schemas';
+import { ExamSCH,ExamStatusType } from '../schemas/schemas';
 import { FiSun, FiMoon } from 'react-icons/fi';
+
+
 
 interface Exam extends ExamSCH {
   registration_start_date: string;
@@ -11,7 +13,10 @@ interface Exam extends ExamSCH {
   exam_end_date: string;
   is_registered: boolean;
   status: 'registration_pending' | 'registration_open' | 'exam_active' | 'completed';
+  can_register: boolean;         // Eklendi
+  registration_status: string;   // Eklendi
 }
+
 
 const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSelect }) => {
   const [exams, setExams] = useState<Exam[]>([]);
@@ -103,20 +108,17 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
 
   // Sınav durumuna göre buton metni
   const getButtonText = (exam: Exam) => {
-    if (exam.is_registered) return 'Başvuru Yapıldı';
-    switch (exam.status) {
-      case 'registration_pending':
-        return 'Başvurular Henüz Başlamadı';
-      case 'registration_open':
-        return 'Başvur';
-      case 'exam_active':
-        return 'Sınav Aktif';
-      case 'completed':
-        return 'Sınav Tamamlandı';
-      default:
-        return 'Başvur';
-    }
+  if (exam.is_registered) return 'Başvuru Yapıldı';
+
+  const statusTexts: Record<ExamStatusType, string> = {
+    'registration_pending': 'Başvurular Henüz Başlamadı',
+    'registration_open': 'Başvur',
+    'exam_active': 'Sınav Aktif',
+    'completed': 'Sınav Tamamlandı'
   };
+
+  return statusTexts[exam.status] || 'Başvur';
+};
 
   // Tarih formatı
   const formatDate = (dateString: string) => {

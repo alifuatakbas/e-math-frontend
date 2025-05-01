@@ -1,9 +1,25 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import { ExamSCH } from '../schemas/schemas';
+
+interface AdminExam extends ExamSCH {
+  registration_start_date: string;
+  registration_end_date: string;
+  exam_start_date: string;
+  exam_end_date: string;
+  question_counter: number;
+  status: string;
+}
 
 interface CreateExamProps {
   onExamCreated?: (examId: number) => void;
 }
+// CreateExam.tsx
+
+
+
+// useState'i güncelle
+const [exams, setExams] = useState<AdminExam[]>([]); //
 
 const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
   const [title, setTitle] = useState<string>('');
@@ -112,43 +128,40 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
   };
 
  const handlePublishExam = async (examId: number, currentStatus: boolean) => {
-  const token = localStorage.getItem('token');
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${examId}/publish`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        is_published: !currentStatus
-      })
-    });
+    const token = localStorage.getItem('token');
+    try {
+      // URL'yi düzelttik
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exams/${examId}/publish/${currentStatus ? 0 : 1}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || 'Yayınlama işlemi başarısız oldu');
-    }
-
-    // Başarılı mesajı göster
-    setSuccess(currentStatus ? 'Sınav yayından kaldırıldı' : 'Sınav yayınlandı');
-    setTimeout(() => setSuccess(null), 3000);
-
-    // Sınavları yenile
-    const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Yayınlama işlemi başarısız oldu');
       }
-    });
-    const updatedData = await updatedExams.json();
-    if (Array.isArray(updatedData)) {
-      setExams(updatedData);
+
+      // Başarılı mesajı göster
+      setSuccess(currentStatus ? 'Sınav yayından kaldırıldı' : 'Sınav yayınlandı');
+
+      // Sınavları yenile
+      const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const updatedData = await updatedExams.json();
+      if (Array.isArray(updatedData)) {
+        setExams(updatedData);
+      }
+    } catch (error: any) {
+      setError(error.message || 'Bir hata oluştu');
+      setTimeout(() => setError(null), 3000);
     }
-  } catch (error: any) {
-    setError(error.message);
-    setTimeout(() => setError(null), 3000);
-  }
-};
+  };
 
  return (
      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
