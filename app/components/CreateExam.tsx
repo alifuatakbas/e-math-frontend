@@ -2,14 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { ExamSCH } from '../schemas/schemas';
 
-interface AdminExam extends ExamSCH {
-  registration_start_date: string;
-  registration_end_date: string;
-  exam_start_date: string;
-  exam_end_date: string;
-  question_counter: number;
-  status: string;
-}
 
 interface CreateExamProps {
   onExamCreated?: (examId: number) => void;
@@ -18,10 +10,17 @@ interface CreateExamProps {
 
 
 
-// useState'i güncelle
-const [exams, setExams] = useState<AdminExam[]>([]); //
+
 
 const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
+  interface AdminExam extends ExamSCH {
+  registration_start_date: string;
+  registration_end_date: string;
+  exam_start_date: string;
+  exam_end_date: string;
+  question_counter: number;
+  status: string;
+}
   const [title, setTitle] = useState<string>('');
   const [registrationStartDate, setRegistrationStartDate] = useState<string>('');
   const [registrationEndDate, setRegistrationEndDate] = useState<string>('');
@@ -30,7 +29,11 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [exams, setExams] = useState<any[]>([]);
+
+
+
+// useState'i güncelle
+const [exams, setExams] = useState<AdminExam[]>([]); //
 
   useEffect(() => {
     const fetchExams = async () => {
