@@ -13,19 +13,12 @@ export const formatDateForDisplay = (dateString: string) => {
 };
 
 // Yerel saatten UTC'ye çevirme (form gönderirken)
+// utils/dateUtils.ts
 export const convertLocalToUTC = (localDateString: string) => {
   const date = new Date(localDateString);
-  // Yerel saat dilimindeki tarihi UTC'ye çevir
-  const utcDate = new Date(
-    Date.UTC(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      date.getHours(),
-      date.getMinutes()
-    )
-  );
-  return utcDate.toISOString();
+  // Yerel saatten UTC'ye çevirirken 3 saat çıkar
+  date.setHours(date.getHours() - 3);
+  return date.toISOString();
 };
 
 // UTC'den yerel saate çevirme (form input için)

@@ -80,22 +80,28 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
     setIsLoading(true);
     const token = localStorage.getItem('token');
 
-      try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        title,
-        // Yerel saatleri UTC'ye çevir
-        registration_start_date: convertLocalToUTC(registrationStartDate),
-        registration_end_date: convertLocalToUTC(registrationEndDate),
-        exam_start_date: convertLocalToUTC(examStartDate),
-        exam_end_date: convertLocalToUTC(examEndDate)
-      })
-    });
+    try {
+      // Tarihleri UTC'ye çevir
+      const convertLocalToUTC = (dateString: string) => {
+        const date = new Date(dateString);
+        date.setHours(date.getHours() - 3); // UTC+3'ten UTC'ye çevir
+        return date.toISOString();
+      };
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          title,
+          registration_start_date: convertLocalToUTC(registrationStartDate),
+          registration_end_date: convertLocalToUTC(registrationEndDate),
+          exam_start_date: convertLocalToUTC(examStartDate),
+          exam_end_date: convertLocalToUTC(examEndDate)
+        })
+      });
 
       const data = await response.json();
 
@@ -110,6 +116,7 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
       setExamStartDate('');
       setExamEndDate('');
 
+      // Sınavları yenile
       const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -118,8 +125,6 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
       const updatedData = await updatedExams.json();
       if (Array.isArray(updatedData)) {
         setExams(updatedData);
-      } else {
-        setError('Failed to fetch updated exams');
       }
 
       if (onExamCreated && data.exam_id) {
@@ -130,7 +135,7 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
     } finally {
       setIsLoading(false);
     }
-  };
+};
 
  const handlePublishExam = async (examId: number, currentStatus: boolean) => {
     const token = localStorage.getItem('token');
