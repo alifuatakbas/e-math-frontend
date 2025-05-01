@@ -129,41 +129,51 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
   };
 
 return (
-  <div className={styles.examList}>
-    {exams.map((exam) => (
-      <div key={exam.id} className={styles.examCard}>
-        <h2>{exam.title}</h2>
-        <div className={styles.examInfo}>
-          <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
-          <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
-          <p>Sınav Başlangıç: {formatDate(exam.exam_start_date)}</p>
-          <p>Sınav Bitiş: {formatDate(exam.exam_end_date)}</p>
+  <div className={`${styles.examSelectionContainer} ${darkMode ? styles.darkMode : ''}`}>
+    <button
+      onClick={toggleTheme}
+      className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
+      aria-label="Toggle theme"
+    >
+      {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
+    </button>
+
+    <h1 className={styles.title}>Sınavlar</h1>
+    {error && <div className={styles.errorMessage}>{error}</div>}
+    {successMessage && <div className={styles.successMessage}>{successMessage}</div>}
+
+    <div className={styles.examList}>
+      {exams.map((exam) => (
+        <div key={exam.id} className={styles.examCard}>
+          <h2>{exam.title}</h2>
+          <div className={styles.examInfo}>
+            <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
+            <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
+            <p>Sınav Başlangıç: {formatDate(exam.exam_start_date)}</p>
+            <p>Sınav Bitiş: {formatDate(exam.exam_end_date)}</p>
+          </div>
+          <div className={styles.examActions}>
+            {exam.status === 'registration_open' && (
+              <button
+                onClick={() => handleRegister(exam.id)}
+                className={`${styles.registerButton} ${exam.is_registered ? styles.disabled : ''}`}
+                disabled={exam.is_registered}
+              >
+                {exam.is_registered ? 'Başvuru Yapıldı' : 'Başvur'}
+              </button>
+            )}
+            {exam.status === 'exam_active' && exam.is_registered && (
+              <button
+                onClick={() => onSelect(exam.id)}
+                className={styles.startButton}
+              >
+                Sınava Başla
+              </button>
+            )}
+          </div>
         </div>
-        <div className={styles.examActions}>
-          {exam.status === 'registration_open' && (
-            <button
-              onClick={() => handleRegister(exam.id)}
-              className={`${styles.registerButton} ${exam.is_registered ? styles.disabled : ''}`}
-              disabled={exam.is_registered}
-            >
-              {exam.is_registered ? 'Başvuru Yapıldı' : 'Başvur'}
-            </button>
-          )}
-          {exam.status === 'exam_active' && exam.is_registered && (
-            <button
-              onClick={() => onSelect(exam.id)}
-              className={styles.startButton}
-            >
-              Sınava Başla
-            </button>
-          )}
-          {/* examStatus span'ini kaldırdık */}
-        </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 );
 }
-
-
-export default ExamSelection;
