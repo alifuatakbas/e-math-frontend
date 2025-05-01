@@ -209,3 +209,101 @@
   background: rgba(15, 23, 42, 0.95) !important;
   color: #F1F5F9;
 }
+
+.examList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.examCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.darkMode .examCard {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.examCard h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1E293B;
+}
+
+.darkMode .examCard h2 {
+  color: #F1F5F9;
+}
+
+.examInfo {
+  margin-bottom: 1.5rem;
+}
+
+.examInfo p {
+  margin: 0.5rem 0;
+  color: #64748B;
+  font-size: 0.9rem;
+}
+
+.darkMode .examInfo p {
+  color: #94A3B8;
+}
+
+.examActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.registerButton, .startButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.registerButton {
+  background: #E84A5F;
+  color: white;
+}
+
+.registerButton:hover {
+  background: #D13449;
+  transform: translateY(-2px);
+}
+
+.examStatus {
+  font-size: 0.9rem;
+  color: #64748B;
+}
+
+.darkMode .examStatus {
+  color: #94A3B8;
+}
+
+/* Responsive tasarım için */
+@media (max-width: 768px) {
+  .examList {
+    grid-template-columns: 1fr;
+  }
+
+  .examCard {
+    padding: 1rem;
+  }
+
+  .examActions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .registerButton, .startButton {
+    width: 100%;
+  }
+}
