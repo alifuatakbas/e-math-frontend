@@ -281,7 +281,7 @@
 
 /* Mobile Menu */
 .hamburger {
-  display: none;
+  display: none; /* Desktop'ta gizli */
   flex-direction: column;
   gap: 6px;
   cursor: pointer;
@@ -297,6 +297,31 @@
   transition: all 0.3s ease;
   border-radius: 2px;
 }
+
+@media (max-width: 768px) {
+  .navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .hamburger {
+    display: flex; /* Mobilde görünür */
+  }
+
+  /* Hamburger animasyonu */
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
 
 .darkMode .hamburger span {
   background: #F1F5F9;
@@ -437,4 +462,5 @@
     background: #F1F5F9;
     color: #1E293B;
   }
+}
 }
