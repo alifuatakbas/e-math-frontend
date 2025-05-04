@@ -267,8 +267,8 @@
   }
 
   .themeToggle {
-    bottom: 1rem;
-    right: 1rem;
+    top: auto;
+    bottom: 2rem;
   }
 }
 
