@@ -5,6 +5,7 @@
   margin: 0 auto;
   padding: 2rem;
   transition: all 0.3s ease;
+  top: 10px;
 }
 
 .darkMode {
