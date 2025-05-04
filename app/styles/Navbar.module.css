@@ -1,4 +1,4 @@
-/* Navbar.module.css */
+/* Ana Navbar Yapısı */
 .navbar {
   position: fixed;
   top: 0;
@@ -27,18 +27,25 @@
   position: relative;
 }
 
+/* Logo */
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #FF3366;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.logo img {
+  max-width: 200px;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1);
 }
 
 .logo:hover {
   transform: translateY(-2px);
 }
 
+/* Navigation Links */
 .navLinks {
   display: flex;
   align-items: center;
@@ -64,8 +71,9 @@
   color: #FF3366;
 }
 
+/* Buttons */
 .ctaButton {
- background-color: #E84A5F;
+  background-color: #E84A5F;
   color: #FFFFFF;
   padding: 0.8rem 2.2rem;
   border: none;
@@ -80,39 +88,10 @@
   box-shadow: 0 2px 10px rgba(118, 75, 162, 0.2);
 }
 
-
-.ctaButton::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: 0.5s;
-}
-
-
 .ctaButton:hover {
   background-color: #D13449;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
-}
-
-.ctaButton:hover::before {
-  left: 100%;
-}
-
-.darkMode .ctaButton {
-  opacity: 0.95;
-}
-.darkMode .ctaButton:hover {
-  opacity: 1;
 }
 
 .authButtons {
@@ -136,152 +115,9 @@
   white-space: nowrap;
 }
 
-.darkMode .loginButton,
-.darkMode .signupButton {
-  background: #F1F5F9;
-  color: #1E293B;
-}
-
-.loginButton:hover,
-.signupButton:hover {
-  background: #FF3366;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 51, 102, 0.25);
-}
-
-/* Dropdown Menus */
-.examDropdownMenu {
-  position: absolute;
-  top: calc(100% + 15px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(248, 250, 252, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  min-width: 220px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.darkMode .examDropdownMenu {
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.examDropdownMenu.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
-.examDropdownLink {
-  padding: 0.8rem 1.5rem;
-  text-decoration: none;
-  color: #1E293B;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  margin: 0.2rem 0;
-}
-
-.darkMode .examDropdownLink {
-  color: #F1F5F9;
-}
-
-.examDropdownLink:hover {
-  background: rgba(255, 51, 102, 0.1);
-  color: #FF3366;
-}
-
-/* User Menu */
-.userName {
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  background: rgba(255, 51, 102, 0.1);
-  color: #1E293B;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.darkMode .userName {
-  color: #F1F5F9;
-}
-
-.userName:hover {
-  background: rgba(255, 51, 102, 0.2);
-}
-
-.userDropdownMenu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: rgba(248, 250, 252, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  min-width: 220px;
-}
-
-.darkMode .userDropdownMenu {
-  background: rgba(15, 23, 42, 0.95);
-}
-
-.userDropdownMenu.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-.userDropdownLink {
-  padding: 0.8rem 1.5rem;
-  text-decoration: none;
-  color: #1E293B;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  margin: 0.2rem 0;
-}
-
-.darkMode .userDropdownLink {
-  color: #F1F5F9;
-}
-
-.userDropdownLink:hover {
-  background: rgba(255, 51, 102, 0.1);
-  color: #FF3366;
-}
-
-.logoutButton {
-  width: 100%;
-  padding: 0.8rem 1.5rem;
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: 1rem;
-  color: #DC2626;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  margin: 0.2rem 0;
-}
-
-.logoutButton:hover {
-  background: rgba(220, 38, 38, 0.1);
-}
-
-/* Mobile Menu */
+/* Hamburger Menu */
 .hamburger {
-  display: none; /* Desktop'ta gizli */
+  display: none;
   flex-direction: column;
   gap: 6px;
   cursor: pointer;
@@ -298,6 +134,7 @@
   border-radius: 2px;
 }
 
+/* Mobile Styles */
 @media (max-width: 768px) {
   .navContainer {
     display: flex;
@@ -307,10 +144,9 @@
   }
 
   .hamburger {
-    display: flex; /* Mobilde görünür */
+    display: flex;
   }
 
-  /* Hamburger animasyonu */
   .hamburger.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
@@ -323,24 +159,6 @@
     transform: rotate(-45deg) translate(7px, -7px);
   }
 
-.darkMode .hamburger span {
-  background: #F1F5F9;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    padding: 5px 0;
-}
-
-.logo img {
-    max-width: 200px;
-    height: auto;
-    object-fit: contain;
-    filter: brightness(1); /* Dark mode için ayarlanabilir */
-}
-/* Sadece mobil için olan kısımları güncelliyoruz */
-@media (max-width: 768px) {
   .navLinks {
     position: fixed;
     top: 0;
@@ -351,54 +169,30 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     flex-direction: column;
-    padding: 4rem 1.5rem; /* Padding'i azalttık */
-    gap: 0.8rem; /* Gap'i azalttık */
+    padding: 4rem 1.5rem;
+    gap: 0.8rem;
     transition: all 0.3s ease;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    overflow-y: auto;
+  }
+
+  .navLinks.active {
+    right: 0;
   }
 
   .navLink {
     width: 100%;
     padding: 0.8rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.5);
     text-align: center;
-  }
-
-  .examDropdownMenu {
-    position: static;
-    width: 100%;
-    transform: none;
-    background: transparent;
-    box-shadow: none;
-    border: none;
-    padding: 0;
-    margin-top: 0.3rem; /* Küçük bir boşluk */
-    max-height: 0;
-    overflow: hidden;
-  }
-
-  .examDropdownMenu.show {
-    transform: none;
-    max-height: 500px;
-    margin-bottom: 0.8rem; /* Alt tarafa boşluk */
-  }
-
-  .examDropdownLink {
-    padding: 0.8rem;
-    margin: 0.2rem 0;
-    background: rgba(255, 51, 102, 0.05);
-    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .authButtons {
     position: static;
     width: 100%;
     flex-direction: column;
-    gap: 0.5rem; /* Butonlar arası boşluğu azalttık */
-    margin-top: 0.8rem;
+    gap: 0.5rem;
+    margin-top: 1rem;
   }
 
   .loginButton, .signupButton {
@@ -408,45 +202,42 @@
   }
 
   .loginButton {
-    background: #1E293B; /* Giriş yap butonunun rengini ana renkle aynı yaptık */
-    color: white;
+    background: #E84A5F;
   }
 
   .signupButton {
     background: #1E293B;
   }
 
-  .userName {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 0.5rem;
+  .logo img {
+    max-width: 150px;
   }
 
-  .userDropdownMenu {
-    position: static;
+  /* Overlay for mobile menu */
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    box-shadow: none;
-    margin: 0;
-    padding: 0.3rem 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
   }
 
-  .userDropdownLink {
-    text-align: center;
-    margin: 0.2rem 0;
-  }
-
-  .ctaButton {
-    width: 100%;
-    text-align: center;
-    padding: 0.8rem;
-    margin-top: 0.5rem;
+  .overlay.active {
+    display: block;
   }
 }
 
-/* Dark mode için mobil menü güncellemeleri */
+/* Dark Mode Mobile Styles */
 @media (max-width: 768px) {
   .darkMode .navLinks {
     background: rgba(15, 23, 42, 0.98);
+  }
+
+  .darkMode .hamburger span {
+    background: #F1F5F9;
   }
 
   .darkMode .navLink {
@@ -462,5 +253,4 @@
     background: #F1F5F9;
     color: #1E293B;
   }
-}
 }
