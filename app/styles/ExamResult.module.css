@@ -4,8 +4,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  padding-top: calc(80px + 2rem); /* Navbar yüksekliği + ekstra padding */
   transition: all 0.3s ease;
-  top: 10px;
 }
 
 .darkMode {
