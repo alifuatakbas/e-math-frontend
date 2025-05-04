@@ -49,7 +49,14 @@ const ProtectedLink: React.FC<{
 
 const Navbar: React.FC = () => {
   const [isExamMenuOpen, setIsExamMenuOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
+    if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('token');
+        const savedUser = localStorage.getItem('currentUser');
+        return token && savedUser ? JSON.parse(savedUser) : null;
+    }
+    return null;
+});
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -101,13 +108,16 @@ const Navbar: React.FC = () => {
           if (response.ok) {
             const userData: User = await response.json();
             setCurrentUser(userData);
+            localStorage.setItem('currentUser', JSON.stringify(userData)); // Yeni eklenen satır
             setIsAdmin(userData.role === 'admin');
           } else {
             localStorage.removeItem('token');
+            localStorage.removeItem('currentUser'); // Yeni eklenen satır
           }
         } catch (error) {
           console.error('Kullanıcı bilgileri alınamadı:', error);
           localStorage.removeItem('token');
+          localStorage.removeItem('currentUser'); // Yeni eklenen satır
         }
       }
     };
