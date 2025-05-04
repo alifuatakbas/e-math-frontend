@@ -159,21 +159,24 @@
     transform: rotate(-45deg) translate(7px, -7px);
   }
 
-  .navLinks {
+   .navLinks {
     position: fixed;
-    top: 0;
+    top: 80px; /* Navbar'ın altından başlasın */
     right: -100%;
-    height: 100vh;
+    height: auto; /* 100vh yerine auto yapıyoruz */
+    min-height: auto; /* Minimum yükseklik de auto */
     width: 75%;
     background: rgba(248, 250, 252, 0.98);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     flex-direction: column;
-    padding: 5rem 1rem 2rem 1rem; /* Üst padding'i azalttık */
-    gap: 0.5rem; /* Gap'i azalttık */
+    padding: 1.5rem 1rem; /* Padding'i azalttık */
+    gap: 0.5rem;
     transition: all 0.3s ease;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    border-radius: 12px; /* Köşeleri yuvarlak yapalım */
+    margin: 0.5rem; /* Kenarlardan biraz boşluk */
   }
 
   .navLinks.active {
@@ -225,8 +228,9 @@
     z-index: 999;
   }
 
-  .overlay.active {
+   .overlay.active {
     display: block;
+    background: rgba(0, 0, 0, 0.3); /* Biraz daha şeffaf */
   }
 }
 
