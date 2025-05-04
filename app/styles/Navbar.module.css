@@ -254,3 +254,90 @@
     color: #1E293B;
   }
 }
+/* Mevcut CSS'e eklenecek Dropdown Menu stilleri */
+
+/* Dropdown Menus */
+.examDropdownMenu {
+  position: absolute;
+  top: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(248, 250, 252, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  min-width: 220px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.darkMode .examDropdownMenu {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.examDropdownMenu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.examDropdownLink {
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  color: #1E293B;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0.2rem 0;
+}
+
+.darkMode .examDropdownLink {
+  color: #F1F5F9;
+}
+
+.examDropdownLink:hover {
+  background: rgba(255, 51, 102, 0.1);
+  color: #FF3366;
+}
+
+/* Mobile için dropdown menü düzenlemeleri */
+@media (max-width: 768px) {
+  .examDropdownMenu {
+    position: static;
+    width: 100%;
+    transform: none;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  .examDropdownMenu.show {
+    transform: none;
+    max-height: 500px;
+    margin: 0.5rem 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .examDropdownLink {
+    padding: 0.8rem;
+    margin: 0.2rem 0;
+    background: rgba(255, 51, 102, 0.05);
+    text-align: center;
+    color: #1E293B;
+  }
+
+  .darkMode .examDropdownLink {
+    background: rgba(255, 255, 255, 0.05);
+    color: #F1F5F9;
+  }
+}
