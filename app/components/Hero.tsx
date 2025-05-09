@@ -52,15 +52,21 @@ const fetchExams = async () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-        // credentials: 'include' kaldırıldı çünkü authentication gerekmiyor
+          'Accept': 'application/json'
+        }
       });
 
-      if (!response.ok) throw new Error('Sınavlar yüklenemedi');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Sınavlar yüklenemedi');
+      }
+
       const data = await response.json();
       setExams(data);
     } catch (error) {
       console.error('Sınavlar yüklenirken hata:', error);
+      // Kullanıcıya hata mesajını göster
+      alert('Sınavlar yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
     } finally {
       setIsLoading(false);
     }
