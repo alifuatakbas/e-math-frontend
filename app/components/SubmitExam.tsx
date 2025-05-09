@@ -16,6 +16,7 @@ interface Exam {
   title: string;
   questions: Question[];
   has_been_taken: boolean;
+  duration_minutes: number;
 }
 
 interface QuestionAnswerSubmission {
@@ -474,7 +475,7 @@ return (
             </div>
             <div className={styles.examInfoItem}>
               <span>Sınav Süresi</span>
-              <span>90 Dakika</span>
+              <span>{exam.duration_minutes} Dakika</span>
             </div>
           </div>
           <div className={styles.examWarning}>
