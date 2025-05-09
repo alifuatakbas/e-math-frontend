@@ -418,3 +418,119 @@
   }
 }
 
+.buttonWrapper {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.examButton {
+  padding: 1rem 2rem;
+  background-color: #4F46E5;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.examButton:hover {
+  background-color: #4338CA;
+}
+
+.examsModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.examsContent {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.examsList {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.examCard {
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: #F9FAFB;
+}
+
+.examDetails {
+  margin: 0.5rem 0;
+  color: #6B7280;
+}
+
+.applyButton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #4F46E5;
+  color: white;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.applyButton:hover {
+  background-color: #4338CA;
+}
+
+.closeButton {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.5rem 1rem;
+  background-color: #EF4444;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+  background-color: #DC2626;
+}
+
+/* Dark mode stilleri */
+.darkMode .examsContent {
+  background-color: #1F2937;
+  color: white;
+}
+
+.darkMode .examCard {
+  background-color: #374151;
+  border-color: #4B5563;
+}
+
+.darkMode .examDetails {
+  color: #9CA3AF;
+}
+
+.darkMode .applyButton {
+  background-color: #6366F1;
+}
+
+.darkMode .applyButton:hover {
+  background-color: #4F46E5;
+}
