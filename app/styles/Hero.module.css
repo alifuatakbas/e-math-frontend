@@ -495,34 +495,33 @@
 .applyButton {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #1E293B;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #F3F4F6; /* Açık gri arka plan */
+  color: #4B5563; /* Orta gri metin */
+  border: 1px solid #E5E7EB; /* Kenarlık rengi */
   border-radius: 0.5rem;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
   text-align: center;
   margin-top: 1rem;
-  backdrop-filter: blur(8px);
 }
 
 .applyButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #E5E7EB; /* Hover durumunda biraz daha koyu gri */
   transform: translateY(-1px);
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: #D1D5DB;
 }
 
 /* Dark mode için */
 :global(.dark-theme) .applyButton {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #F1F5F9;
-  border-color: rgba(255, 255, 255, 0.1);
+  background-color: #374151; /* Koyu gri arka plan */
+  color: #E5E7EB; /* Açık gri metin */
+  border-color: #4B5563;
 }
 
 :global(.dark-theme) .applyButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.15);
+  background-color: #4B5563;
+  border-color: #6B7280;
 }
 
 .closeButton {
