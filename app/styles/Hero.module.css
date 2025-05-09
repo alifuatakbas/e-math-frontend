@@ -495,19 +495,34 @@
 .applyButton {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background-color: #4F46E5;
-  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #1E293B;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
   text-align: center;
   margin-top: 1rem;
+  backdrop-filter: blur(8px);
 }
 
 .applyButton:hover {
-  background-color: #4338CA;
+  background-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode için */
+:global(.dark-theme) .applyButton {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #F1F5F9;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark-theme) .applyButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .closeButton {
