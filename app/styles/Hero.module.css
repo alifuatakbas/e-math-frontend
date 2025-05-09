@@ -495,7 +495,7 @@
 .applyButton {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background-color: #E84A5F;
+  background-color: #4F46E5;
   color: white;
   border-radius: 0.5rem;
   text-decoration: none;
@@ -506,7 +506,7 @@
 }
 
 .applyButton:hover {
-  background-color: #d43d51;
+  background-color: #4338CA;
   transform: translateY(-1px);
 }
 
@@ -551,11 +551,11 @@
 }
 
 :global(.dark-theme) .applyButton {
-  background-color: #E84A5F;
+  background-color: #6366F1;
 }
 
 :global(.dark-theme) .applyButton:hover {
-  background-color: #d43d51;
+  background-color: #4F46E5;
 }
 
 /* Yeni Animasyon */
