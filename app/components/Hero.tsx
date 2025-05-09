@@ -8,7 +8,13 @@ interface Exam {
   id: number;
   title: string;
   registration_start_date: string;
+  registration_end_date: string;
   exam_start_date: string;
+  exam_end_date: string;
+  status: string;
+  can_register: boolean;
+  is_registered: boolean;
+  registration_status: string;
 }
 
 const Hero = () => {
@@ -48,7 +54,7 @@ const Hero = () => {
 const fetchExams = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/active`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/public/exams`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +71,6 @@ const fetchExams = async () => {
       setExams(data);
     } catch (error) {
       console.error('Sınavlar yüklenirken hata:', error);
-      // Kullanıcıya hata mesajını göster
       alert('Sınavlar yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
     } finally {
       setIsLoading(false);
@@ -126,38 +131,42 @@ const fetchExams = async () => {
             </button>
           </div>
 
-          {showExams && (
-            <div className={styles.examsModal}>
-              <div className={styles.examsContent}>
-                <h2>Aktif Sınavlar</h2>
-                {isLoading ? (
-                  <p>Yükleniyor...</p>
-                ) : (
-                  <div className={styles.examsList}>
-                    {exams.map((exam) => (
-                      <div key={exam.id} className={styles.examCard}>
-                        <h3>{exam.title}</h3>
-                        <div className={styles.examDetails}>
-                          <p>Başvuru Tarihi: {formatDate(exam.registration_start_date)}</p>
-                          <p>Sınav Tarihi: {formatDate(exam.exam_start_date)}</p>
-                        </div>
-                        <Link href="/login" className={styles.applyButton}>
-                          Başvuru Yap
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <button
-                  onClick={() => setShowExams(false)}
-                  className={styles.closeButton}
-                >
-                  Kapat
-                </button>
+         {showExams && (
+  <div className={styles.examsModal}>
+    <div className={styles.examsContent}>
+      <h2>Mevcut Sınavlar</h2>
+      {isLoading ? (
+        <p>Yükleniyor...</p>
+      ) : exams.length === 0 ? (
+        <p>Şu anda aktif sınav bulunmamaktadır.</p>
+      ) : (
+        <div className={styles.examsList}>
+          {exams.map((exam) => (
+            <div key={exam.id} className={styles.examCard}>
+              <h3>{exam.title}</h3>
+              <div className={styles.examDetails}>
+                <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
+                <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
+                <p>Sınav Tarihi: {formatDate(exam.exam_start_date)}</p>
+                <p>Durum: {exam.status === 'registration_open' ? 'Başvuru Açık' : 'Başvuru Beklemede'}</p>
               </div>
+              <Link href="/login" className={styles.applyButton}>
+                Başvuru Yapmak İçin Giriş Yapın
+              </Link>
             </div>
-          )}
+          ))}
         </div>
+      )}
+      <button
+        onClick={() => setShowExams(false)}
+        className={styles.closeButton}
+      >
+        Kapat
+      </button>
+    </div>
+  </div>
+)}
+                 </div>
       </div>
     </section>
   )
