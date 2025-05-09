@@ -8,10 +8,7 @@ interface Exam {
   id: number;
   title: string;
   registration_start_date: string;
-  registration_end_date: string;
   exam_start_date: string;
-  exam_end_date: string;
-  status: string;
 }
 
 const Hero = () => {
@@ -39,12 +36,13 @@ const Hero = () => {
       document.documentElement.classList.remove('dark-theme');
       document.body.style.backgroundColor = '#F8FAFC';
     }
-  }, [darkMode]);
+  }, []);
 
   const toggleTheme = () => {
-    const newTheme = !darkMode;
-    setDarkMode(newTheme);
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark-theme');
+    document.body.style.backgroundColor = darkMode ? '#F8FAFC' : '#0F172A';
+    localStorage.setItem('theme', darkMode ? 'light' : 'dark');
   };
 
   const fetchExams = async () => {
@@ -61,34 +59,31 @@ const Hero = () => {
     }
   };
 
+  const handleShowExams = () => {
+    setShowExams(true);
+    fetchExams();
+  };
+
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('tr-TR', {
-      day: '2-digit',
-      month: '2-digit',
+    return new Date(dateString).toLocaleDateString('tr-TR', {
       year: 'numeric',
+      month: 'long',
+      day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
     });
   };
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'registration_open':
-        return 'Başvurular Açık';
-      case 'exam_active':
-        return 'Sınav Aktif';
-      default:
-        return status;
-    }
-  };
-
   return (
     <section className={`${styles.hero} ${darkMode ? styles.darkMode : ''}`}>
+      <div className={styles.backgroundAnimation}>
+        <div className={styles.gradientOverlay}></div>
+      </div>
+
       <button
         onClick={toggleTheme}
         className={`${styles.themeToggle} ${darkMode ? styles.darkThemeToggle : ''}`}
-        aria-label="Tema değiştir"
+        aria-label="Toggle theme"
       >
         {darkMode ? <FiSun className={styles.themeIcon} /> : <FiMoon className={styles.themeIcon} />}
       </button>
@@ -97,69 +92,60 @@ const Hero = () => {
         <div className={styles.content}>
           <div className={styles.sloganBox}>
             <h1 className={styles.slogan}>
-              <div>Online Sınav</div>
-              <div>Platformuna <span className={styles.titleAccent}>Hoş Geldiniz</span></div>
+              <div>BİZE EMANET EDİN</div>
+              <div><span className={styles.titleAccent}>GELECEĞİNİ</span></div>
+              <div>GARANTİLEYİN</div>
             </h1>
           </div>
-
           <div className={styles.infoBox}>
             <p className={styles.infoText}>
-              Güvenli ve kolay online sınav deneyimi için doğru adrestesiniz.
-              Hemen sınavlarımıza göz atın ve başvurunuzu yapın.
+              Yüksek potansiyelli öğrencilerin özel ihtiyaçlarını fark edip destekleyerek, onların yeteneklerini en iyi
+              şekilde geliştirmelerine yardımcı oluyoruz.
             </p>
           </div>
 
           <div className={styles.buttonWrapper}>
-            <button
-              onClick={() => {
-                setShowExams(true);
-                fetchExams();
-              }}
-              className={styles.examButton}
-            >
-              Aktif Sınavları Gör
+            <a href="https://eolimpiyat.com/basvuru" className={styles.demoButton}>
+              DENEME DERSİ ALMAK İSTİYORUM
+            </a>
+            <button onClick={handleShowExams} className={styles.examButton}>
+              AKTİF SINAVLARI GÖRÜNTÜLE
             </button>
-            <Link href="/demo" className={styles.demoButton}>
-              Demo Sınav
-            </Link>
           </div>
+
+          {showExams && (
+            <div className={styles.examsModal}>
+              <div className={styles.examsContent}>
+                <h2>Aktif Sınavlar</h2>
+                {isLoading ? (
+                  <p>Yükleniyor...</p>
+                ) : (
+                  <div className={styles.examsList}>
+                    {exams.map((exam) => (
+                      <div key={exam.id} className={styles.examCard}>
+                        <h3>{exam.title}</h3>
+                        <div className={styles.examDetails}>
+                          <p>Başvuru Tarihi: {formatDate(exam.registration_start_date)}</p>
+                          <p>Sınav Tarihi: {formatDate(exam.exam_start_date)}</p>
+                        </div>
+                        <Link href="/login" className={styles.applyButton}>
+                          Başvuru Yap
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <button
+                  onClick={() => setShowExams(false)}
+                  className={styles.closeButton}
+                >
+                  Kapat
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {showExams && (
-        <div className={styles.examsModal}>
-          <div className={styles.examsContent}>
-            <h2>Aktif Sınavlar</h2>
-            {isLoading ? (
-              <p>Yükleniyor...</p>
-            ) : exams.length === 0 ? (
-              <p>Şu anda aktif sınav bulunmamaktadır.</p>
-            ) : (
-              <div className={styles.examsList}>
-                {exams.map((exam) => (
-                  <div key={exam.id} className={styles.examCard}>
-                    <h3>{exam.title}</h3>
-                    <div className={styles.examDetails}>
-                      <p>Başvuru Tarihi: {formatDate(exam.registration_start_date)} - {formatDate(exam.registration_end_date)}</p>
-                      <p>Sınav Tarihi: {formatDate(exam.exam_start_date)}</p>
-                      <p>Durum: {getStatusText(exam.status)}</p>
-                    </div>
-                    <Link href="/login" className={styles.applyButton}>
-                      Başvuru Yap
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            )}
-            <button
-              onClick={() => setShowExams(false)}
-              className={styles.closeButton}
-            >
-              Kapat
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   )
 }

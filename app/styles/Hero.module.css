@@ -418,28 +418,7 @@
   }
 }
 
-.buttonWrapper {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.examButton {
-  padding: 1rem 2rem;
-  background-color: #4F46E5;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.examButton:hover {
-  background-color: #4338CA;
-}
-
+/* Sınav Modal Stilleri */
 .examsModal {
   position: fixed;
   top: 0;
@@ -451,6 +430,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
 .examsContent {
@@ -461,6 +441,17 @@
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.examsContent h2 {
+  color: #1E293B;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .examsList {
@@ -472,65 +463,193 @@
 .examCard {
   border: 1px solid #E5E7EB;
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: #F9FAFB;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.examCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.examCard h3 {
+  color: #1E293B;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
 }
 
 .examDetails {
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
   color: #6B7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.examDetails p {
+  margin: 0.5rem 0;
 }
 
 .applyButton {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #4F46E5;
+  padding: 0.75rem 1.5rem;
+  background-color: #E84A5F;
   color: white;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .applyButton:hover {
-  background-color: #4338CA;
+  background-color: #d43d51;
+  transform: translateY(-1px);
 }
 
 .closeButton {
   display: block;
-  margin: 1rem auto 0;
-  padding: 0.5rem 1rem;
+  margin: 1.5rem auto 0;
+  padding: 0.75rem 1.5rem;
   background-color: #EF4444;
   color: white;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .closeButton:hover {
   background-color: #DC2626;
+  transform: translateY(-1px);
 }
 
-/* Dark mode stilleri */
-.darkMode .examsContent {
+/* Dark Mode Stilleri */
+:global(.dark-theme) .examsContent {
   background-color: #1F2937;
-  color: white;
 }
 
-.darkMode .examCard {
+:global(.dark-theme) .examsContent h2 {
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .examCard {
   background-color: #374151;
   border-color: #4B5563;
 }
 
-.darkMode .examDetails {
+:global(.dark-theme) .examCard h3 {
+  color: #F1F5F9;
+}
+
+:global(.dark-theme) .examDetails {
   color: #9CA3AF;
 }
 
-.darkMode .applyButton {
-  background-color: #6366F1;
+:global(.dark-theme) .applyButton {
+  background-color: #E84A5F;
 }
 
-.darkMode .applyButton:hover {
-  background-color: #4F46E5;
+:global(.dark-theme) .applyButton:hover {
+  background-color: #d43d51;
+}
+
+/* Yeni Animasyon */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Düzenlemeler */
+@media (max-width: 768px) {
+  .examsContent {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .examCard {
+    padding: 1rem;
+  }
+
+  .examCard h3 {
+    font-size: 1.1rem;
+  }
+
+  .examDetails {
+    font-size: 0.8rem;
+  }
+
+  .applyButton {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .closeButton {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .examsContent {
+    padding: 1rem;
+  }
+
+  .examsContent h2 {
+    font-size: 1.25rem;
+  }
+
+  .examCard {
+    padding: 0.75rem;
+  }
+
+  .examCard h3 {
+    font-size: 1rem;
+  }
+
+  .examDetails {
+    font-size: 0.75rem;
+  }
+
+  .applyButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .closeButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Loading Durumu */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #6B7280;
+}
+
+:global(.dark-theme) .loading {
+  color: #9CA3AF;
+}
+
+/* Hata Durumu */
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #EF4444;
+}
+
+:global(.dark-theme) .error {
+  color: #F87171;
 }
