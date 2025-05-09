@@ -30,6 +30,11 @@ const Hero = () => {
   const [showExams, setShowExams] = useState(false);
   const [exams, setExams] = useState<Exam[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+  const token = localStorage.getItem('token'); // veya kullandığınız auth yöntemine göre
+  setIsLoggedIn(!!token);
+}, []);
 
   useEffect(() => {
     const theme = localStorage.getItem('theme');
@@ -151,7 +156,7 @@ const fetchExams = async () => {
       <p>Sınav Tarihi: {formatDate(exam.exam_start_date)}</p>
       <p>Durum: {exam.status === 'registration_open' ? 'Başvuru Açık' : 'Başvuru Beklemede'}</p>
     </div>
-    {exam.is_registered ? (
+    {isLoggedIn ? (
       <a href="https://www.eolimpiyat.com/sinav-coz" className={styles.applyButton}>
         Sınava Git
       </a>
