@@ -17,6 +17,7 @@ interface Exam {
   registration_status: string;
 }
 
+
 const Hero = () => {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -141,20 +142,26 @@ const fetchExams = async () => {
         <p>Şu anda aktif sınav bulunmamaktadır.</p>
       ) : (
         <div className={styles.examsList}>
-          {exams.map((exam) => (
-            <div key={exam.id} className={styles.examCard}>
-              <h3>{exam.title}</h3>
-              <div className={styles.examDetails}>
-                <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
-                <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
-                <p>Sınav Tarihi: {formatDate(exam.exam_start_date)}</p>
-                <p>Durum: {exam.status === 'registration_open' ? 'Başvuru Açık' : 'Başvuru Beklemede'}</p>
-              </div>
-              <Link href="/login" className={styles.applyButton}>
-                Başvuru Yapmak İçin Giriş Yapın
-              </Link>
-            </div>
-          ))}
+{exams.map((exam) => (
+  <div key={exam.id} className={styles.examCard}>
+    <h3>{exam.title}</h3>
+    <div className={styles.examDetails}>
+      <p>Başvuru Başlangıç: {formatDate(exam.registration_start_date)}</p>
+      <p>Başvuru Bitiş: {formatDate(exam.registration_end_date)}</p>
+      <p>Sınav Tarihi: {formatDate(exam.exam_start_date)}</p>
+      <p>Durum: {exam.status === 'registration_open' ? 'Başvuru Açık' : 'Başvuru Beklemede'}</p>
+    </div>
+    {exam.is_registered ? (
+      <a href="https://www.eolimpiyat.com/sinav-coz" className={styles.applyButton}>
+        Sınava Git
+      </a>
+    ) : (
+      <Link href="/login" className={styles.applyButton}>
+        Başvuru Yapmak İçin Giriş Yapın
+      </Link>
+    )}
+  </div>
+))}
         </div>
       )}
       <button
