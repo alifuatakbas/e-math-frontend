@@ -45,10 +45,17 @@ const Hero = () => {
     localStorage.setItem('theme', darkMode ? 'light' : 'dark');
   };
 
-  const fetchExams = async () => {
+const fetchExams = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/active`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams/active`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // credentials: 'include' kaldırıldı çünkü authentication gerekmiyor
+      });
+
       if (!response.ok) throw new Error('Sınavlar yüklenemedi');
       const data = await response.json();
       setExams(data);
@@ -57,7 +64,7 @@ const Hero = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+};
 
   const handleShowExams = () => {
     setShowExams(true);
