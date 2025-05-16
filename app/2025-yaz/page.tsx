@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import styles from './Program.module.css';
+import styles from '../styles/Program.module.css';
 
 const SummerProgram2025 = () => {
   return (
