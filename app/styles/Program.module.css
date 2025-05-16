@@ -34,65 +34,32 @@
 }
 
 .programCard h2 {
-  color: #2c3e50;
+  color: #d43d51;
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
-.timeline {
-  display: grid;
-  gap: 2rem;
-}
-
-.event {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  border-left: 3px solid #3498db;
-}
-
-.date {
-  font-weight: bold;
-  color: #3498db;
-}
-
-.content h3 {
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-}
-
-.content p {
+.content {
   color: #666;
+  line-height: 1.6;
+}
+
+.content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.content li {
   margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
 }
 
-.infoSection {
-  background: #f8f9fa;
-  padding: 2rem;
-  border-radius: 10px;
-  margin-bottom: 3rem;
-}
-
-.infoSection h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #2c3e50;
-}
-
-.details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-.detailItem {
-  text-align: center;
-}
-
-.detailItem h3 {
-  color: #3498db;
-  margin-bottom: 1rem;
+.content li:before {
+  content: "•";
+  color: #d43d51;
+  position: absolute;
+  left: 0;
 }
 
 .ctaSection {
@@ -103,7 +70,7 @@
 }
 
 .ctaButton {
-  background: #3498db;
+  background: #d43d51;
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -114,7 +81,7 @@
 }
 
 .ctaButton:hover {
-  background: #2980b9;
+  background: #b83343;
 }
 
 /* Dark mode desteği */
@@ -136,12 +103,8 @@
     color: #ccc;
   }
 
-  .content p {
+  .content {
     color: #ccc;
-  }
-
-  .infoSection {
-    background: #2d2d2d;
   }
 
   .ctaSection {
@@ -151,14 +114,6 @@
 
 /* Responsive tasarım */
 @media (max-width: 768px) {
-  .event {
-    grid-template-columns: 1fr;
-  }
-
-  .date {
-    margin-bottom: 0.5rem;
-  }
-
   .container {
     padding: 1rem;
   }
