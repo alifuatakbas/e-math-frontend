@@ -49,39 +49,30 @@ const ProtectedLink: React.FC<{
 
 const Navbar: React.FC = () => {
   const [isExamMenuOpen, setIsExamMenuOpen] = useState(false);
+  const [isProgramMenuOpen, setIsProgramMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('token');
-        const savedUser = localStorage.getItem('currentUser');
-        return token && savedUser ? JSON.parse(savedUser) : null;
+      const token = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('currentUser');
+      return token && savedUser ? JSON.parse(savedUser) : null;
     }
     return null;
-});
+  });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-
-       const theme = localStorage.getItem('theme');
+    const theme = localStorage.getItem('theme');
     const isDark = theme === 'dark';
     setIsDarkMode(isDark);
 
-    // Tema değişimini dinle
-    const handleStorageChange = () => {
-      const currentTheme = localStorage.getItem('theme');
-      setIsDarkMode(currentTheme === 'dark');
-    };
-
-    // Storage event listener'ı ekle
-    // Tema değişimini dinle
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.target.nodeName === 'HTML') {
           const isDark = document.documentElement.classList.contains('dark-theme');
           setIsDarkMode(isDark);
-          // localStorage'ı güncelle
           localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
       });
@@ -108,16 +99,16 @@ const Navbar: React.FC = () => {
           if (response.ok) {
             const userData: User = await response.json();
             setCurrentUser(userData);
-            localStorage.setItem('currentUser', JSON.stringify(userData)); // Yeni eklenen satır
+            localStorage.setItem('currentUser', JSON.stringify(userData));
             setIsAdmin(userData.role === 'admin');
           } else {
             localStorage.removeItem('token');
-            localStorage.removeItem('currentUser'); // Yeni eklenen satır
+            localStorage.removeItem('currentUser');
           }
         } catch (error) {
           console.error('Kullanıcı bilgileri alınamadı:', error);
           localStorage.removeItem('token');
-          localStorage.removeItem('currentUser'); // Yeni eklenen satır
+          localStorage.removeItem('currentUser');
         }
       }
     };
@@ -147,12 +138,14 @@ const Navbar: React.FC = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    setIsExamMenuOpen(false); // Mobil menü açılırken sınav menüsünü kapat
+    setIsExamMenuOpen(false);
+    setIsProgramMenuOpen(false);
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
     setIsExamMenuOpen(false);
+    setIsProgramMenuOpen(false);
     setIsDropdownOpen(false);
   };
 
@@ -160,19 +153,19 @@ const Navbar: React.FC = () => {
     <>
       <nav className={`${styles.navbar} ${isDarkMode ? styles.darkMode : ''}`}>
         <div className={styles.navContainer}>
-   <Link href="/" className={styles.logo}>
-    <Image
-        src="/logo.svg"    // .svg uzantısını kullanın
-        alt="E-Olimpiyat Logo"
-        width={200}
-        height={80}
-        priority
-        style={{
-            objectFit: 'contain',
-            margin: '10px 0'
-        }}
-    />
-</Link>
+          <Link href="/" className={styles.logo}>
+            <Image
+              src="/logo.svg"
+              alt="E-Olimpiyat Logo"
+              width={200}
+              height={80}
+              priority
+              style={{
+                objectFit: 'contain',
+                margin: '10px 0'
+              }}
+            />
+          </Link>
 
           <div
             className={`${styles.hamburger} ${isMenuOpen ? styles.active : ''}`}
@@ -189,16 +182,16 @@ const Navbar: React.FC = () => {
             </Link>
 
             <div
-                className={styles.navLink}
-                onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
-                onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
-                onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
+              className={styles.navLink}
+              onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+              onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
+              onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
             >
               Sınavlar
               <div
-                  className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
-                  onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
-                  onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
+                className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
+                onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+                onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
               >
                 <ProtectedLink href="/sinav-olustur" adminOnly isAdmin={isAdmin}>
                   Sınav Oluştur
@@ -215,52 +208,72 @@ const Navbar: React.FC = () => {
               </div>
             </div>
 
+            <div
+              className={styles.navLink}
+              onMouseEnter={() => window.innerWidth > 768 && setIsProgramMenuOpen(true)}
+              onMouseLeave={() => window.innerWidth > 768 && setIsProgramMenuOpen(false)}
+              onClick={() => window.innerWidth <= 768 && setIsProgramMenuOpen(!isProgramMenuOpen)}
+            >
+              Programımız
+              <div
+                className={`${styles.examDropdownMenu} ${isProgramMenuOpen ? styles.show : ''}`}
+                onMouseEnter={() => window.innerWidth > 768 && setIsProgramMenuOpen(true)}
+                onMouseLeave={() => window.innerWidth > 768 && setIsProgramMenuOpen(false)}
+              >
+                <Link href="/program/2025-yaz" className={styles.examDropdownLink} onClick={closeMenu}>
+                  2025 Yaz Dönemi
+                </Link>
+                <Link href="/program/2025-2026-egitim" className={styles.examDropdownLink} onClick={closeMenu}>
+                  2025-2026 Eğitim Dönemi
+                </Link>
+              </div>
+            </div>
+
             <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
               Hakkımızda
             </Link>
-             <Link href="/basvuru" className={styles.ctaButton} onClick={closeMenu}>
-          Başvuru
-        </Link>
+            <Link href="/basvuru" className={styles.ctaButton} onClick={closeMenu}>
+              Başvuru
+            </Link>
 
             <div className={styles.authButtons}>
               {currentUser ? (
-                  <>
+                <>
                   <span className={styles.userName} onClick={toggleDropdown}>
                     {currentUser.full_name} {isAdmin && '(Admin)'}
                   </span>
-                    {isDropdownOpen && (
-  <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
-    <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
-      Profil
-    </Link>
-    {isAdmin && (
-      <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
-        Admin Panel
-      </Link>
-    )}
-    <button onClick={handleLogout} className={styles.logoutButton}>
-      Çıkış
-    </button>
-  </div>
-)}
-                  </>
+                  {isDropdownOpen && (
+                    <div className={`${styles.userDropdownMenu} ${isDropdownOpen ? styles.show : ''}`}>
+                      <Link href="/profil" className={styles.userDropdownLink} onClick={closeMenu}>
+                        Profil
+                      </Link>
+                      {isAdmin && (
+                        <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
+                          Admin Panel
+                        </Link>
+                      )}
+                      <button onClick={handleLogout} className={styles.logoutButton}>
+                        Çıkış
+                      </button>
+                    </div>
+                  )}
+                </>
               ) : (
-                  <>
-                    <Link href="/login" className={styles.loginButton} onClick={closeMenu}>
-                      Giriş
-                    </Link>
-                    <Link href="/register" className={styles.signupButton} onClick={closeMenu}>
-                      Kaydol
-                    </Link>
-                  </>
+                <>
+                  <Link href="/login" className={styles.loginButton} onClick={closeMenu}>
+                    Giriş
+                  </Link>
+                  <Link href="/register" className={styles.signupButton} onClick={closeMenu}>
+                    Kaydol
+                  </Link>
+                </>
               )}
             </div>
           </div>
         </div>
       </nav>
-      {/* Overlay for mobile menu */}
       <div
-          className={`${styles.overlay} ${isMenuOpen ? styles.active : ''}`}
+        className={`${styles.overlay} ${isMenuOpen ? styles.active : ''}`}
         onClick={closeMenu}
       />
     </>
