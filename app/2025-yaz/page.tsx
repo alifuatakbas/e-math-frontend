@@ -51,6 +51,7 @@ const SummerProgram2025 = () => {
         </div>
 
         <div className={styles.ctaSection}>
+          <button className={styles.ctaButton} onClick={handleApply}>Başvuru Yap</button>
           <div className={styles.contactInfo}>
             <div className={styles.contactIcon}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -64,7 +65,6 @@ const SummerProgram2025 = () => {
               <p>+90 501 087 12 13</p>
             </div>
           </div>
-          <button className={styles.ctaButton} onClick={handleApply}>Başvuru Yap</button>
         </div>
       </div>
     </>

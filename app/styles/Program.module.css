@@ -67,6 +67,11 @@
   padding: 3rem;
   background: #f8f9fa;
   border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
 }
 
 .ctaButton {
@@ -172,5 +177,11 @@
 
   .contactText p {
     color: #ccc;
+  }
+}
+
+@media (max-width: 768px) {
+  .ctaSection {
+    flex-direction: column;
   }
 }
