@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import styles from '../../styles/Program.module.css';
+import styles from '../styles/Program.module.css';
 import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 
