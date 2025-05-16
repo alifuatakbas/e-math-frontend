@@ -116,9 +116,9 @@ const fetchExams = async () => {
         <div className={styles.content}>
           <div className={styles.sloganBox}>
             <h1 className={styles.slogan}>
-              <div>BİZE EMANET EDİN</div>
+              <div>MATEMATİK VE BİLGİSAYAR YARIŞMALARINA</div>
               <div><span className={styles.titleAccent}>GELECEĞİNİ</span></div>
-              <div>GARANTİLEYİN</div>
+              <div>ONLİNE HAZIRLIK</div>
             </h1>
           </div>
           <div className={styles.infoBox}>
