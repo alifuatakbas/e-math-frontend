@@ -21,7 +21,7 @@ const SummerProgram2025 = () => {
         <div className={styles.programCard}>
           <h2>Hedef Kitle</h2>
           <div className={styles.content}>
-            <p>Önümüzdeki yıl 4, 5, 6 veya 7.sınıf'a geçecek matematik alanında yetenekli ve ilgili olan olan öğrencileri hızlı bir şekilde hedeflerine ulaştırıyoruz.</p>
+            <p>Önümüzdeki yıl 4, 5, 6 veya 7.sınıf&apos;a geçecek matematik alanında yetenekli ve ilgili olan olan öğrencileri hızlı bir şekilde hedeflerine ulaştırıyoruz.</p>
           </div>
         </div>
 
