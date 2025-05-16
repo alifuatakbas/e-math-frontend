@@ -38,8 +38,8 @@ const SummerProgram2025 = () => {
           <div className={styles.content}>
             <p>Öğrencilerin müsait zamanları göz önünde bulundurularak;</p>
             <ul>
-              <li>Haftada 3 gün ders</li>
-              <li>Pazar günü mini sınav</li>
+              <li>Haftada 3 günü online ders</li>
+              <li>Pazar günü online mini sınav</li>
               <li>Pazar akşamı sınav çözümü</li>
             </ul>
           </div>
