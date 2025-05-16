@@ -1,0 +1,165 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.programSection {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.programCard {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.programCard h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.timeline {
+  display: grid;
+  gap: 2rem;
+}
+
+.event {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-left: 3px solid #3498db;
+}
+
+.date {
+  font-weight: bold;
+  color: #3498db;
+}
+
+.content h3 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.content p {
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.infoSection {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 3rem;
+}
+
+.infoSection h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.detailItem {
+  text-align: center;
+}
+
+.detailItem h3 {
+  color: #3498db;
+  margin-bottom: 1rem;
+}
+
+.ctaSection {
+  text-align: center;
+  padding: 3rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.ctaButton {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.ctaButton:hover {
+  background: #2980b9;
+}
+
+/* Dark mode desteği */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  .programCard {
+    background: #2d2d2d;
+  }
+
+  .header h1 {
+    color: #fff;
+  }
+
+  .subtitle {
+    color: #ccc;
+  }
+
+  .content p {
+    color: #ccc;
+  }
+
+  .infoSection {
+    background: #2d2d2d;
+  }
+
+  .ctaSection {
+    background: #2d2d2d;
+  }
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+  .event {
+    grid-template-columns: 1fr;
+  }
+
+  .date {
+    margin-bottom: 0.5rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
