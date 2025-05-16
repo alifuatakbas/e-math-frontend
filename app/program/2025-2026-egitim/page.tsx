@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
-import styles from '../styles/Program.module.css';
+import styles from '../../styles/Program.module.css';
 import { useRouter } from 'next/navigation';
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/Navbar';
 
 const SummerProgram2025 = () => {
   const router = useRouter();
@@ -61,7 +61,7 @@ const SummerProgram2025 = () => {
               </svg>
             </div>
             <div className={styles.contactText}>
-              <h3>Bize Ulaşın</h3>
+              <h3>Detaylı bilgi için:</h3>
               <p>+90 501 087 12 13</p>
             </div>
           </div>
