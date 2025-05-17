@@ -181,7 +181,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       return null;
     }
   };
-
+/*
   useEffect(() => {
     if (examStarted && !isExamTerminated) {
       const handleFocusChange = async () => {
@@ -223,7 +223,7 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
       };
     }
   }, [examStarted, tabSwitchCount, lastSwitchTime, isExamTerminated, showWarning]);
-
+*/
   useEffect(() => {
     if (examStarted && timeLeft !== null) {
       const timer = setInterval(() => {
