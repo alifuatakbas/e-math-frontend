@@ -30,7 +30,7 @@ const SuccessStories = () => {
                 <FiAward className={styles.icon} />
               </div>
               <h3>TÜBİTAK Bilim Olimpiyatları</h3>
-              <p>2. aşama sınavı başarıları</p>
+              <p>2. aşama </p>
             </motion.div>
 
             <motion.div
