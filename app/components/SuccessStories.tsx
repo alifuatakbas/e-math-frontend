@@ -29,7 +29,7 @@ const SuccessStories = () => {
               <div className={styles.iconWrapper}>
                 <FiAward className={styles.icon} />
               </div>
-              <h3>TÜBİTAK Bilim Olimpiyatları</h3>
+              <h3>2024 TÜBİTAK Bilim Olimpiyatları</h3>
               <p>2. aşama </p>
             </motion.div>
 
@@ -42,7 +42,7 @@ const SuccessStories = () => {
                 <FiStar className={styles.icon} />
               </div>
               <h3>Antalya Matematik Olimpiyatları</h3>
-              <p>Altın ve Gümüş madalyalar</p>
+              <p>1 Altın 2 Bronz Madalya</p>
             </motion.div>
 
             <motion.div
