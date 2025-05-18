@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';       // component path'leri düzeltil
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Footer from './components/Footer';
+import SuccessStories from './components/SuccessStories';
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <main className={styles.main}>
         <Hero />
         <Features />
+             <SuccessStories />
       </main>
 
       <Footer />
