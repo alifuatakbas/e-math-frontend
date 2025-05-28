@@ -38,7 +38,7 @@ const Features = () => {
         viewport={{ once: true }}
       >
         <h2 className={styles.title}>Neden Bizi Seçmelisiniz?</h2>
-        <p className={styles.subtitle}>Eğitimde mükemmelliği hedefliyoruz</p>
+        <p className={styles.subtitle}>Özel Öğrenciye Özel İlgi</p>
 
         <div className={styles.grid}>
           {features.map((feature, index) => (
