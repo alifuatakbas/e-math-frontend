@@ -129,8 +129,8 @@ const fetchExams = async () => {
           </div>
 
           <div className={styles.buttonWrapper}>
-            <a href="https://eolimpiyat.com/basvuru" className={styles.demoButton}>
-              DENEME DERSİ ALMAK İSTİYORUM
+            <a href="https://forms.gle/twShthRm6ys9JeaV7" className={styles.demoButton}>
+              YETERLİLİK SINAVI KAYIT FORMU
             </a>
             <button onClick={handleShowExams} className={styles.examButton}>
               AKTİF SINAVLARI GÖRÜNTÜLE
