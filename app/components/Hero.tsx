@@ -130,7 +130,7 @@ const fetchExams = async () => {
 
           <div className={styles.buttonWrapper}>
             <a href="https://forms.gle/twShthRm6ys9JeaV7" className={styles.demoButton}>
-              YETERLİLİK SINAVI KAYIT FORMU
+              KABUL SINAVI KAYIT FORMU
             </a>
             <button onClick={handleShowExams} className={styles.examButton}>
               AKTİF SINAVLARI GÖRÜNTÜLE
