@@ -38,6 +38,7 @@ const Features = () => {
         viewport={{ once: true }}
       >
         <h2 className={styles.title}>Özel Öğrenciye Özel İlgi</h2>
+        <p className={styles.subtitle}></p>
 
         <div className={styles.grid}>
           {features.map((feature, index) => (
