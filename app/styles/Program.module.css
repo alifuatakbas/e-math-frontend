@@ -252,3 +252,41 @@
     font-size: 1rem;
   }
 }
+
+
+.sinifKutulari {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sinifKutu {
+  background: #f8f9fa;
+  color: #d43d51;
+  border: 2px solid #d43d51;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  font-weight: 600;
+}
+
+.sinifKutu:hover,
+.secili {
+  background: #d43d51;
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .sinifKutulari {
+    flex-direction: column;
+    align-items: center;
+  }
+  .sinifKutu {
+    width: 100%;
+    text-align: center;
+  }
+}

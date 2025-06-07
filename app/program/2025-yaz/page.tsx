@@ -1,26 +1,77 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/Program.module.css';
 import Navbar from '../../components/Navbar';
 
-const SummerProgram2025 = () => {
+const dersIcerikleri = {
+  4: [
+    "Doğal sayılar ve işlemler",
+    "Kesirler ve ondalık gösterimler",
+    "Geometriye giriş",
+    "Problem çözme teknikleri"
+  ],
+  5: [
+    "Üslü ve köklü sayılar",
+    "Oran-orantı ve yüzde hesapları",
+    "Temel cebirsel ifadeler",
+    "Geometrik şekiller ve alan-hacim hesapları"
+  ],
+  6: [
+    "Denklemler ve eşitsizlikler",
+    "Veri analizi ve olasılık",
+    "Çokgenler ve çember",
+    "Matematiksel modelleme"
+  ],
+  7: [
+    "Cebirsel ifadeler ve polinomlar",
+    "Fonksiyonlar ve grafikler",
+    "Üçgenler ve dörtgenler",
+    "Gerçek hayat problemleri"
+  ]
+};
+
+const SinifProgrami = () => {
+  const [seciliSinif, setSeciliSinif] = useState(4);
+
   return (
     <>
       <Navbar />
       <div className={styles.container}>
-        <div className={styles.underConstruction}>
-          <div className={styles.constructionIcon}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg>
+        <div className={styles.header}>
+          <h1>2025-2026 Sınıf Programları</h1>
+          <p className={styles.subtitle}>Hangi sınıfa geçiyorsan, sana özel içerik burada!</p>
+        </div>
+
+        <div className={styles.programSection}>
+          <div className={styles.programCard}>
+            <h2>Sınıf Seçimi</h2>
+            <div className={styles.sinifKutulari}>
+              {[4, 5, 6, 7].map((sinif) => (
+                <button
+                  key={sinif}
+                  className={`${styles.sinifKutu} ${seciliSinif === sinif ? styles.secili : ''}`}
+                  onClick={() => setSeciliSinif(sinif)}
+                >
+                  {sinif}. Sınıf
+                </button>
+              ))}
+            </div>
           </div>
-          <h1>Sayfa Güncelleniyor</h1>
-          <p>2025 Yaz Dönemi programı yakında yayında olacaktır.</p>
-          <p className={styles.subText}>Lütfen daha sonra tekrar kontrol ediniz.</p>
+
+          <div className={styles.programCard}>
+            <h2>{seciliSinif}. Sınıf Ders İçeriği</h2>
+            <div className={styles.content}>
+              <ul>
+                {dersIcerikleri[seciliSinif].map((icerik, idx) => (
+                  <li key={idx}>{icerik}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default SummerProgram2025;
+export default SinifProgrami;
