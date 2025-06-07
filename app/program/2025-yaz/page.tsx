@@ -51,7 +51,7 @@ const SinifProgrami: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h1>2025-2026 Yaz Dönemi</h1>
-          <p className={styles.subtitle}>Hangi sınıfa geçiyorsan, sana özel içerik burada!</p>
+          <p className={styles.subtitle}>Hangi sınıfa geçiyorsan sana faydalı programlarımız burada</p>
         </div>
 
         <div className={styles.programSection}>
