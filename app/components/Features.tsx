@@ -17,7 +17,7 @@ const features = [
   {
     icon: <FiUsers className={styles.icon} />,
     title: "Uzman Kadro",
-    description: "Olimpiyat alanında başarılı olmuş Boğaziçi'li Odtü'lü Bilkent'li tecrübeli hocalar."
+    description: "Olimpiyat alanında başarılı olmuş tecrübeli hocalar."
   },
   {
     icon: <FiClock className={styles.icon} />,
@@ -37,7 +37,8 @@ const Features = () => {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <h2 className={styles.title}>Özel Öğrenciye Özel İlgi</h2>
+        <h2 className={styles.title}>Neden Bizi Seçmelisiniz?</h2>
+        <p className={styles.subtitle}>Özel Öğrenciye Özel İlgi</p>
 
         <div className={styles.grid}>
           {features.map((feature, index) => (
