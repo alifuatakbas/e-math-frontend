@@ -85,7 +85,7 @@ const SinifProgrami: React.FC = () => {
         {/* Ortak Bilgiler ve Platform Bilgisi */}
         <div className={styles.ortakBilgiSection}>
           <div className={styles.ortakBilgiCard}>
-            <h2>Tüm Sınıflar İçin Ortak Özellikler</h2>
+            <h2>Tüm Sınıflar İçin </h2>
             <ul className={styles.ortakOzelliklerList}>
               <li className={styles.ortakOzellikItem}>
                 <span className={styles.ozellikIcon}>🕒</span>
