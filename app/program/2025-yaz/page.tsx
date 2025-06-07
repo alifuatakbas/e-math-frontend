@@ -88,7 +88,7 @@ const SinifProgrami: React.FC = () => {
             <h2>Tüm Sınıflar İçin </h2>
             <ul className={styles.ortakOzelliklerList}>
               <li className={styles.ortakOzellikItem}>
-                <span className={styles.ozellikIcon}>🕒</span>
+                <span className={styles.ozellikIcon}></span>
                 <span>Öğrencilerin müsait zamanları göz önünde bulundurularak</span>
               </li>
               <li className={styles.ortakOzellikItem}>
