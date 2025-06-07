@@ -86,11 +86,23 @@ const SinifProgrami: React.FC = () => {
         <div className={styles.ortakBilgiSection}>
           <div className={styles.ortakBilgiCard}>
             <h2>Tüm Sınıflar İçin Ortak Özellikler</h2>
-            <ul>
-              <li>Öğrencilerin müsait zamanları göz önünde bulundurularak</li>
-              <li>Haftada 3 gün online ders</li>
-              <li>Pazar günü online mini sınav</li>
-              <li>Pazar akşamı sınav çözümü</li>
+            <ul className={styles.ortakOzelliklerList}>
+              <li className={styles.ortakOzellikItem}>
+                <span className={styles.ozellikIcon}>🕒</span>
+                <span>Öğrencilerin müsait zamanları göz önünde bulundurularak</span>
+              </li>
+              <li className={styles.ortakOzellikItem}>
+                <span className={styles.ozellikIcon}>💻</span>
+                <span>Haftada 3 gün online ders</span>
+              </li>
+              <li className={styles.ortakOzellikItem}>
+                <span className={styles.ozellikIcon}>📝</span>
+                <span>Pazar günü online mini sınav</span>
+              </li>
+              <li className={styles.ortakOzellikItem}>
+                <span className={styles.ozellikIcon}>📖</span>
+                <span>Pazar akşamı sınav çözümü</span>
+              </li>
             </ul>
           </div>
           <div className={styles.platformBilgi}>

@@ -290,3 +290,69 @@
     text-align: center;
   }
 }
+
+.ortakBilgiSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2.5rem 0 2rem 0;
+  gap: 1.5rem;
+}
+
+.ortakBilgiCard {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(212, 61, 81, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.ortakBilgiCard h2 {
+  color: #d43d51;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.ortakOzelliklerList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.ortakOzellikItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  font-size: 1.08rem;
+  box-shadow: 0 1px 3px rgba(212, 61, 81, 0.04);
+  transition: background 0.2s;
+}
+
+.ortakOzellikItem:hover {
+  background: #ffe6ea;
+}
+
+.ozellikIcon {
+  font-size: 1.6rem;
+  color: #d43d51;
+  min-width: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .ortakBilgiCard {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+  }
+}
