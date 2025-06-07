@@ -50,7 +50,7 @@ const SinifProgrami: React.FC = () => {
       <Navbar />
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1>2025-2026 Yaz Dönemi</h1>
+          <h1>2025 Yaz Dönemi</h1>
           <p className={styles.subtitle}>Hangi sınıfa geçiyorsan sana faydalı programlarımız burada</p>
         </div>
 
