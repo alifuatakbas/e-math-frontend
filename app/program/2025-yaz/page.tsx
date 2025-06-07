@@ -18,9 +18,9 @@ const dersIcerikleri: Record<number, string[]> = {
     "Parantez İşareti ve İşlem Önceliği",
     "Kesirli Sayılar ve Sınıflandırılması",
     "Oran - Eş Oranlar",
-      "Kesirli Sayılarla İşlemler",
-      "Bilinemyen Sayılarla İşlemler",
-      "Denklem Çözmek - (Bilinmeyeni Bulmak"
+    "Kesirli Sayılarla İşlemler",
+    "Bilinemyen Sayılarla İşlemler",
+    "Denklem Çözmek - (Bilinmeyeni Bulmak"
   ],
   6: [
     "Sayı doğrusu - Negatif Sayılar",
@@ -80,6 +80,30 @@ const SinifProgrami: React.FC = () => {
               </ul>
             </div>
           </div>
+        </div>
+
+        {/* Ortak Bilgiler ve Platform Bilgisi */}
+        <div className={styles.ortakBilgiSection}>
+          <div className={styles.ortakBilgiCard}>
+            <h2>Tüm Sınıflar İçin Ortak Özellikler</h2>
+            <ul>
+              <li>Öğrencilerin müsait zamanları göz önünde bulundurularak</li>
+              <li>Haftada 3 gün online ders</li>
+              <li>Pazar günü online mini sınav</li>
+              <li>Pazar akşamı sınav çözümü</li>
+            </ul>
+          </div>
+          <div className={styles.platformBilgi}>
+            <p><b>Dersler</b> <span style={{color: '#4285F4'}}>Google Classroom</span> üzerinden gerçekleştirilir.<br/>
+            <b>Sınavlar</b> <span style={{color: '#d43d51'}}>eolimpiyat.com</span> üzerinden gerçekleştirilir.</p>
+          </div>
+        </div>
+
+        {/* Başvuru Butonu */}
+        <div className={styles.ctaSection}>
+          <button className={styles.ctaButton} onClick={() => window.location.href = '/basvuru'}>
+            Başvuru Yap
+          </button>
         </div>
       </div>
     </>
