@@ -60,7 +60,7 @@ const AboutUs = () => {
           <section className={styles.introSection}>
             <div className={styles.introText}>
               <h2>Biz Kimiz?</h2>
-              <p> Matematik olimpiyatlarında edindiğimiz 12 yılı aşkın deneyimi, erken yaşta matematik eğitiminin değerini bizzat yaşamış Boğaziçili Odtü'lü Bilkentli uzman kadromuzla yeni nesillere aktarıyoruz. Beş yıldır, öğrencilerimizin matematiksel düşünme becerilerini geliştiriyor, onları uluslararası başarılara hazırlıyoruz</p>
+              <p> Matematik olimpiyatlarında edindiğimiz 12 yılı aşkın deneyimi, erken yaşta matematik eğitiminin değerini bizzat yaşamış Boğaziçili Odtülü Bilkentli uzman kadromuzla yeni nesillere aktarıyoruz. Beş yıldır, öğrencilerimizin matematiksel düşünme becerilerini geliştiriyor, onları uluslararası başarılara hazırlıyoruz</p>
             </div>
             <div className={styles.introImage}>
               <div className={styles.imagePlaceholder}></div>
