@@ -16,7 +16,7 @@ const SummerProgram2025 = () => {
       <Navbar />
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1>2025 Yaz Dönemi Eğitim Programı</h1>
+          <h1>2025-2026 Eğitim Dönemi</h1>
           <p className={styles.subtitle}>Geleceğinizi Şekillendirin</p>
         </div>
 
