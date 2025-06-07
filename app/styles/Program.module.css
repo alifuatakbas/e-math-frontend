@@ -1,259 +1,71 @@
+/* GENEL KAPSAYICI */
 .container {
   max-width: 1200px;
-  margin: 80px auto 0; /* Üst margin'i 80px yapıyoruz */
+  margin: 80px auto 0;
   padding: 2rem;
+  background: transparent;
 }
 
+/* BAŞLIK VE ALT BAŞLIK */
 .header {
   text-align: center;
   margin-bottom: 3rem;
 }
-
 .header h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: #d43d51;
   margin-bottom: 1rem;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
-
 .subtitle {
   font-size: 1.2rem;
   color: #666;
+  font-weight: 500;
 }
 
+/* PROGRAM BÖLÜMÜ */
 .programSection {
   display: grid;
   gap: 2rem;
   margin-bottom: 3rem;
 }
-
 .programCard {
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(212, 61, 81, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  transition: background 0.3s;
 }
-
 .programCard h2 {
   color: #d43d51;
   margin-bottom: 1.5rem;
   text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
 }
-
 .content {
   color: #666;
   line-height: 1.6;
 }
-
 .content ul {
   list-style-type: none;
   padding: 0;
 }
-
 .content li {
   margin: 0.5rem 0;
   padding-left: 1.5rem;
   position: relative;
 }
-
 .content li:before {
   content: "•";
   color: #d43d51;
   position: absolute;
   left: 0;
+  font-size: 1.2em;
 }
 
-.ctaSection {
-  text-align: center;
-  padding: 3rem;
-  background: #f8f9fa;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.ctaButton {
-  background: #d43d51;
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.ctaButton:hover {
-  background: #b83343;
-}
-
-/* Dark mode desteği */
-@media (prefers-color-scheme: dark) {
-  .container {
-    background: #1a1a1a;
-    color: #fff;
-  }
-
-  .programCard {
-    background: #2d2d2d;
-  }
-
-  .header h1 {
-    color: #fff;
-  }
-
-  .subtitle {
-    color: #ccc;
-  }
-
-  .content {
-    color: #ccc;
-  }
-
-  .ctaSection {
-    background: #2d2d2d;
-  }
-}
-
-/* Responsive tasarım */
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-}
-
-.ctaSection {
-  text-align: center;
-  padding: 3rem;
-  background: #f8f9fa;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.contactInfo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: white;
-  padding: 1.5rem 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.contactIcon {
-  color: #d43d51;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.contactText h3 {
-  color: #333;
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.contactText p {
-  color: #666;
-  margin: 0.5rem 0 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* Dark mode için */
-@media (prefers-color-scheme: dark) {
-  .contactInfo {
-    background: #2d2d2d;
-  }
-
-  .contactText h3 {
-    color: #fff;
-  }
-
-  .contactText p {
-    color: #ccc;
-  }
-}
-
-@media (max-width: 768px) {
-  .ctaSection {
-    flex-direction: column;
-  }
-}
-
-.underConstruction {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 2rem auto;
-  max-width: 600px;
-}
-
-.constructionIcon {
-  color: #d43d51;
-  margin-bottom: 2rem;
-}
-
-.underConstruction h1 {
-  color: #333;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.underConstruction p {
-  color: #666;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.subText {
-  color: #888;
-  font-size: 1rem;
-}
-
-/* Dark mode için */
-@media (prefers-color-scheme: dark) {
-  .underConstruction {
-    background: #2d2d2d;
-  }
-
-  .underConstruction h1 {
-    color: #fff;
-  }
-
-  .underConstruction p {
-    color: #ccc;
-  }
-
-  .subText {
-    color: #999;
-  }
-}
-
-/* Responsive tasarım */
-@media (max-width: 768px) {
-  .underConstruction {
-    margin: 1rem;
-    padding: 2rem 1rem;
-  }
-
-  .underConstruction h1 {
-    font-size: 1.5rem;
-  }
-
-  .underConstruction p {
-    font-size: 1rem;
-  }
-}
-
-
+/* SINIF KUTULARI */
 .sinifKutulari {
   display: flex;
   justify-content: center;
@@ -261,7 +73,6 @@
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
 }
-
 .sinifKutu {
   background: #f8f9fa;
   color: #d43d51;
@@ -270,27 +81,18 @@
   padding: 1rem 2rem;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.3s, color 0.3s, border 0.3s;
   font-weight: 600;
+  outline: none;
 }
-
 .sinifKutu:hover,
 .secili {
   background: #d43d51;
   color: #fff;
+  border-color: #d43d51;
 }
 
-@media (max-width: 600px) {
-  .sinifKutulari {
-    flex-direction: column;
-    align-items: center;
-  }
-  .sinifKutu {
-    width: 100%;
-    text-align: center;
-  }
-}
-
+/* ORTAK BİLGİ KARTI */
 .ortakBilgiSection {
   display: flex;
   flex-direction: column;
@@ -298,7 +100,6 @@
   margin: 2.5rem 0 2rem 0;
   gap: 1.5rem;
 }
-
 .ortakBilgiCard {
   background: #fff;
   border-radius: 14px;
@@ -309,14 +110,12 @@
   text-align: center;
   margin-bottom: 0.5rem;
 }
-
 .ortakBilgiCard h2 {
   color: #d43d51;
   margin-bottom: 1.5rem;
   font-size: 1.4rem;
   font-weight: 700;
 }
-
 .ortakOzelliklerList {
   list-style: none;
   padding: 0;
@@ -325,7 +124,6 @@
   flex-direction: column;
   gap: 1.1rem;
 }
-
 .ortakOzellikItem {
   display: flex;
   align-items: center;
@@ -336,12 +134,15 @@
   font-size: 1.08rem;
   box-shadow: 0 1px 3px rgba(212, 61, 81, 0.04);
   transition: background 0.2s;
+  color: #d43d51;
+  font-weight: 500;
 }
-
+.ortakOzellikItem span {
+  color: #333;
+}
 .ortakOzellikItem:hover {
   background: #ffe6ea;
 }
-
 .ozellikIcon {
   font-size: 1.6rem;
   color: #d43d51;
@@ -351,37 +152,157 @@
   justify-content: center;
 }
 
-@media (max-width: 600px) {
-  .ortakBilgiCard {
-    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
-  }
+/* PLATFORM BİLGİSİ */
+.platformBilgi {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.1rem 1.5rem;
+  font-size: 1.08rem;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(212, 61, 81, 0.04);
+  margin-top: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+.platformBilgi span {
+  font-weight: 700;
 }
 
+/* BAŞVURU BUTONU */
+.ctaSection {
+  text-align: center;
+  padding: 3rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.ctaButton {
+  background: #d43d51;
+  color: white;
+  border: none;
+  padding: 1rem 2.2rem;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.ctaButton:hover {
+  background: #b83343;
+}
 
+/* KOYU MOD */
 @media (prefers-color-scheme: dark) {
-  .ortakBilgiCard {
+  .container {
+    background: #18181b;
+    color: #fff;
+  }
+  .header h1 {
+    color: #ff7a93;
+  }
+  .subtitle {
+    color: #ccc;
+  }
+  .programCard {
     background: #232323;
     color: #fff;
   }
-
+  .content {
+    color: #ccc;
+  }
+  .content li:before {
+    color: #ff7a93;
+  }
+  .sinifKutu {
+    background: #232323;
+    color: #ff7a93;
+    border: 2px solid #ff7a93;
+  }
+  .sinifKutu:hover,
+  .secili {
+    background: #ff7a93;
+    color: #232323;
+    border-color: #ff7a93;
+  }
+  .ortakBilgiCard {
+    background: #232323 !important;
+    color: #fff !important;
+  }
   .ortakBilgiCard h2 {
-    color: #ff7a93;
+    color: #ff7a93 !important;
   }
-
   .ortakOzelliklerList {
-    color: #eee;
+    color: #fff !important;
   }
-
   .ortakOzellikItem {
-    background: #2d2d2d;
-    color: #eee;
+    background: #2d2d2d !important;
+    color: #fff !important;
   }
-
+  .ortakOzellikItem span {
+    color: #fff !important;
+  }
   .ortakOzellikItem:hover {
-    background: #3a1a22;
+    background: #3a1a22 !important;
   }
-
   .ozellikIcon {
+    color: #ff7a93 !important;
+  }
+  .platformBilgi {
+    background: #2d2d2d;
+    color: #fff;
+  }
+  .platformBilgi span {
     color: #ff7a93;
+  }
+  .ctaSection {
+    background: #232323;
+  }
+  .ctaButton {
+    background: #ff7a93;
+    color: #232323;
+  }
+  .ctaButton:hover {
+    background: #d43d51;
+    color: #fff;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container {
+    padding: 1rem;
+  }
+  .programSection {
+    gap: 1.2rem;
+  }
+  .programCard {
+    padding: 1.2rem;
+  }
+  .ortakBilgiCard {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+  }
+  .ctaSection {
+    padding: 1.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .sinifKutulari {
+    flex-direction: column;
+    align-items: center;
+  }
+  .sinifKutu {
+    width: 100%;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  .programCard h2 {
+    font-size: 1.1rem;
   }
 }
