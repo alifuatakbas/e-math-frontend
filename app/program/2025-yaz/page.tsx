@@ -5,28 +5,40 @@ import Navbar from '../../components/Navbar';
 
 const dersIcerikleri: Record<number, string[]> = {
   4: [
-    "Doğal sayılar ve işlemler",
-    "Kesirler ve ondalık gösterimler",
-    "Geometriye giriş",
-    "Problem çözme teknikleri"
+    "Sayı doğrusu - Sayı Sınıflandırılması",
+    "Negatif Sayılar ile İşlemler",
+    "Parantez İşareti",
+    "İşlem Önceliği",
+    "Kesirli Sayılar - Oran",
+    "Eş Oranlar - Aynı Kesirli Sayılar",
+    "Kesirli Sayılar ile İşlemler"
   ],
   5: [
-    "Üslü ve köklü sayılar",
-    "Oran-orantı ve yüzde hesapları",
-    "Temel cebirsel ifadeler",
-    "Geometrik şekiller ve alan-hacim hesapları"
+    "Sayı doğrusu - Negatif Sayılar",
+    "Parantez İşareti ve İşlem Önceliği",
+    "Kesirli Sayılar ve Sınıflandırılması",
+    "Oran - Eş Oranlar",
+      "Kesirli Sayılarla İşlemler",
+      "Bilinemyen Sayılarla İşlemler",
+      "Denklem Çözmek - (Bilinmeyeni Bulmak"
   ],
   6: [
-    "Denklemler ve eşitsizlikler",
-    "Veri analizi ve olasılık",
-    "Çokgenler ve çember",
-    "Matematiksel modelleme"
+    "Sayı doğrusu - Negatif Sayılar",
+    "Parantez İşareti ve İşlem Önceliği",
+    "Kesirli Sayılar - Oran - Eş Oranlar",
+    "Kesirli Sayılarla İşlemler",
+    "Bilinmeyen Sayılarla İşlemler",
+    "Denklem Çözmek - (Bilinmeyeni Bulmak)",
+    "Bilinmeyen Sayıların Oranı"
   ],
   7: [
-    "Cebirsel ifadeler ve polinomlar",
-    "Fonksiyonlar ve grafikler",
-    "Üçgenler ve dörtgenler",
-    "Gerçek hayat problemleri"
+    "Sayı doğrusu - Negatif Sayılar",
+    "Parantez İşareti ve İşlem Önceliği",
+    "Kesirli Sayılar - Oran - Eş Oranlar,işlemler",
+    "Bilinmeyen Sayılarla İşlemler",
+    "Denklem Çözmek - (Bilinmeyeni Bulmak)",
+    "Bilinmeyen Sayıların Oranı",
+    "Üslü Sayılar ile İşlemler, Denklem Çözme"
   ]
 };
 
