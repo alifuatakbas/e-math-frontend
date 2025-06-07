@@ -112,8 +112,8 @@ const SinifProgrami: React.FC = () => {
 
         {/* Başvuru Butonu */}
         <div className={styles.ctaSection}>
-          <button className={styles.ctaButton} onClick={() => window.location.href = '/basvuru'}>
-            Başvuru Yap
+          <button className={styles.ctaButton} onClick={() => window.location.href = 'https://forms.gle/twShthRm6ys9JeaV7'}>
+           Kabul Sınavı Başvuru Formu
           </button>
         </div>
       </div>
