@@ -195,9 +195,9 @@ const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
                 className={styles.input}
             >
               <option value="">Sınıfınızı seçin</option>
-              <option value="2. Sınıf">5. Sınıf</option>
-              <option value="3. Sınıf">5. Sınıf</option>
-              <option value="4. Sınıf">5. Sınıf</option>
+              <option value="2. Sınıf">2. Sınıf</option>
+              <option value="3. Sınıf">3. Sınıf</option>
+              <option value="4. Sınıf">4. Sınıf</option>
               <option value="5. Sınıf">5. Sınıf</option>
               <option value="6. Sınıf">6. Sınıf</option>
               <option value="7. Sınıf">7. Sınıf</option>
