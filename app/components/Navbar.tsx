@@ -187,7 +187,7 @@ const Navbar: React.FC = () => {
               onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
               onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
             >
-              Sınavlar
+              Denemeler
               <div
                 className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
                 onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
@@ -207,6 +207,9 @@ const Navbar: React.FC = () => {
                 </ProtectedLink>
               </div>
             </div>
+                        <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
+              Hakkımızda
+            </Link>
 
             <div
               className={styles.navLink}
