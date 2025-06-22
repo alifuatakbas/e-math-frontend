@@ -50,6 +50,7 @@ const ProtectedLink: React.FC<{
 const Navbar: React.FC = () => {
   const [isExamMenuOpen, setIsExamMenuOpen] = useState(false);
   const [isProgramMenuOpen, setIsProgramMenuOpen] = useState(false);
+  const [isSinavMenuOpen, setIsSinavMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
@@ -140,12 +141,14 @@ const Navbar: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
     setIsExamMenuOpen(false);
     setIsProgramMenuOpen(false);
+    setIsSinavMenuOpen(false);
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
     setIsExamMenuOpen(false);
     setIsProgramMenuOpen(false);
+    setIsSinavMenuOpen(false);
     setIsDropdownOpen(false);
   };
 
@@ -207,24 +210,24 @@ const Navbar: React.FC = () => {
                 </ProtectedLink>
               </div>
             </div>
-                 <div
-          className={styles.navLink}
-          onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
-          onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
-          onClick={() => window.innerWidth <= 768 && setIsSinavMenuOpen(!isSinavMenuOpen)}
-        >
-          Sınavlar
-          <div
-            className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
-            onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
-            onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
-          >
-            <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
-              2025 Kabul Sınavı
-            </Link>
-          </div>
-        </div>
-            
+
+            <div
+              className={styles.navLink}
+              onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
+              onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
+              onClick={() => window.innerWidth <= 768 && setIsSinavMenuOpen(!isSinavMenuOpen)}
+            >
+              Sınavlar
+              <div
+                className={`${styles.examDropdownMenu} ${isSinavMenuOpen ? styles.show : ''}`}
+                onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
+                onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
+              >
+                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+                  2025 Kabul Sınavı
+                </Link>
+              </div>
+            </div>
 
             <div
               className={styles.navLink}
