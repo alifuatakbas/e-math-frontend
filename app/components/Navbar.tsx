@@ -207,7 +207,8 @@ const Navbar: React.FC = () => {
                 </ProtectedLink>
               </div>
             </div>
-              Sınavlar
+            
+            Sınavlar
               <div
                 className={`${styles.examDropdownMenu} ${isProgramMenuOpen ? styles.show : ''}`}
                 onMouseEnter={() => window.innerWidth > 768 && setIsProgramMenuOpen(true)}
