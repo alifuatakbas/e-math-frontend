@@ -207,9 +207,15 @@ const Navbar: React.FC = () => {
                 </ProtectedLink>
               </div>
             </div>
-                        <Link href="/hakkimizda" className={styles.navLink} onClick={closeMenu}>
-              Hakkımızda
-            </Link>
+              Sınavlar
+              <div
+                className={`${styles.examDropdownMenu} ${isProgramMenuOpen ? styles.show : ''}`}
+                onMouseEnter={() => window.innerWidth > 768 && setIsProgramMenuOpen(true)}
+                onMouseLeave={() => window.innerWidth > 768 && setIsProgramMenuOpen(false)}
+              >
+                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+                  2025 Kabul Sınavı
+                </Link>
 
             <div
               className={styles.navLink}
