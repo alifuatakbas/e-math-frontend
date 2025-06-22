@@ -215,9 +215,9 @@ const Navbar: React.FC = () => {
         >
           Sınavlar
           <div
-            className={`${styles.examDropdownMenu} ${isSinavMenuOpen ? styles.show : ''}`}
-            onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
-            onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
+            className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
+            onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
+            onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
           >
             <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
               2025 Kabul Sınavı
