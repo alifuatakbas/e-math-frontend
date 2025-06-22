@@ -207,16 +207,24 @@ const Navbar: React.FC = () => {
                 </ProtectedLink>
               </div>
             </div>
+                 <div
+          className={styles.navLink}
+          onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
+          onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
+          onClick={() => window.innerWidth <= 768 && setIsSinavMenuOpen(!isSinavMenuOpen)}
+        >
+          Sınavlar
+          <div
+            className={`${styles.examDropdownMenu} ${isSinavMenuOpen ? styles.show : ''}`}
+            onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
+            onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
+          >
+            <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+              2025 Kabul Sınavı
+            </Link>
+          </div>
+        </div>
             
-            Sınavlar
-              <div
-                className={`${styles.examDropdownMenu} ${isProgramMenuOpen ? styles.show : ''}`}
-                onMouseEnter={() => window.innerWidth > 768 && setIsProgramMenuOpen(true)}
-                onMouseLeave={() => window.innerWidth > 768 && setIsProgramMenuOpen(false)}
-              >
-                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
-                  2025 Kabul Sınavı
-                </Link>
 
             <div
               className={styles.navLink}
