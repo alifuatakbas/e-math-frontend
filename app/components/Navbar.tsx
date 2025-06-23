@@ -224,7 +224,7 @@ const Navbar: React.FC = () => {
   onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
 >
   <Link 
-    href="" 
+    href="https://forms.gle/zct6YRGaJP9wHx9a9" 
     className={styles.examDropdownLink} 
     onClick={closeMenu}
     target="_blank"
@@ -233,7 +233,7 @@ const Navbar: React.FC = () => {
     3. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
-    href="" 
+    href="https://forms.gle/ZZ1GjGXwNdAGATE78" 
     className={styles.examDropdownLink} 
     onClick={closeMenu}
     target="_blank"
@@ -242,7 +242,7 @@ const Navbar: React.FC = () => {
     4. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
-    href="" 
+    href="https://forms.gle/UVqFywUitR4QfJv88" 
     className={styles.examDropdownLink} 
     onClick={closeMenu}
     target="_blank"
@@ -251,7 +251,7 @@ const Navbar: React.FC = () => {
     5. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
-    href="" 
+    href="https://forms.gle/2MTM81p6R7skaazA8" 
     className={styles.examDropdownLink} 
     onClick={closeMenu}
     target="_blank"
@@ -260,7 +260,7 @@ const Navbar: React.FC = () => {
     6. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
-    href="" 
+    href="https://forms.gle/23evZjLWLng9kCBU6" 
     className={styles.examDropdownLink} 
     onClick={closeMenu}
     target="_blank"
