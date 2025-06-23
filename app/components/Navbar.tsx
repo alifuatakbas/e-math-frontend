@@ -218,27 +218,57 @@ const Navbar: React.FC = () => {
               onClick={() => window.innerWidth <= 768 && setIsSinavMenuOpen(!isSinavMenuOpen)}
             >
               Sınavlar
-              <div
-                className={`${styles.examDropdownMenu} ${isSinavMenuOpen ? styles.show : ''}`}
-                onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
-                onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
-              >
-                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
-                  3. Sınıf
-                </Link>
-                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
-                  4. Sınıf
-                </Link>
-                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
-                  5. Sınıf
-                </Link>
-                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
-                  6. Sınıf
-                </Link>
-                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
-                  7. Sınıf
-                </Link>
-              </div>
+<div
+  className={`${styles.examDropdownMenu} ${isSinavMenuOpen ? styles.show : ''}`}
+  onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
+  onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
+>
+  <Link 
+    href="" 
+    className={styles.examDropdownLink} 
+    onClick={closeMenu}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    3. Sınıf
+  </Link>
+  <Link 
+    href="" 
+    className={styles.examDropdownLink} 
+    onClick={closeMenu}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    4. Sınıf
+  </Link>
+  <Link 
+    href="" 
+    className={styles.examDropdownLink} 
+    onClick={closeMenu}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    5. Sınıf
+  </Link>
+  <Link 
+    href="" 
+    className={styles.examDropdownLink} 
+    onClick={closeMenu}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    6. Sınıf
+  </Link>
+  <Link 
+    href="" 
+    className={styles.examDropdownLink} 
+    onClick={closeMenu}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    7. Sınıf
+  </Link>
+</div>
             </div>
 
             <div
