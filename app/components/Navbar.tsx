@@ -233,7 +233,7 @@ const Navbar: React.FC = () => {
     3. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
-    href="www.google.com" 
+    href="https://www.google.com" 
     className={styles.examDropdownLink} 
     onClick={closeMenu}
     target="_blank"
