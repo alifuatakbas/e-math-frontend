@@ -230,7 +230,16 @@ const Navbar: React.FC = () => {
     target="_blank"
     rel="noopener noreferrer"
   >
-    3. Sınıf
+    3. Sınıf 2025 Kabul Sınavı
+  </Link>
+  <Link 
+    href="www.google.com" 
+    className={styles.examDropdownLink} 
+    onClick={closeMenu}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    4. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
     href="" 
@@ -239,7 +248,7 @@ const Navbar: React.FC = () => {
     target="_blank"
     rel="noopener noreferrer"
   >
-    4. Sınıf
+    5. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
     href="" 
@@ -248,7 +257,7 @@ const Navbar: React.FC = () => {
     target="_blank"
     rel="noopener noreferrer"
   >
-    5. Sınıf
+    6. Sınıf 2025 Kabul Sınavı
   </Link>
   <Link 
     href="" 
@@ -257,16 +266,7 @@ const Navbar: React.FC = () => {
     target="_blank"
     rel="noopener noreferrer"
   >
-    6. Sınıf
-  </Link>
-  <Link 
-    href="" 
-    className={styles.examDropdownLink} 
-    onClick={closeMenu}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    7. Sınıf
+    7. Sınıf 2025 Kabul Sınavı
   </Link>
 </div>
             </div>
