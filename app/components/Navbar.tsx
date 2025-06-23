@@ -226,16 +226,16 @@ const Navbar: React.FC = () => {
                 <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
                   3. Sınıf
                 </Link>
-                                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
                   4. Sınıf
                 </Link>
-                                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
                   5. Sınıf
                 </Link>
-                                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
                   6. Sınıf
                 </Link>
-                                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+                                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
                   7. Sınıf
                 </Link>
               </div>
