@@ -223,7 +223,7 @@ const Navbar: React.FC = () => {
                 onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
                 onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
               >
-                <Link href="https://forms.gle/xXdMjTWbKrRUTAtY8" className={styles.examDropdownLink} onClick={closeMenu}>
+                <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
                   3. Sınıf
                 </Link>
                                 <Link href="" className={styles.examDropdownLink} onClick={closeMenu}>
