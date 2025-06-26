@@ -119,10 +119,19 @@ const AdminPanel = () => {
 
       if (response.ok) {
         const examsData = await response.json();
-        setExams(examsData);
+        if (Array.isArray(examsData)) {
+          setExams(examsData);
+        } else {
+          console.error('Beklenmeyen sınav verisi formatı:', examsData);
+          setExams([]);
+        }
+      } else {
+        console.error('Sınavlar yüklenirken API hatası:', response.status);
+        setExams([]);
       }
     } catch (error) {
       console.error('Sınavlar yüklenirken hata:', error);
+      setExams([]);
     }
   };
 
@@ -155,12 +164,28 @@ const AdminPanel = () => {
 
       if (response.ok) {
         const data: PaginatedResults = await response.json();
-        setExamResults(data.results);
-        setTotalResults(data.total);
-        setTotalPages(data.total_pages);
+
+        if (data && typeof data === 'object') {
+          setExamResults(data.results || []);
+          setTotalResults(data.total || 0);
+          setTotalPages(data.total_pages || 0);
+        } else {
+          console.error('Beklenmeyen veri formatı:', data);
+          setExamResults([]);
+          setTotalResults(0);
+          setTotalPages(0);
+        }
+      } else {
+        console.error('API yanıt hatası:', response.status, response.statusText);
+        setExamResults([]);
+        setTotalResults(0);
+        setTotalPages(0);
       }
     } catch (error) {
       console.error('Sınav sonuçları yüklenirken hata:', error);
+      setExamResults([]);
+      setTotalResults(0);
+      setTotalPages(0);
     } finally {
       setLoading(false);
     }
@@ -289,12 +314,12 @@ const AdminPanel = () => {
         <div className={styles.stats}>
           <div className={styles.statCard}>
             <h3>Toplam Sonuç</h3>
-            <span>{totalResults}</span>
+            <span>{totalResults || 0}</span>
           </div>
           <div className={styles.statCard}>
             <h3>Ortalama Başarı</h3>
             <span>
-              {examResults.length > 0
+              {examResults && examResults.length > 0
                 ? Math.round(examResults.reduce((acc, result) =>
                     acc + calculateScore(result.correct_answers, result.incorrect_answers), 0) / examResults.length)
                 : 0}%
@@ -302,7 +327,7 @@ const AdminPanel = () => {
           </div>
           <div className={styles.statCard}>
             <h3>Tamamlanan Sınav</h3>
-            <span>{examResults.filter(r => r.completed).length}</span>
+            <span>{examResults ? examResults.filter(r => r.completed).length : 0}</span>
           </div>
         </div>
 
@@ -322,23 +347,23 @@ const AdminPanel = () => {
               </tr>
             </thead>
             <tbody>
-              {examResults.map((result) => (
+              {examResults && examResults.map((result) => (
                 <React.Fragment key={result.id}>
                   <tr>
                     <td>
                       <div className={styles.studentInfo}>
-                        <strong>{result.user.full_name}</strong>
-                        <small>{result.user.email}</small>
+                        <strong>{result.user?.full_name || 'Bilinmeyen'}</strong>
+                        <small>{result.user?.email || 'Email yok'}</small>
                       </div>
                     </td>
-                    <td>{result.user.school_name}</td>
-                    <td>{result.user.branch}</td>
-                    <td>{result.exam.title}</td>
-                    <td className={styles.correct}>{result.correct_answers}</td>
-                    <td className={styles.incorrect}>{result.incorrect_answers}</td>
+                    <td>{result.user?.school_name || 'Okul bilgisi yok'}</td>
+                    <td>{result.user?.branch || 'Sınıf bilgisi yok'}</td>
+                    <td>{result.exam?.title || 'Sınav bilgisi yok'}</td>
+                    <td className={styles.correct}>{result.correct_answers || 0}</td>
+                    <td className={styles.incorrect}>{result.incorrect_answers || 0}</td>
                     <td>
                       <span className={styles.score}>
-                        {calculateScore(result.correct_answers, result.incorrect_answers)}%
+                        {calculateScore(result.correct_answers || 0, result.incorrect_answers || 0)}%
                       </span>
                     </td>
                     <td>
@@ -362,7 +387,7 @@ const AdminPanel = () => {
                         <div className={styles.detailsPanel}>
                           <h4>Soru Detayları</h4>
                           <div className={styles.answersList}>
-                            {answerDetails.map((answer, index) => (
+                            {answerDetails && answerDetails.map((answer, index) => (
                               <div key={answer.id} className={`${styles.answerItem} ${answer.is_correct ? styles.correct : styles.incorrect}`}>
                                 <div className={styles.questionHeader}>
                                   <span className={styles.questionNumber}>Soru {index + 1}</span>
@@ -370,21 +395,21 @@ const AdminPanel = () => {
                                     {answer.is_correct ? '✓ Doğru' : '✗ Yanlış'}
                                   </span>
                                 </div>
-                                <p className={styles.questionText}>{answer.question.text}</p>
+                                <p className={styles.questionText}>{answer.question?.text || 'Soru metni bulunamadı'}</p>
                                 <div className={styles.options}>
                                   <div className={styles.option}>
-                                    <strong>A:</strong> {answer.question.option_1}
+                                    <strong>A:</strong> {answer.question?.option_1 || 'Seçenek bulunamadı'}
                                   </div>
                                   <div className={styles.option}>
-                                    <strong>B:</strong> {answer.question.option_2}
+                                    <strong>B:</strong> {answer.question?.option_2 || 'Seçenek bulunamadı'}
                                   </div>
                                   <div className={styles.option}>
-                                    <strong>C:</strong> {answer.question.option_3}
+                                    <strong>C:</strong> {answer.question?.option_3 || 'Seçenek bulunamadı'}
                                   </div>
                                   <div className={styles.option}>
-                                    <strong>D:</strong> {answer.question.option_4}
+                                    <strong>D:</strong> {answer.question?.option_4 || 'Seçenek bulunamadı'}
                                   </div>
-                                  {answer.question.option_5 && (
+                                  {answer.question?.option_5 && (
                                     <div className={styles.option}>
                                       <strong>E:</strong> {answer.question.option_5}
                                     </div>
@@ -392,7 +417,7 @@ const AdminPanel = () => {
                                 </div>
                                 <div className={styles.answerInfo}>
                                   <span className={styles.correctAnswer}>
-                                    Doğru Cevap: {getOptionLabel(answer.question.correct_option_id)}
+                                    Doğru Cevap: {answer.question?.correct_option_id ? getOptionLabel(answer.question.correct_option_id) : 'Bilinmiyor'}
                                   </span>
                                   <span className={styles.studentAnswer}>
                                     Öğrenci Cevabı: {answer.selected_option ? getOptionLabel(answer.selected_option) : 'Boş'}
@@ -459,7 +484,7 @@ const AdminPanel = () => {
           </div>
         )}
 
-        {examResults.length === 0 && !loading && (
+        {(!examResults || examResults.length === 0) && !loading && (
           <div className={styles.noResults}>
             <p>Seçilen kriterlere uygun sonuç bulunamadı.</p>
           </div>
