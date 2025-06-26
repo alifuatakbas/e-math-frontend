@@ -274,29 +274,29 @@ const AdminPanel = () => {
           <div className={styles.filterGroup}>
             <label>Sınıf Filtresi:</label>
             <select
-              value={selectedGrade}
-              onChange={(e) => setSelectedGrade(e.target.value)}
-              className={styles.select}
+                value={selectedGrade}
+                onChange={(e) => setSelectedGrade(e.target.value)}
+                className={styles.select}
             >
               <option value="all">Tüm Sınıflar</option>
-              <option value="3">3. Sınıf</option>
-              <option value="4">4. Sınıf</option>
-              <option value="5">5. Sınıf</option>
-              <option value="6">6. Sınıf</option>
-              <option value="7">7. Sınıf</option>
+              <option value="3. Sınıf">3. Sınıf</option>
+              <option value="4. Sınıf">4. Sınıf</option>
+              <option value="5. Sınıf">5. Sınıf</option>
+              <option value="6. Sınıf">6. Sınıf</option>
+              <option value="7. Sınıf">7. Sınıf</option>
             </select>
           </div>
 
           <div className={styles.filterGroup}>
             <label>Sınav Filtresi:</label>
             <select
-              value={selectedExam}
-              onChange={(e) => setSelectedExam(e.target.value)}
-              className={styles.select}
+                value={selectedExam}
+                onChange={(e) => setSelectedExam(e.target.value)}
+                className={styles.select}
             >
               <option value="all">Tüm Sınavlar</option>
               {exams.map(exam => (
-                <option key={exam.id} value={exam.id.toString()}>
+                  <option key={exam.id} value={exam.id.toString()}>
                   {exam.title}
                 </option>
               ))}
