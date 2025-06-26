@@ -145,9 +145,9 @@ const AdminPanel = () => {
         params.append('search', searchTerm);
       }
 
-      console.log('API çağrısı yapılıyor:', `${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results?${params}`);
+      console.log('API çağrısı yapılıyor:', `${process.env.NEXT_PUBLIC_API_URL}/admin/paginated-exam-results?${params}`);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results?${params}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/paginated-exam-results?${params}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
