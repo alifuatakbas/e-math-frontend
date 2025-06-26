@@ -97,29 +97,42 @@ const AdminPanel = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
+      console.log('Token:', token ? 'Mevcut' : 'Yok');
 
       // Sınavları getir
+      console.log('Sınavlar getiriliyor...');
       const examsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
+      console.log('Sınavlar response status:', examsResponse.status);
       if (examsResponse.ok) {
         const examsData = await examsResponse.json();
+        console.log('Sınavlar data:', examsData);
         setExams(examsData);
+      } else {
+        console.error('Sınavlar getirilemedi:', examsResponse.statusText);
       }
 
       // Sınav sonuçlarını getir (admin endpoint'i oluşturulmalı)
+      console.log('Sınav sonuçları getiriliyor...');
       const resultsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
+      console.log('Sonuçlar response status:', resultsResponse.status);
       if (resultsResponse.ok) {
         const resultsData = await resultsResponse.json();
+        console.log('Sonuçlar data:', resultsData);
         setExamResults(resultsData);
+      } else {
+        console.error('Sonuçlar getirilemedi:', resultsResponse.statusText);
+        const errorText = await resultsResponse.text();
+        console.error('Error details:', errorText);
       }
     } catch (error) {
       console.error('Veri yüklenirken hata:', error);
