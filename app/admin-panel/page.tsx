@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiSearch, FiEye, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiSearch, FiEye } from 'react-icons/fi';
 import styles from '../styles/AdminPanel.module.css';
 import Navbar from '../components/Navbar';
 
@@ -47,39 +47,26 @@ interface Answer {
   };
 }
 
-interface PaginatedResults {
-  results: ExamResult[];
-  total: number;
-  page: number;
-  page_size: number;
-  total_pages: number;
-}
-
 const AdminPanel = () => {
   const router = useRouter();
   const [examResults, setExamResults] = useState<ExamResult[]>([]);
+  const [filteredResults, setFilteredResults] = useState<ExamResult[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedGrade, setSelectedGrade] = useState<string>('');
+  const [selectedGrade, setSelectedGrade] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedExam, setSelectedExam] = useState<string>('');
+  const [selectedExam, setSelectedExam] = useState<string>('all');
   const [exams, setExams] = useState<any[]>([]);
   const [showDetails, setShowDetails] = useState<number | null>(null);
   const [answerDetails, setAnswerDetails] = useState<Answer[]>([]);
 
-  // Pagination state'leri
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
-  const [totalResults, setTotalResults] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-
   useEffect(() => {
     checkAuth();
-    fetchExams();
+    fetchData();
   }, []);
 
   useEffect(() => {
-    fetchExamResults();
-  }, [currentPage, pageSize, selectedGrade, searchTerm, selectedExam]);
+    filterResults();
+  }, [examResults, selectedGrade, searchTerm, selectedExam]);
 
   const checkAuth = async () => {
     const token = localStorage.getItem('token');
@@ -108,70 +95,91 @@ const AdminPanel = () => {
     }
   };
 
-  const fetchExams = async () => {
+  const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const headers = { 'Authorization': `Bearer ${token}` };
 
-      if (response.ok) {
-        const examsData = await response.json();
+      // Paralel fetch
+      const [examsResponse, resultsResponse] = await Promise.all([
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, { headers }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results`, { headers })
+      ]);
+
+      if (examsResponse.ok) {
+        const examsData = await examsResponse.json();
         setExams(examsData);
       }
-    } catch (error) {
-      console.error('Sınavlar yüklenirken hata:', error);
-    }
-  };
-
-  const fetchExamResults = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem('token');
-
-      // API parametrelerini oluştur
-      const params = new URLSearchParams({
-        page: currentPage.toString(),
-        page_size: pageSize.toString()
-      });
-
-      if (selectedGrade) {
-        params.append('grade', selectedGrade);
-      }
-      if (selectedExam) {
-        params.append('exam_id', selectedExam);
-      }
-      if (searchTerm) {
-        params.append('search', searchTerm);
-      }
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results?${params}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data: PaginatedResults = await response.json();
-        setExamResults(data.results || []);
-        setTotalResults(data.total || 0);
-        setTotalPages(data.total_pages || 0);
-      } else {
-        console.error('API yanıt hatası:', response.status);
-        setExamResults([]);
-        setTotalResults(0);
-        setTotalPages(0);
+      if (resultsResponse.ok) {
+        const resultsData = await resultsResponse.json();
+        setExamResults(resultsData);
       }
     } catch (error) {
-      console.error('Sınav sonuçları yüklenirken hata:', error);
-      setExamResults([]);
-      setTotalResults(0);
-      setTotalPages(0);
+      console.error('Veri yüklenirken hata:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const filterResults = () => {
+    let filtered = examResults;
+    console.log('Filtreleme başlıyor. Toplam sonuç:', examResults.length);
+
+    // Tüm sınıf değerlerini göster
+    const allGrades = new Set(examResults.map(result => result.user.branch));
+    console.log('Veritabanındaki tüm sınıf değerleri:', Array.from(allGrades));
+
+    // Sınıf filtresi - Önce seçilen sınıftaki öğrencilerin user_id'lerini bul
+    if (selectedGrade !== 'all') {
+      console.log('Sınıf filtresi uygulanıyor. Seçilen sınıf:', selectedGrade, 'Türü:', typeof selectedGrade);
+
+      // Seçilen sınıftaki öğrencilerin user_id'lerini topla
+      const gradeUserIds = new Set();
+      examResults.forEach(result => {
+        console.log(`Kontrol edilen öğrenci: ${result.user.full_name}, Sınıf: "${result.user.branch}" (Türü: ${typeof result.user.branch})`);
+        if (result.user.branch === selectedGrade) {
+          gradeUserIds.add(result.user_id);
+          console.log(`✅ Eşleşme bulundu! User ID: ${result.user_id} eklendi.`);
+        } else {
+          console.log(`❌ Eşleşme yok. Beklenen: "${selectedGrade}", Gerçek: "${result.user.branch}"`);
+        }
+      });
+
+      console.log('Bu sınıftaki user_id\'ler:', Array.from(gradeUserIds));
+
+      // Sadece bu user_id'lere sahip sonuçları filtrele
+      filtered = filtered.filter(result => {
+        const isInSelectedGrade = gradeUserIds.has(result.user_id);
+        console.log(`User ID: ${result.user_id}, Sınıf: ${result.user.branch}, Seçilen sınıfta mı: ${isInSelectedGrade}`);
+        return isInSelectedGrade;
+      });
+
+      console.log('Sınıf filtresi sonrası sonuç:', filtered.length);
+    }
+
+    // Sınav filtresi
+    if (selectedExam !== 'all') {
+      console.log('Sınav filtresi uygulanıyor:', selectedExam);
+      filtered = filtered.filter(result => {
+        console.log('Sınav ID:', result.exam.id, 'Seçilen sınav:', selectedExam);
+        return result.exam.id.toString() === selectedExam;
+      });
+      console.log('Sınav filtresi sonrası sonuç:', filtered.length);
+    }
+
+    // Arama filtresi
+    if (searchTerm) {
+      console.log('Arama filtresi uygulanıyor:', searchTerm);
+      filtered = filtered.filter(result =>
+        result.user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        result.user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        result.user.school_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      console.log('Arama filtresi sonrası sonuç:', filtered.length);
+    }
+
+    console.log('Final filtrelenmiş sonuç:', filtered.length);
+    setFilteredResults(filtered);
   };
 
   const getAnswerDetails = async (examResultId: number) => {
@@ -212,14 +220,6 @@ const AdminPanel = () => {
     return total > 0 ? Math.round((correct / total) * 100) : 0;
   };
 
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
-  const handleFilterChange = () => {
-    setCurrentPage(1); // Filtre değiştiğinde ilk sayfaya dön
-  };
-
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -242,14 +242,11 @@ const AdminPanel = () => {
           <div className={styles.filterGroup}>
             <label>Sınıf Filtresi:</label>
             <select
-              value={selectedGrade}
-              onChange={(e) => {
-                setSelectedGrade(e.target.value);
-                handleFilterChange();
-              }}
-              className={styles.select}
+                value={selectedGrade}
+                onChange={(e) => setSelectedGrade(e.target.value)}
+                className={styles.select}
             >
-              <option value="">Tüm Sınıflar</option>
+              <option value="all">Tüm Sınıflar</option>
               <option value="3. Sınıf">3. Sınıf</option>
               <option value="4. Sınıf">4. Sınıf</option>
               <option value="5. Sınıf">5. Sınıf</option>
@@ -264,13 +261,10 @@ const AdminPanel = () => {
             <label>Sınav Filtresi:</label>
             <select
               value={selectedExam}
-              onChange={(e) => {
-                setSelectedExam(e.target.value);
-                handleFilterChange();
-              }}
+              onChange={(e) => setSelectedExam(e.target.value)}
               className={styles.select}
             >
-              <option value="">Tüm Sınavlar</option>
+              <option value="all">Tüm Sınavlar</option>
               {exams.map(exam => (
                 <option key={exam.id} value={exam.id.toString()}>
                   {exam.title}
@@ -285,10 +279,7 @@ const AdminPanel = () => {
               type="text"
               placeholder="Öğrenci adı, email veya okul ara..."
               value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                handleFilterChange();
-              }}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className={styles.searchInput}
             />
           </div>
@@ -297,20 +288,20 @@ const AdminPanel = () => {
         <div className={styles.stats}>
           <div className={styles.statCard}>
             <h3>Toplam Sonuç</h3>
-            <span>{totalResults}</span>
+            <span>{filteredResults.length}</span>
           </div>
           <div className={styles.statCard}>
             <h3>Ortalama Başarı</h3>
             <span>
-              {examResults.length > 0
-                ? Math.round(examResults.reduce((acc, result) =>
-                    acc + calculateScore(result.correct_answers, result.incorrect_answers), 0) / examResults.length)
+              {filteredResults.length > 0
+                ? Math.round(filteredResults.reduce((acc, result) =>
+                    acc + calculateScore(result.correct_answers, result.incorrect_answers), 0) / filteredResults.length)
                 : 0}%
             </span>
           </div>
           <div className={styles.statCard}>
             <h3>Tamamlanan Sınav</h3>
-            <span>{examResults.filter(r => r.completed).length}</span>
+            <span>{filteredResults.filter(r => r.completed).length}</span>
           </div>
         </div>
 
@@ -330,7 +321,7 @@ const AdminPanel = () => {
               </tr>
             </thead>
             <tbody>
-              {examResults.map((result) => (
+              {filteredResults.map((result) => (
                 <React.Fragment key={result.id}>
                   <tr>
                     <td>
@@ -419,55 +410,7 @@ const AdminPanel = () => {
           </table>
         </div>
 
-        {/* Sayfalama */}
-        {totalPages > 1 && (
-          <div className={styles.pagination}>
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={styles.pageButton}
-            >
-              <FiChevronLeft />
-              Önceki
-            </button>
-
-            <div className={styles.pageNumbers}>
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                let pageNum;
-                if (totalPages <= 5) {
-                  pageNum = i + 1;
-                } else if (currentPage <= 3) {
-                  pageNum = i + 1;
-                } else if (currentPage >= totalPages - 2) {
-                  pageNum = totalPages - 4 + i;
-                } else {
-                  pageNum = currentPage - 2 + i;
-                }
-
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => handlePageChange(pageNum)}
-                    className={`${styles.pageButton} ${currentPage === pageNum ? styles.active : ''}`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              })}
-            </div>
-
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className={styles.pageButton}
-            >
-              Sonraki
-              <FiChevronRight />
-            </button>
-          </div>
-        )}
-
-        {examResults.length === 0 && !loading && (
+        {filteredResults.length === 0 && (
           <div className={styles.noResults}>
             <p>Seçilen kriterlere uygun sonuç bulunamadı.</p>
           </div>
