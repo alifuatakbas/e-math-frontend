@@ -284,6 +284,8 @@ const AdminPanel = () => {
               <option value="5. Sınıf">5. Sınıf</option>
               <option value="6. Sınıf">6. Sınıf</option>
               <option value="7. Sınıf">7. Sınıf</option>
+              <option value="8. Sınıf">8. Sınıf</option>
+              <option value="9. Sınıf">9. Sınıf</option>
             </select>
           </div>
 
