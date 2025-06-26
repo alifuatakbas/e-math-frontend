@@ -311,7 +311,7 @@ const Navbar: React.FC = () => {
                         Profil
                       </Link>
                       {isAdmin && (
-                        <Link href="/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
+                        <Link href="/app/admin-panel" className={styles.userDropdownLink} onClick={closeMenu}>
                           Admin Panel
                         </Link>
                       )}
