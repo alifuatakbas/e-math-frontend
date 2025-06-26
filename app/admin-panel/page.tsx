@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiSearch, FiEye, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import styles from '../styles/AdminPanel.module.css';
 import Navbar from '../components/Navbar';
 
 interface User {
@@ -147,6 +145,8 @@ const AdminPanel = () => {
         params.append('search', searchTerm);
       }
 
+      console.log('API çağrısı yapılıyor:', `${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results?${params}`);
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results?${params}`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -155,11 +155,14 @@ const AdminPanel = () => {
 
       if (response.ok) {
         const data: PaginatedResults = await response.json();
+        console.log('API yanıtı:', data);
         setExamResults(data.results || []);
         setTotalResults(data.total || 0);
         setTotalPages(data.total_pages || 0);
       } else {
         console.error('API yanıt hatası:', response.status);
+        const errorText = await response.text();
+        console.error('Hata detayı:', errorText);
         setExamResults([]);
         setTotalResults(0);
         setTotalPages(0);
@@ -222,9 +225,15 @@ const AdminPanel = () => {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner}></div>
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <div style={{ width: '40px', height: '40px', border: '4px solid #f3f3f3', borderTop: '4px solid #3498db', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
         <p>Yükleniyor...</p>
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     );
   }
@@ -232,14 +241,14 @@ const AdminPanel = () => {
   return (
     <>
       <Navbar />
-      <div className={styles.container}>
-        <div className={styles.header}>
+      <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '30px' }}>
           <h1>Admin Paneli - Sınav Sonuçları</h1>
           <p>Tüm öğrencilerin sınav sonuçlarını görüntüleyin ve analiz edin</p>
         </div>
 
-        <div className={styles.filters}>
-          <div className={styles.filterGroup}>
+        <div style={{ display: 'flex', gap: '20px', marginBottom: '30px', flexWrap: 'wrap' }}>
+          <div>
             <label>Sınıf Filtresi:</label>
             <select
               value={selectedGrade}
@@ -247,7 +256,7 @@ const AdminPanel = () => {
                 setSelectedGrade(e.target.value);
                 handleFilterChange();
               }}
-              className={styles.select}
+              style={{ marginLeft: '10px', padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }}
             >
               <option value="">Tüm Sınıflar</option>
               <option value="3. Sınıf">3. Sınıf</option>
@@ -260,7 +269,7 @@ const AdminPanel = () => {
             </select>
           </div>
 
-          <div className={styles.filterGroup}>
+          <div>
             <label>Sınav Filtresi:</label>
             <select
               value={selectedExam}
@@ -268,7 +277,7 @@ const AdminPanel = () => {
                 setSelectedExam(e.target.value);
                 handleFilterChange();
               }}
-              className={styles.select}
+              style={{ marginLeft: '10px', padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }}
             >
               <option value="">Tüm Sınavlar</option>
               {exams.map(exam => (
@@ -279,8 +288,8 @@ const AdminPanel = () => {
             </select>
           </div>
 
-          <div className={styles.searchGroup}>
-            <FiSearch className={styles.searchIcon} />
+          <div style={{ position: 'relative' }}>
+            <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>🔍</span>
             <input
               type="text"
               placeholder="Öğrenci adı, email veya okul ara..."
@@ -289,120 +298,137 @@ const AdminPanel = () => {
                 setSearchTerm(e.target.value);
                 handleFilterChange();
               }}
-              className={styles.searchInput}
+              style={{ padding: '8px 8px 8px 35px', borderRadius: '4px', border: '1px solid #ddd', width: '250px' }}
             />
           </div>
         </div>
 
-        <div className={styles.stats}>
-          <div className={styles.statCard}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
+          <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
             <h3>Toplam Sonuç</h3>
-            <span>{totalResults}</span>
+            <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#007bff' }}>{totalResults}</span>
           </div>
-          <div className={styles.statCard}>
+          <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
             <h3>Ortalama Başarı</h3>
-            <span>
+            <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>
               {examResults.length > 0
                 ? Math.round(examResults.reduce((acc, result) =>
                     acc + calculateScore(result.correct_answers, result.incorrect_answers), 0) / examResults.length)
                 : 0}%
             </span>
           </div>
-          <div className={styles.statCard}>
+          <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
             <h3>Tamamlanan Sınav</h3>
-            <span>{examResults.filter(r => r.completed).length}</span>
+            <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#ffc107' }}>{examResults.filter(r => r.completed).length}</span>
           </div>
         </div>
 
-        <div className={styles.resultsTable}>
-          <table>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
             <thead>
-              <tr>
-                <th>Öğrenci</th>
-                <th>Okul</th>
-                <th>Sınıf</th>
-                <th>Sınav</th>
-                <th>Doğru</th>
-                <th>Yanlış</th>
-                <th>Başarı %</th>
-                <th>Durum</th>
-                <th>İşlemler</th>
+              <tr style={{ background: '#f8f9fa' }}>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Öğrenci</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Okul</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Sınıf</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Sınav</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Doğru</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Yanlış</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Başarı %</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>Durum</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #dee2e6' }}>İşlemler</th>
               </tr>
             </thead>
             <tbody>
               {examResults.map((result) => (
                 <React.Fragment key={result.id}>
-                  <tr>
-                    <td>
-                      <div className={styles.studentInfo}>
+                  <tr style={{ borderBottom: '1px solid #f1f3f4' }}>
+                    <td style={{ padding: '12px' }}>
+                      <div>
                         <strong>{result.user.full_name}</strong>
-                        <small>{result.user.email}</small>
+                        <br />
+                        <small style={{ color: '#666' }}>{result.user.email}</small>
                       </div>
                     </td>
-                    <td>{result.user.school_name}</td>
-                    <td>{result.user.branch}</td>
-                    <td>{result.exam.title}</td>
-                    <td className={styles.correct}>{result.correct_answers}</td>
-                    <td className={styles.incorrect}>{result.incorrect_answers}</td>
-                    <td>
-                      <span className={styles.score}>
+                    <td style={{ padding: '12px' }}>{result.user.school_name}</td>
+                    <td style={{ padding: '12px' }}>{result.user.branch}</td>
+                    <td style={{ padding: '12px' }}>{result.exam.title}</td>
+                    <td style={{ padding: '12px', color: '#28a745', fontWeight: 'bold' }}>{result.correct_answers}</td>
+                    <td style={{ padding: '12px', color: '#dc3545', fontWeight: 'bold' }}>{result.incorrect_answers}</td>
+                    <td style={{ padding: '12px' }}>
+                      <span style={{
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        background: calculateScore(result.correct_answers, result.incorrect_answers) >= 70 ? '#d4edda' : '#f8d7da',
+                        color: calculateScore(result.correct_answers, result.incorrect_answers) >= 70 ? '#155724' : '#721c24'
+                      }}>
                         {calculateScore(result.correct_answers, result.incorrect_answers)}%
                       </span>
                     </td>
-                    <td>
-                      <span className={`${styles.status} ${result.completed ? styles.completed : styles.pending}`}>
+                    <td style={{ padding: '12px' }}>
+                      <span style={{
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        background: result.completed ? '#d4edda' : '#fff3cd',
+                        color: result.completed ? '#155724' : '#856404'
+                      }}>
                         {result.completed ? 'Tamamlandı' : 'Devam Ediyor'}
                       </span>
                     </td>
-                    <td>
+                    <td style={{ padding: '12px' }}>
                       <button
                         onClick={() => toggleDetails(result.id)}
-                        className={styles.detailButton}
+                        style={{
+                          padding: '6px 12px',
+                          background: '#007bff',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}
                       >
-                        <FiEye />
-                        {showDetails === result.id ? 'Gizle' : 'Detay'}
+                        👁️ {showDetails === result.id ? 'Gizle' : 'Detay'}
                       </button>
                     </td>
                   </tr>
                   {showDetails === result.id && (
                     <tr>
-                      <td colSpan={9}>
-                        <div className={styles.detailsPanel}>
+                      <td colSpan={9} style={{ padding: '20px', background: '#f8f9fa' }}>
+                        <div>
                           <h4>Soru Detayları</h4>
-                          <div className={styles.answersList}>
+                          <div style={{ display: 'grid', gap: '15px' }}>
                             {answerDetails.map((answer, index) => (
-                              <div key={answer.id} className={`${styles.answerItem} ${answer.is_correct ? styles.correct : styles.incorrect}`}>
-                                <div className={styles.questionHeader}>
-                                  <span className={styles.questionNumber}>Soru {index + 1}</span>
-                                  <span className={styles.questionStatus}>
+                              <div key={answer.id} style={{
+                                padding: '15px',
+                                border: '1px solid #dee2e6',
+                                borderRadius: '8px',
+                                background: answer.is_correct ? '#d4edda' : '#f8d7da'
+                              }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                  <span style={{ fontWeight: 'bold' }}>Soru {index + 1}</span>
+                                  <span style={{
+                                    padding: '4px 8px',
+                                    borderRadius: '4px',
+                                    background: answer.is_correct ? '#28a745' : '#dc3545',
+                                    color: 'white'
+                                  }}>
                                     {answer.is_correct ? '✓ Doğru' : '✗ Yanlış'}
                                   </span>
                                 </div>
-                                <p className={styles.questionText}>{answer.question.text}</p>
-                                <div className={styles.options}>
-                                  <div className={styles.option}>
-                                    <strong>A:</strong> {answer.question.option_1}
-                                  </div>
-                                  <div className={styles.option}>
-                                    <strong>B:</strong> {answer.question.option_2}
-                                  </div>
-                                  <div className={styles.option}>
-                                    <strong>C:</strong> {answer.question.option_3}
-                                  </div>
-                                  <div className={styles.option}>
-                                    <strong>D:</strong> {answer.question.option_4}
-                                  </div>
+                                <p style={{ marginBottom: '10px' }}>{answer.question.text}</p>
+                                <div style={{ marginBottom: '10px' }}>
+                                  <div style={{ marginBottom: '5px' }}><strong>A:</strong> {answer.question.option_1}</div>
+                                  <div style={{ marginBottom: '5px' }}><strong>B:</strong> {answer.question.option_2}</div>
+                                  <div style={{ marginBottom: '5px' }}><strong>C:</strong> {answer.question.option_3}</div>
+                                  <div style={{ marginBottom: '5px' }}><strong>D:</strong> {answer.question.option_4}</div>
                                   {answer.question.option_5 && (
-                                    <div className={styles.option}>
-                                      <strong>E:</strong> {answer.question.option_5}
-                                    </div>
+                                    <div style={{ marginBottom: '5px' }}><strong>E:</strong> {answer.question.option_5}</div>
                                   )}
                                 </div>
-                                <div className={styles.answerInfo}>
-                                  <span className={styles.correctAnswer}>
+                                <div style={{ display: 'flex', gap: '20px', fontSize: '14px' }}>
+                                  <span style={{ color: '#28a745' }}>
                                     Doğru Cevap: {getOptionLabel(answer.question.correct_option_id)}
                                   </span>
-                                  <span className={styles.studentAnswer}>
+                                  <span style={{ color: '#dc3545' }}>
                                     Öğrenci Cevabı: {answer.selected_option ? getOptionLabel(answer.selected_option) : 'Boş'}
                                   </span>
                                 </div>
@@ -421,17 +447,23 @@ const AdminPanel = () => {
 
         {/* Sayfalama */}
         {totalPages > 1 && (
-          <div className={styles.pagination}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', marginTop: '30px' }}>
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={styles.pageButton}
+              style={{
+                padding: '8px 16px',
+                background: currentPage === 1 ? '#6c757d' : '#007bff',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: currentPage === 1 ? 'not-allowed' : 'pointer'
+              }}
             >
-              <FiChevronLeft />
-              Önceki
+              ← Önceki
             </button>
 
-            <div className={styles.pageNumbers}>
+            <div style={{ display: 'flex', gap: '5px' }}>
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 let pageNum;
                 if (totalPages <= 5) {
@@ -448,7 +480,14 @@ const AdminPanel = () => {
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
-                    className={`${styles.pageButton} ${currentPage === pageNum ? styles.active : ''}`}
+                    style={{
+                      padding: '8px 12px',
+                      background: currentPage === pageNum ? '#007bff' : '#f8f9fa',
+                      color: currentPage === pageNum ? 'white' : '#007bff',
+                      border: '1px solid #007bff',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
                   >
                     {pageNum}
                   </button>
@@ -459,16 +498,22 @@ const AdminPanel = () => {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={styles.pageButton}
+              style={{
+                padding: '8px 16px',
+                background: currentPage === totalPages ? '#6c757d' : '#007bff',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer'
+              }}
             >
-              Sonraki
-              <FiChevronRight />
+              Sonraki →
             </button>
           </div>
         )}
 
         {examResults.length === 0 && !loading && (
-          <div className={styles.noResults}>
+          <div style={{ textAlign: 'center', padding: '50px', color: '#666' }}>
             <p>Seçilen kriterlere uygun sonuç bulunamadı.</p>
           </div>
         )}
