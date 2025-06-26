@@ -146,15 +146,23 @@ const AdminPanel = () => {
     let filtered = examResults;
     console.log('Filtreleme başlıyor. Toplam sonuç:', examResults.length);
 
+    // Tüm sınıf değerlerini göster
+    const allGrades = new Set(examResults.map(result => result.user.branch));
+    console.log('Veritabanındaki tüm sınıf değerleri:', Array.from(allGrades));
+
     // Sınıf filtresi - Önce seçilen sınıftaki öğrencilerin user_id'lerini bul
     if (selectedGrade !== 'all') {
-      console.log('Sınıf filtresi uygulanıyor:', selectedGrade);
+      console.log('Sınıf filtresi uygulanıyor. Seçilen sınıf:', selectedGrade, 'Türü:', typeof selectedGrade);
 
       // Seçilen sınıftaki öğrencilerin user_id'lerini topla
       const gradeUserIds = new Set();
       examResults.forEach(result => {
+        console.log(`Kontrol edilen öğrenci: ${result.user.full_name}, Sınıf: "${result.user.branch}" (Türü: ${typeof result.user.branch})`);
         if (result.user.branch === selectedGrade) {
           gradeUserIds.add(result.user_id);
+          console.log(`✅ Eşleşme bulundu! User ID: ${result.user_id} eklendi.`);
+        } else {
+          console.log(`❌ Eşleşme yok. Beklenen: "${selectedGrade}", Gerçek: "${result.user.branch}"`);
         }
       });
 
