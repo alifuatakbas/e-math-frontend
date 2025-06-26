@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiSearch, FiEye } from 'react-icons/fi';
-import styles from './AdminPanel.module.css';
+import styles from '../styles/AdminPanel.module.css';
 
 interface User {
   id: number;
