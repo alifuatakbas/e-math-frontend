@@ -242,9 +242,9 @@ const AdminPanel = () => {
           <div className={styles.filterGroup}>
             <label>Sınıf Filtresi:</label>
             <select
-              value={selectedGrade}
-              onChange={(e) => setSelectedGrade(e.target.value)}
-              className={styles.select}
+                value={selectedGrade}
+                onChange={(e) => setSelectedGrade(e.target.value)}
+                className={styles.select}
             >
               <option value="all">Tüm Sınıflar</option>
               <option value="3. Sınıf">3. Sınıf</option>
@@ -252,6 +252,8 @@ const AdminPanel = () => {
               <option value="5. Sınıf">5. Sınıf</option>
               <option value="6. Sınıf">6. Sınıf</option>
               <option value="7. Sınıf">7. Sınıf</option>
+              <option value="8. Sınıf">8. Sınıf</option>
+              <option value="9. Sınıf">9. Sınıf</option>
             </select>
           </div>
 
