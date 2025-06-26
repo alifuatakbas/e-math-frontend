@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiSearch, FiFilter, FiEye, FiDownload } from 'react-icons/fi';
+import { FiSearch, FiEye } from 'react-icons/fi';
 import styles from './AdminPanel.module.css';
 
 interface User {
