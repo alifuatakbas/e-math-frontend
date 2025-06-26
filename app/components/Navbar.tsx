@@ -299,12 +299,6 @@ const Navbar: React.FC = () => {
               Başvuru
             </Link>
 
-            {isAdmin && (
-              <Link href="/sinav-sonuclari-goruntule" className={styles.adminButton} onClick={closeMenu}>
-                Sınav Sonuçlarını Görüntüle
-              </Link>
-            )}
-
             <div className={styles.authButtons}>
               {currentUser ? (
                 <>
