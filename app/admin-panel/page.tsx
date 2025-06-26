@@ -210,17 +210,6 @@ const AdminPanel = () => {
     }
   };
 
-  const getGradeLabel = (grade: string) => {
-    const gradeMap: { [key: string]: string } = {
-      '3': '3. Sınıf',
-      '4': '4. Sınıf',
-      '5': '5. Sınıf',
-      '6': '6. Sınıf',
-      '7': '7. Sınıf'
-    };
-    return gradeMap[grade] || grade;
-  };
-
   const getOptionLabel = (optionNumber: number) => {
     const options = ['A', 'B', 'C', 'D', 'E'];
     return options[optionNumber - 1] || optionNumber.toString();
@@ -258,11 +247,11 @@ const AdminPanel = () => {
               className={styles.select}
             >
               <option value="all">Tüm Sınıflar</option>
-              <option value="3">3. Sınıf</option>
-              <option value="4">4. Sınıf</option>
-              <option value="5">5. Sınıf</option>
-              <option value="6">6. Sınıf</option>
-              <option value="7">7. Sınıf</option>
+              <option value="3. Sınıf">3. Sınıf</option>
+              <option value="4. Sınıf">4. Sınıf</option>
+              <option value="5. Sınıf">5. Sınıf</option>
+              <option value="6. Sınıf">6. Sınıf</option>
+              <option value="7. Sınıf">7. Sınıf</option>
             </select>
           </div>
 
@@ -340,7 +329,7 @@ const AdminPanel = () => {
                       </div>
                     </td>
                     <td>{result.user.school_name}</td>
-                    <td>{getGradeLabel(result.user.branch)}</td>
+                    <td>{result.user.branch}</td>
                     <td>{result.exam.title}</td>
                     <td className={styles.correct}>{result.correct_answers}</td>
                     <td className={styles.incorrect}>{result.incorrect_answers}</td>
