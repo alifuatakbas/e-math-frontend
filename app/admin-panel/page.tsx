@@ -59,6 +59,7 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
   const [selectedGrade, setSelectedGrade] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [appliedSearchTerm, setAppliedSearchTerm] = useState('');
   const [selectedExam, setSelectedExam] = useState<string>('');
   const [exams, setExams] = useState<any[]>([]);
   const [showDetails, setShowDetails] = useState<number | null>(null);
@@ -77,7 +78,7 @@ const AdminPanel = () => {
 
   useEffect(() => {
     fetchExamResults();
-  }, [currentPage, pageSize, selectedGrade, searchTerm, selectedExam]);
+  }, [currentPage, pageSize, selectedGrade, appliedSearchTerm, selectedExam]);
 
   const checkAuth = async () => {
     const token = localStorage.getItem('token');
@@ -128,47 +129,35 @@ const AdminPanel = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-
-      // API parametrelerini oluştur
       const params = new URLSearchParams({
         page: currentPage.toString(),
         page_size: pageSize.toString()
       });
-
       if (selectedGrade) {
         params.append('grade', selectedGrade);
       }
       if (selectedExam) {
         params.append('exam_id', selectedExam);
       }
-      if (searchTerm) {
-        params.append('search', searchTerm);
+      if (appliedSearchTerm) {
+        params.append('search', appliedSearchTerm);
       }
-
-      console.log('API çağrısı yapılıyor:', `${process.env.NEXT_PUBLIC_API_URL}/admin/paginated-exam-results?${params}`);
-
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/paginated-exam-results?${params}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-
       if (response.ok) {
         const data: PaginatedResults = await response.json();
-        console.log('API yanıtı:', data);
         setExamResults(data.results || []);
         setTotalResults(data.total || 0);
         setTotalPages(data.total_pages || 0);
       } else {
-        console.error('API yanıt hatası:', response.status);
-        const errorText = await response.text();
-        console.error('Hata detayı:', errorText);
         setExamResults([]);
         setTotalResults(0);
         setTotalPages(0);
       }
     } catch (error) {
-      console.error('Sınav sonuçları yüklenirken hata:', error);
       setExamResults([]);
       setTotalResults(0);
       setTotalPages(0);
@@ -288,18 +277,32 @@ const AdminPanel = () => {
             </select>
           </div>
 
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>🔍</span>
             <input
               type="text"
               placeholder="Öğrenci adı, email veya okul ara..."
               value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                handleFilterChange();
-              }}
+              onChange={(e) => setSearchTerm(e.target.value)}
               style={{ padding: '8px 8px 8px 35px', borderRadius: '4px', border: '1px solid #ddd', width: '250px' }}
             />
+            <button
+              onClick={() => {
+                setAppliedSearchTerm(searchTerm);
+                setCurrentPage(1);
+              }}
+              style={{
+                marginLeft: '10px',
+                padding: '8px 16px',
+                background: '#007bff',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Ara
+            </button>
           </div>
         </div>
 
