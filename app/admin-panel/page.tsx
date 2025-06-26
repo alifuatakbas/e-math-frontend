@@ -98,42 +98,21 @@ const AdminPanel = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
-      console.log('Token:', token ? 'Mevcut' : 'Yok');
+      const headers = { 'Authorization': `Bearer ${token}` };
 
-      // Sınavları getir
-      console.log('Sınavlar getiriliyor...');
-      const examsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      // Paralel fetch
+      const [examsResponse, resultsResponse] = await Promise.all([
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, { headers }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results`, { headers })
+      ]);
 
-      console.log('Sınavlar response status:', examsResponse.status);
       if (examsResponse.ok) {
         const examsData = await examsResponse.json();
-        console.log('Sınavlar data:', examsData);
         setExams(examsData);
-      } else {
-        console.error('Sınavlar getirilemedi:', examsResponse.statusText);
       }
-
-      // Sınav sonuçlarını getir (admin endpoint'i oluşturulmalı)
-      console.log('Sınav sonuçları getiriliyor...');
-      const resultsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/exam-results`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      console.log('Sonuçlar response status:', resultsResponse.status);
       if (resultsResponse.ok) {
         const resultsData = await resultsResponse.json();
-        console.log('Sonuçlar data:', resultsData);
         setExamResults(resultsData);
-      } else {
-        console.error('Sonuçlar getirilemedi:', resultsResponse.statusText);
-        const errorText = await resultsResponse.text();
-        console.error('Error details:', errorText);
       }
     } catch (error) {
       console.error('Veri yüklenirken hata:', error);
@@ -274,31 +253,29 @@ const AdminPanel = () => {
           <div className={styles.filterGroup}>
             <label>Sınıf Filtresi:</label>
             <select
-                value={selectedGrade}
-                onChange={(e) => setSelectedGrade(e.target.value)}
-                className={styles.select}
+              value={selectedGrade}
+              onChange={(e) => setSelectedGrade(e.target.value)}
+              className={styles.select}
             >
               <option value="all">Tüm Sınıflar</option>
-              <option value="3. Sınıf">3. Sınıf</option>
-              <option value="4. Sınıf">4. Sınıf</option>
-              <option value="5. Sınıf">5. Sınıf</option>
-              <option value="6. Sınıf">6. Sınıf</option>
-              <option value="7. Sınıf">7. Sınıf</option>
-              <option value="8. Sınıf">8. Sınıf</option>
-              <option value="9. Sınıf">9. Sınıf</option>
+              <option value="3">3. Sınıf</option>
+              <option value="4">4. Sınıf</option>
+              <option value="5">5. Sınıf</option>
+              <option value="6">6. Sınıf</option>
+              <option value="7">7. Sınıf</option>
             </select>
           </div>
 
           <div className={styles.filterGroup}>
             <label>Sınav Filtresi:</label>
             <select
-                value={selectedExam}
-                onChange={(e) => setSelectedExam(e.target.value)}
-                className={styles.select}
+              value={selectedExam}
+              onChange={(e) => setSelectedExam(e.target.value)}
+              className={styles.select}
             >
               <option value="all">Tüm Sınavlar</option>
               {exams.map(exam => (
-                  <option key={exam.id} value={exam.id.toString()}>
+                <option key={exam.id} value={exam.id.toString()}>
                   {exam.title}
                 </option>
               ))}
