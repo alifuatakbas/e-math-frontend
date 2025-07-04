@@ -190,7 +190,7 @@ const Navbar: React.FC = () => {
               onMouseLeave={() => window.innerWidth > 768 && setIsExamMenuOpen(false)}
               onClick={() => window.innerWidth <= 768 && setIsExamMenuOpen(!isExamMenuOpen)}
             >
-              Denemeler
+              Sınavlar
               <div
                 className={`${styles.examDropdownMenu} ${isExamMenuOpen ? styles.show : ''}`}
                 onMouseEnter={() => window.innerWidth > 768 && setIsExamMenuOpen(true)}
@@ -217,7 +217,7 @@ const Navbar: React.FC = () => {
               onMouseLeave={() => window.innerWidth > 768 && setIsSinavMenuOpen(false)}
               onClick={() => window.innerWidth <= 768 && setIsSinavMenuOpen(!isSinavMenuOpen)}
             >
-              Sınavlar
+              Kabul Sınavı
 <div
   className={`${styles.examDropdownMenu} ${isSinavMenuOpen ? styles.show : ''}`}
   onMouseEnter={() => window.innerWidth > 768 && setIsSinavMenuOpen(true)}
