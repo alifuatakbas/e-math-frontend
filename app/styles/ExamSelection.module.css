@@ -414,3 +414,17 @@
   border-radius: 0.25rem;
   margin-bottom: 1rem;
 }
+
+.noRegistration {
+  color: #059669 !important;
+  font-weight: 600;
+  background: #D1FAE5;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 8px 0;
+}
+
+.darkMode .noRegistration {
+  background: #064E3B;
+  color: #6EE7B7 !important;
+}

@@ -21,8 +21,10 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
   exam_end_date: string;
   question_counter: number;
   status: string;
+  requires_registration: boolean;
 }
   const [title, setTitle] = useState<string>('');
+  const [requiresRegistration, setRequiresRegistration] = useState<boolean>(true);  // Yeni state
   const [registrationStartDate, setRegistrationStartDate] = useState<string>('');
   const [registrationEndDate, setRegistrationEndDate] = useState<string>('');
   const [examStartDate, setExamStartDate] = useState<string>('');
@@ -33,7 +35,6 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
 
 
 
-// useState'i güncelle
 const [exams, setExams] = useState<AdminExam[]>([]); //
 
   useEffect(() => {
@@ -72,9 +73,18 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
       return;
     }
 
-    if (!registrationStartDate || !registrationEndDate || !examStartDate || !examEndDate) {
-      setError('Tüm tarih alanları doldurulmalıdır');
-      return;
+    // Başvurulu sınavlar için tarih kontrolü
+    if (requiresRegistration) {
+      if (!registrationStartDate || !registrationEndDate || !examStartDate || !examEndDate) {
+        setError('Tüm tarih alanları doldurulmalıdır');
+        return;
+      }
+    } else {
+      // Başvurusuz sınavlar için sadece sınav tarihleri
+      if (!examStartDate || !examEndDate) {
+        setError('Sınav başlangıç ve bitiş tarihleri doldurulmalıdır');
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -89,8 +99,9 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
       },
       body: JSON.stringify({
         title,
-        registration_start_date: new Date(registrationStartDate).toISOString(),
-        registration_end_date: new Date(registrationEndDate).toISOString(),
+        requires_registration: requiresRegistration,
+        registration_start_date: requiresRegistration ? new Date(registrationStartDate).toISOString() : null,
+        registration_end_date: requiresRegistration ? new Date(registrationEndDate).toISOString() : null,
         exam_start_date: new Date(examStartDate).toISOString(),
         exam_end_date: new Date(examEndDate).toISOString()
       })
@@ -104,12 +115,14 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
 
       setSuccess('Sınav başarıyla oluşturuldu');
       setTitle('');
+      setRequiresRegistration(true);
       setRegistrationStartDate('');
       setRegistrationEndDate('');
       setExamStartDate('');
       setExamEndDate('');
 
-      // Sınavları yenile
+
+ // Sınavları yenile
       const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -200,34 +213,66 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
          </div>
 
          <div>
-           <label htmlFor="registration-start" className="block mb-2 text-sm font-medium">
-             Başvuru Başlangıç Tarihi
+           <label className="block mb-2 text-sm font-medium">
+             Sınav Türü
            </label>
-           <input
-               id="registration-start"
-               type="datetime-local"
-               value={registrationStartDate}
-               onChange={(e) => setRegistrationStartDate(e.target.value)}
-               required
-               disabled={isLoading}
-               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-           />
+           <div className="flex gap-4">
+             <label className="flex items-center">
+               <input
+                 type="radio"
+                 name="registrationType"
+                 checked={requiresRegistration}
+                 onChange={() => setRequiresRegistration(true)}
+                 className="mr-2"
+               />
+               Başvurulu Sınav
+             </label>
+             <label className="flex items-center">
+               <input
+                 type="radio"
+                 name="registrationType"
+                 checked={!requiresRegistration}
+                 onChange={() => setRequiresRegistration(false)}
+                 className="mr-2"
+               />
+               Başvurusuz Sınav
+             </label>
+           </div>
          </div>
 
-         <div>
-           <label htmlFor="registration-end" className="block mb-2 text-sm font-medium">
-             Başvuru Bitiş Tarihi
-           </label>
-           <input
-               id="registration-end"
-               type="datetime-local"
-               value={registrationEndDate}
-               onChange={(e) => setRegistrationEndDate(e.target.value)}
-               required
-               disabled={isLoading}
-               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-           />
-         </div>
+         {requiresRegistration && (
+           <>
+             <div>
+               <label htmlFor="registration-start" className="block mb-2 text-sm font-medium">
+                 Başvuru Başlangıç Tarihi
+               </label>
+               <input
+                   id="registration-start"
+                   type="datetime-local"
+                   value={registrationStartDate}
+                   onChange={(e) => setRegistrationStartDate(e.target.value)}
+                   required={requiresRegistration}
+                   disabled={isLoading}
+                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+               />
+             </div>
+
+             <div>
+               <label htmlFor="registration-end" className="block mb-2 text-sm font-medium">
+                 Başvuru Bitiş Tarihi
+               </label>
+               <input
+                   id="registration-end"
+                   type="datetime-local"
+                   value={registrationEndDate}
+                   onChange={(e) => setRegistrationEndDate(e.target.value)}
+                   required={requiresRegistration}
+                   disabled={isLoading}
+                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+               />
+             </div>
+           </>
+         )}
 
          <div>
            <label htmlFor="exam-start" className="block mb-2 text-sm font-medium">
@@ -274,6 +319,7 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
          <tr>
            <th className="border px-4 py-2">ID</th>
            <th className="border px-4 py-2">Başlık</th>
+           <th className="border px-4 py-2">Tür</th>
            <th className="border px-4 py-2">Yayın Durumu</th>
            <th className="border px-4 py-2">Başvuru Başlangıç</th>
            <th className="border px-4 py-2">Soru Sayısı</th>
@@ -286,10 +332,16 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
                <td className="border px-4 py-2">{exam.id}</td>
                <td className="border px-4 py-2">{exam.title}</td>
                <td className="border px-4 py-2">
+                 {exam.requires_registration ? 'Başvurulu' : 'Başvurusuz'}
+               </td>
+               <td className="border px-4 py-2">
                  {exam.is_published ? 'Yayında' : 'Yayında Değil'}
                </td>
                <td className="border px-4 py-2">
-                 {formatDateForDisplay(exam.registration_start_date)}
+                 {exam.requires_registration
+                   ? formatDateForDisplay(exam.registration_start_date)
+                   : 'Başvuru gerekmez'
+                 }
                </td>
                <td className="border px-4 py-2">{exam.question_counter}</td>
                <td className="border px-4 py-2">

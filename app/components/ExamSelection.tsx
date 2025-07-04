@@ -13,6 +13,7 @@ interface Exam extends ExamSCH {
   exam_start_date: string;
   exam_end_date: string;
   is_registered: boolean;
+  requires_registration: boolean;  // Yeni eklenen alan
   status: 'registration_pending' | 'registration_open' | 'exam_active' | 'completed';
   can_register: boolean;         // Eklendi
   registration_status: string;   // Eklendi
@@ -151,14 +152,20 @@ return (
           <div key={exam.id} className={styles.examCard}>
             <h2>{exam.title}</h2>
             <div className={styles.examInfo}>
-              <p>Başvuru Başlangıç: {formatDateForDisplay(exam.registration_start_date)}</p>
-              <p>Başvuru Bitiş: {formatDateForDisplay(exam.registration_end_date)}</p>
+              {exam.requires_registration ? (
+                <>
+                  <p>Başvuru Başlangıç: {formatDateForDisplay(exam.registration_start_date)}</p>
+                  <p>Başvuru Bitiş: {formatDateForDisplay(exam.registration_end_date)}</p>
+                </>
+              ) : (
+                <p className={styles.noRegistration}>Başvuru Gerekmez - Tüm kullanıcılar katılabilir</p>
+              )}
               <p>Sınav Başlangıç: {formatDateForDisplay(exam.exam_start_date)}</p>
               <p>Sınav Bitiş: {formatDateForDisplay(exam.exam_end_date)}</p>
             </div>
             <div className={styles.examActions}>
-              {/* Başvur butonu için koşulu düzenleyelim */}
-              {(exam.status === 'registration_open' || exam.status === 'registration_pending') && (
+              {/* Başvurulu sınavlar için başvuru butonu */}
+              {exam.requires_registration && (exam.status === 'registration_open' || exam.status === 'registration_pending') && (
                   <button
                       onClick={() => handleRegister(exam.id)}
                       className={`${styles.registerButton} ${exam.is_registered ? styles.disabled : ''}`}
@@ -172,7 +179,9 @@ return (
                     }
                   </button>
               )}
-              {exam.status === 'exam_active' && exam.is_registered && (
+
+              {/* Sınava başla butonu - hem başvurulu hem başvurusuz sınavlar için */}
+              {exam.status === 'exam_active' && (exam.is_registered || !exam.requires_registration) && (
                   <button
                       onClick={() => onSelect(exam.id)}
                       className={styles.startButton}
