@@ -29,6 +29,7 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
   const [registrationEndDate, setRegistrationEndDate] = useState<string>('');
   const [examStartDate, setExamStartDate] = useState<string>('');
   const [examEndDate, setExamEndDate] = useState<string>('');
+  const [durationMinutes, setDurationMinutes] = useState<number>(60); // Sınav süresi (dakika)
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -73,6 +74,12 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
     return;
   }
 
+  // Sınav süresi kontrolü
+  if (durationMinutes <= 0 || durationMinutes > 480) { // Maksimum 8 saat
+    setError('Sınav süresi 1-480 dakika arasında olmalıdır');
+    return;
+  }
+
   // Başvurulu sınavlar için tarih kontrolü
   if (requiresRegistration) {
     if (!registrationStartDate || !registrationEndDate || !examStartDate || !examEndDate) {
@@ -96,7 +103,8 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
       title,
       requires_registration: requiresRegistration,
       exam_start_date: new Date(examStartDate).toISOString(),
-      exam_end_date: new Date(examEndDate).toISOString()
+      exam_end_date: new Date(examEndDate).toISOString(),
+      duration_minutes: durationMinutes // Sınav süresini ekle
     };
 
     // Sadece başvurulu sınavlar için tarihleri ekle
@@ -127,6 +135,7 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
     setRegistrationEndDate('');
     setExamStartDate('');
     setExamEndDate('');
+    setDurationMinutes(60); // Varsayılan değere sıfırla
 
     // Sınavları yenile
     const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
@@ -246,6 +255,27 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
            </div>
          </div>
 
+         <div>
+           <label htmlFor="duration-minutes" className="block mb-2 text-sm font-medium">
+             Sınav Süresi (Dakika)
+           </label>
+           <input
+               id="duration-minutes"
+               type="number"
+               min="1"
+               max="480"
+               value={durationMinutes}
+               onChange={(e) => setDurationMinutes(Number(e.target.value))}
+               placeholder="60"
+               required
+               disabled={isLoading}
+               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+           />
+           <p className="text-xs text-gray-500 mt-1">
+             Kullanıcının sınavı çözmek için kullanacağı süre (1-480 dakika)
+           </p>
+         </div>
+
          {requiresRegistration && (
            <>
              <div>
@@ -326,6 +356,7 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
            <th className="border px-4 py-2">ID</th>
            <th className="border px-4 py-2">Başlık</th>
            <th className="border px-4 py-2">Tür</th>
+           <th className="border px-4 py-2">Süre (dk)</th>
            <th className="border px-4 py-2">Yayın Durumu</th>
            <th className="border px-4 py-2">Başvuru Başlangıç</th>
            <th className="border px-4 py-2">Soru Sayısı</th>
@@ -340,6 +371,7 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
                <td className="border px-4 py-2">
                  {exam.requires_registration ? 'Başvurulu' : 'Başvurusuz'}
                </td>
+               <td className="border px-4 py-2">{exam.duration_minutes || 'N/A'}</td>
                <td className="border px-4 py-2">
                  {exam.is_published ? 'Yayında' : 'Yayında Değil'}
                </td>
