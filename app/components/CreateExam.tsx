@@ -22,6 +22,8 @@ const CreateExam: React.FC<CreateExamProps> = ({ onExamCreated }) => {
   question_counter: number;
   status: string;
   requires_registration: boolean;
+   duration_minutes: number; // Sınav süresi alanını ekle
+
 }
   const [title, setTitle] = useState<string>('');
   const [requiresRegistration, setRequiresRegistration] = useState<boolean>(true);  // Yeni state
