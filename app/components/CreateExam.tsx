@@ -64,83 +64,89 @@ const [exams, setExams] = useState<AdminExam[]>([]); //
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
+  e.preventDefault();
+  setError(null);
+  setSuccess(null);
 
-    if (!title.trim()) {
-      setError('Sınav başlığı boş bırakılamaz');
+  if (!title.trim()) {
+    setError('Sınav başlığı boş bırakılamaz');
+    return;
+  }
+
+  // Başvurulu sınavlar için tarih kontrolü
+  if (requiresRegistration) {
+    if (!registrationStartDate || !registrationEndDate || !examStartDate || !examEndDate) {
+      setError('Tüm tarih alanları doldurulmalıdır');
       return;
     }
+  } else {
+    // Başvurusuz sınavlar için sadece sınav tarihleri
+    if (!examStartDate || !examEndDate) {
+      setError('Sınav başlangıç ve bitiş tarihleri doldurulmalıdır');
+      return;
+    }
+  }
 
-    // Başvurulu sınavlar için tarih kontrolü
+  setIsLoading(true);
+  const token = localStorage.getItem('token');
+
+  try {
+    // Request body'yi dinamik olarak oluştur
+    const requestBody: any = {
+      title,
+      requires_registration: requiresRegistration,
+      exam_start_date: new Date(examStartDate).toISOString(),
+      exam_end_date: new Date(examEndDate).toISOString()
+    };
+
+    // Sadece başvurulu sınavlar için tarihleri ekle
     if (requiresRegistration) {
-      if (!registrationStartDate || !registrationEndDate || !examStartDate || !examEndDate) {
-        setError('Tüm tarih alanları doldurulmalıdır');
-        return;
-      }
-    } else {
-      // Başvurusuz sınavlar için sadece sınav tarihleri
-      if (!examStartDate || !examEndDate) {
-        setError('Sınav başlangıç ve bitiş tarihleri doldurulmalıdır');
-        return;
-      }
+      requestBody.registration_start_date = new Date(registrationStartDate).toISOString();
+      requestBody.registration_end_date = new Date(registrationEndDate).toISOString();
     }
 
-    setIsLoading(true);
-    const token = localStorage.getItem('token');
-
-     try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/create-exam`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({
-        title,
-        requires_registration: requiresRegistration,
-        registration_start_date: requiresRegistration ? new Date(registrationStartDate).toISOString() : null,
-        registration_end_date: requiresRegistration ? new Date(registrationEndDate).toISOString() : null,
-        exam_start_date: new Date(examStartDate).toISOString(),
-        exam_end_date: new Date(examEndDate).toISOString()
-      })
+      body: JSON.stringify(requestBody)
     });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.detail || 'Sınav oluşturulurken bir hata oluştu');
-      }
-
-      setSuccess('Sınav başarıyla oluşturuldu');
-      setTitle('');
-      setRequiresRegistration(true);
-      setRegistrationStartDate('');
-      setRegistrationEndDate('');
-      setExamStartDate('');
-      setExamEndDate('');
-
-
- // Sınavları yenile
-      const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const updatedData = await updatedExams.json();
-      if (Array.isArray(updatedData)) {
-        setExams(updatedData);
-      }
-
-      if (onExamCreated && data.exam_id) {
-        onExamCreated(data.exam_id);
-      }
-    } catch (error: any) {
-      setError(error.message || 'Bir hata oluştu');
-    } finally {
-      setIsLoading(false);
+    if (!response.ok) {
+      throw new Error(data.detail || 'Sınav oluşturulurken bir hata oluştu');
     }
+
+    setSuccess('Sınav başarıyla oluşturuldu');
+    setTitle('');
+    setRequiresRegistration(true);
+    setRegistrationStartDate('');
+    setRegistrationEndDate('');
+    setExamStartDate('');
+    setExamEndDate('');
+
+    // Sınavları yenile
+    const updatedExams = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const updatedData = await updatedExams.json();
+    if (Array.isArray(updatedData)) {
+      setExams(updatedData);
+    }
+
+    if (onExamCreated && data.exam_id) {
+      onExamCreated(data.exam_id);
+    }
+  } catch (error: any) {
+    setError(error.message || 'Bir hata oluştu');
+  } finally {
+    setIsLoading(false);
+  }
 };
 
  const handlePublishExam = async (examId: number, currentStatus: boolean) => {
