@@ -76,7 +76,6 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(232, 74, 95, 0.1);
   position: relative;
-  overflow: hidden;
 }
 
 .timer {

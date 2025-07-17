@@ -11,7 +11,6 @@
   text-align: center;
   border: 1px solid rgba(232, 74, 95, 0.1);
   position: relative;
-  overflow: hidden;
   /* Mobil için ek düzenlemeler */
   height: auto;
   min-height: 100vh;
@@ -172,7 +171,7 @@
     border-radius: 0;
     min-height: 100vh;
     height: auto;
-    overflow-y: auto;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch; /* iOS için daha iyi kaydırma */
   }
 
