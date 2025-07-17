@@ -31,6 +31,7 @@ export default function RootLayout({
         padding: 0
       }}>
         {children}
+       <Analytics />
       </body>
     </html>
   )

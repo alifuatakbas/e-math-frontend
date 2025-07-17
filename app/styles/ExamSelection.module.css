@@ -171,7 +171,8 @@
     border-radius: 0;
     height: auto;
     overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch; /* iOS için daha iyi kaydırma */
+    -webkit-overflow-scrolling: touch;
+     touch-action: auto;/* iOS için daha iyi kaydırma */
   }
 
   .examList {
