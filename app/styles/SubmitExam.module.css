@@ -816,178 +816,178 @@
 }
 
 @media (max-width: 768px) {
-
-  /* Ana container */
+  /* Ana container - NUCLEAR düzeltme */
   .submitExamContainer {
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 16px;
-    min-height: 100vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
-    padding-bottom: calc(80px + env(safe-area-inset-bottom)); /* Butonlar için alan */
+    margin: 1rem !important;
+    padding: 1rem !important;
+    border-radius: 16px !important;
+    /* NUCLEAR DÜZELTME */
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: auto !important;
+    position: relative !important;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    -webkit-transform: translateZ(0) !important;
   }
 
   /* Timer */
   .timer {
-    margin-top: 4rem; /* Tema toggle butonu için yer */
-    font-size: 1.2rem;
-    padding: 0.8rem;
+    margin-top: 4rem !important;
+    font-size: 1.2rem !important;
+    padding: 0.8rem !important;
   }
 
   /* Soru container */
- .questionContainer {
-    margin: 1rem 0;
-    padding: 1rem;
-    padding-bottom: 2rem; /* Son seçenek ile butonlar arası boşluk */
-  }
-
   .questionContainer {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: visible;
-    margin-bottom: calc(70px + env(safe-area-inset-bottom)); /* Buton yüksekliği + ekstra alan */
+    margin: 1rem 0 !important;
+    padding: 1rem !important;
+    padding-bottom: 2rem !important;
+    overflow: visible !important;
+    margin-bottom: calc(70px + env(safe-area-inset-bottom)) !important;
   }
-
 
   /* Soru görseli */
   .questionImage {
-    height: 200px;
-    margin: 1rem 0;
+    height: 200px !important;
+    margin: 1rem 0 !important;
   }
 
   /* Seçenek container'ı */
   .optionContainer {
-    position: relative;
-    margin-bottom: 0.8rem;
-    padding: 0;
-    border-radius: 8px;
+    position: relative !important;
+    margin-bottom: 0.8rem !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
   }
 
   /* Gizli radio butonu */
   .optionContainer input[type="radio"] {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+    z-index: 2 !important;
   }
-.optionContainer:last-child {
-    margin-bottom: 2rem;
+
+  .optionContainer:last-child {
+    margin-bottom: 2rem !important;
   }
+
   /* Seçenek label'ı */
   .optionContainer label {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-height: 50px; /* Kolay tıklama için */
-    padding: 0.8rem 1rem 0.8rem 3rem; /* Sol tarafta radio için yer */
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-height: 50px !important;
+    padding: 0.8rem 1rem 0.8rem 3rem !important;
+    margin: 0 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+    position: relative !important;
   }
 
   /* Custom radio göstergesi */
   .optionContainer label::before {
-    content: '';
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    border: 2px solid #E84A5F;
-    border-radius: 50%;
-    background: white;
-    transition: all 0.2s ease;
+    content: '' !important;
+    position: absolute !important;
+    left: 1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 20px !important;
+    height: 20px !important;
+    border: 2px solid #E84A5F !important;
+    border-radius: 50% !important;
+    background: white !important;
+    transition: all 0.2s ease !important;
   }
 
   /* Seçili radio göstergesi */
   .optionContainer input[type="radio"]:checked + label::before {
-    background: #E84A5F;
-    box-shadow: inset 0 0 0 3px white;
+    background: #E84A5F !important;
+    box-shadow: inset 0 0 0 3px white !important;
   }
 
   /* Seçili container stili */
   .optionContainer input[type="radio"]:checked + label {
-    background: rgba(232, 74, 95, 0.1);
-    font-weight: 500;
+    background: rgba(232, 74, 95, 0.1) !important;
+    font-weight: 500 !important;
   }
 
   /* Aktif durum efekti */
   .optionContainer:active {
-    transform: scale(0.98);
+    transform: scale(0.98) !important;
   }
 
   /* Alt navigasyon butonları */
-    .buttonContainer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    background: #fff; /* Açık tema için arka plan */
-    margin: 0;
-    display: flex;
-    gap: 0.5rem;
-    z-index: 1000;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
   .buttonContainer {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 1rem !important;
+    background: #fff !important;
+    margin: 0 !important;
+    display: flex !important;
+    gap: 0.5rem !important;
+    z-index: 1000 !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom)) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
   }
-   .buttonContainer button {
-    flex: 1;
-    min-height: 44px;
-    font-size: 1rem;
-    padding: 0.8rem;
-    border-radius: 8px;
-    white-space: nowrap;
+
+  .buttonContainer button {
+    flex: 1 !important;
+    min-height: 44px !important;
+    font-size: 1rem !important;
+    padding: 0.8rem !important;
+    border-radius: 8px !important;
+    white-space: nowrap !important;
   }
+
   .darkMode .buttonContainer {
-    background: rgba(30, 41, 59, 0.95);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(30, 41, 59, 0.95) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 
   /* Dark mode için özel stiller */
   .darkMode .optionContainer label::before {
-    border-color: #FF6B6B;
-    background: #1E293B;
+    border-color: #FF6B6B !important;
+    background: #1E293B !important;
   }
 
   .darkMode .optionContainer input[type="radio"]:checked + label::before {
-    background: #FF6B6B;
-    box-shadow: inset 0 0 0 3px #1E293B;
+    background: #FF6B6B !important;
+    box-shadow: inset 0 0 0 3px #1E293B !important;
   }
 
   .darkMode .optionContainer input[type="radio"]:checked + label {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1) !important;
   }
 
-   .optionContainer:last-of-type {
-    margin-bottom: 1rem;
+  .optionContainer:last-of-type {
+    margin-bottom: 1rem !important;
   }
 
   /* Tema toggle butonu */
   .themeToggle {
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    padding: 0.6rem;
+    top: 10px !important;
+    right: 10px !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0.6rem !important;
   }
 
   .themeIcon {
-    width: 18px;
-    height: 18px;
+    width: 18px !important;
+    height: 18px !important;
   }
 }
 .loadingContainer {
