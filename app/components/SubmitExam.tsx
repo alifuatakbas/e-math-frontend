@@ -398,62 +398,80 @@ useEffect(() => {
     });
   };
 
-  const handleSubmit = async () => {
-    try {
-      const submission: ExamSubmission = {
-        answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
-          question_id: Number(question_id),
-          selected_option_id,
-        })),
-      };
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [submitSuccess, setSubmitSuccess] = useState(false);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/submit-exam/${examId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-          body: JSON.stringify(submission),
-        }
-      );
+const handleSubmit = async () => {
+  if (isSubmitting) return; // Zaten gönderiliyorsa çık
 
-      const data = await response.json();
+  setIsSubmitting(true);
+  setError(''); // Önceki hataları temizle
+  setSubmitSuccess(false); // Başarı mesajını sıfırla
 
-      if (!response.ok && !data.correct_answers) {
-        throw new Error(data.detail || 'Sınav gönderilemedi');
+  try {
+    const submission: ExamSubmission = {
+      answers: Object.entries(answers).map(([question_id, selected_option_id]) => ({
+        question_id: Number(question_id),
+        selected_option_id,
+      })),
+    };
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/submit-exam/${examId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(submission),
       }
+    );
 
-      setExamResults({
-        correctAnswers: data.correct_answers,
-        incorrectAnswers: data.incorrect_answers,
-        totalQuestions: data.total_questions,
-        scorePercentage: data.score_percentage
-      });
+    const data = await response.json();
 
-      setExamCompleted(true);
-      setExamStarted(false);
-      setIsExamTerminated(true);
-
-      localStorage.removeItem(`exam_${examId}_answers`);
-      setAnswers({});
-      setShowWarning(false);
-      setPendingViolation(false);
-      setTabSwitchCount(0);
-      setLastSwitchTime(0);
-    } catch (error) {
-      setError('Sınav gönderilirken bir hata oluştu');
+    if (!response.ok && !data.correct_answers) {
+      throw new Error(data.detail || 'Sınav gönderilemedi');
     }
-  };
 
-    if (isLoading) return <div>Yükleniyor...</div>;
-  if (error) return <div className={styles.errorMessage}>{error}</div>;
-  if (!exam) return <div>Sınav bulunamadı</div>;
+    // Başarılı gönderim
+    setSubmitSuccess(true);
+    setMessage('Sınavınız başarıyla gönderildi! Sonuçlarınız hesaplanıyor...');
 
-  if (examCompleted && examResults) {
-    return <ExamCompletionScreen {...examResults} />;
+    setExamResults({
+      correctAnswers: data.correct_answers,
+      incorrectAnswers: data.incorrect_answers,
+      totalQuestions: data.total_questions,
+      scorePercentage: data.score_percentage
+    });
+
+    setExamCompleted(true);
+    setExamStarted(false);
+    setIsExamTerminated(true);
+
+    localStorage.removeItem(`exam_${examId}_answers`);
+    setAnswers({});
+    setShowWarning(false);
+    setPendingViolation(false);
+    setTabSwitchCount(0);
+    setLastSwitchTime(0);
+
+  } catch (error) {
+    setError('Sınav gönderilirken bir hata oluştu');
+    setSubmitSuccess(false);
+  } finally {
+    setIsSubmitting(false);
   }
+};
+
+// Return kısmını da şu şekilde güncelle:
+if (isLoading) return <div>Yükleniyor...</div>;
+if (error) return <div className={styles.errorMessage}>{error}</div>;
+if (!exam) return <div>Sınav bulunamadı</div>;
+
+if (examCompleted && examResults) {
+  return <ExamCompletionScreen {...examResults} />;
+}
 
 return (
   <div className={`${styles.submitExamContainer} ${darkMode ? styles.darkMode : ''}`}>
@@ -547,7 +565,7 @@ return (
           <div className={styles.buttonContainer}>
             <button
               onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
-              disabled={currentQuestionIndex === 0}
+              disabled={currentQuestionIndex === 0 || isSubmitting}
             >
               Önceki Soru
             </button>
@@ -559,8 +577,14 @@ return (
                   setCurrentQuestionIndex(prev => prev + 1);
                 }
               }}
+              disabled={isSubmitting}
             >
-              {currentQuestionIndex === exam.questions.length - 1 ? 'Sınavı Bitir' : 'Sonraki Soru'}
+              {isSubmitting
+                ? 'Gönderiliyor...'
+                : currentQuestionIndex === exam.questions.length - 1
+                  ? 'Sınavı Bitir'
+                  : 'Sonraki Soru'
+              }
             </button>
           </div>
         </>
@@ -574,9 +598,19 @@ return (
   />
 )}
 
+      {/* Buraya ekle - başarı mesajı */}
+      {submitSuccess && (
+        <div className={styles.successMessage}>
+          <div className={styles.successIcon}>✅</div>
+          <div className={styles.successText}>
+            <h3>Sınavınız Başarıyla Gönderildi!</h3>
+            <p>Sonuçlarınız hesaplanıyor, lütfen bekleyin...</p>
+          </div>
+        </div>
+      )}
+
       {message && <div className={styles.successMessage}>{message}</div>}
-    </div>
-  );
+    </div>);
 };
 
 export default SubmitExam;

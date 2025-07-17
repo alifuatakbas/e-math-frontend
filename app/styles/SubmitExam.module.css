@@ -1020,3 +1020,126 @@
   background: rgba(239, 68, 68, 0.1);
   border-radius: 0.5rem;
 }
+/* Başarı Mesajı Stilleri */
+.successMessage {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideInRight 0.4s ease-out;
+  max-width: 350px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.successIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.successText h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.successText p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+  line-height: 1.3;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Dark Mode için başarı mesajı */
+.darkMode .successMessage {
+  background: linear-gradient(135deg, #059669, #047857);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
+}
+
+/* Mobil için başarı mesajı */
+@media (max-width: 768px) {
+  .successMessage {
+    top: 80px; /* Tema toggle butonunun altında */
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    padding: 14px 16px;
+  }
+
+  .successText h3 {
+    font-size: 15px;
+  }
+
+  .successText p {
+    font-size: 13px;
+  }
+
+  .successIcon {
+    font-size: 20px;
+  }
+}
+
+/* Hata mesajı için de güncelleme */
+.errorMessage {
+  color: #ef4444;
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  font-weight: 500;
+}
+
+.darkMode .errorMessage {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+/* Loading durumu için buton stilleri */
+.buttonContainer button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.buttonContainer button:disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Gönderiliyor animasyonu */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.buttonContainer button:disabled {
+  animation: pulse 1.5s ease-in-out infinite;
+}
