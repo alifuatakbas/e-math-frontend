@@ -164,31 +164,222 @@
 }
 
 /* Responsive */
+/* MOBİL CSS - KOMPLE BAŞTAN */
 @media (max-width: 480px) {
+  /* Ana container - NUCLEAR düzeltme */
   .examSelectionContainer {
-    margin: 0;
-    padding: 1rem;
-    border-radius: 0;
-    height: auto;
+    margin: 0 !important;
+    padding: 1rem !important;
+    border-radius: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
     overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-     touch-action: auto;/* iOS için daha iyi kaydırma */
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: auto !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    -webkit-transform: translateZ(0) !important;
   }
 
-  .examList {
-    padding-bottom: 4rem; /* Alt kısımda boşluk bırak */
-  }
-
+  /* Tema toggle butonu */
   .themeToggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
+    position: fixed !important;
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 1000 !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0.6rem !important;
   }
 
+  .themeIcon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* Başlık */
+  .title {
+    font-size: 2rem !important;
+    margin-top: 3rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Sınav listesi */
+  .examList {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    margin-top: 1.5rem !important;
+    padding-bottom: 2rem !important;
+    overflow: visible !important;
+  }
+
+  /* Sınav kartları */
+  .examCard {
+    background: white !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    margin-bottom: 1rem !important;
+    overflow: visible !important;
+  }
+
+  .darkMode .examCard {
+    background: rgba(30, 41, 59, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Sınav başlığı */
+  .examCard h2 {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.8rem !important;
+    color: #1E293B !important;
+  }
+
+  .darkMode .examCard h2 {
+    color: #F1F5F9 !important;
+  }
+
+  /* Sınav bilgileri */
+  .examInfo {
+    margin-bottom: 1rem !important;
+  }
+
+  .examInfo p {
+    margin: 0.3rem 0 !important;
+    color: #64748B !important;
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .darkMode .examInfo p {
+    color: #94A3B8 !important;
+  }
+
+  /* Buton alanı */
+  .examActions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    margin-top: 1rem !important;
+  }
+
+  /* Butonlar */
+  .registerButton, .startButton {
+    width: 100% !important;
+    padding: 0.8rem 1rem !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .registerButton {
+    background-color: #E84A5F !important;
+    color: white !important;
+  }
+
+  .registerButton:hover:not(:disabled) {
+    background-color: #D13449 !important;
+  }
+
+  .registerButton.disabled {
+    background-color: #d1d5db !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+  }
+
+  .startButton {
+    background-color: #2196F3 !important;
+    color: white !important;
+  }
+
+  .startButton:hover {
+    background-color: #1976D2 !important;
+  }
+
+  /* Mesajlar */
+  .errorMessage, .successMessage {
+    margin: 1rem 0 !important;
+    padding: 0.8rem !important;
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
+    text-align: center !important;
+  }
+
+  .errorMessage {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    color: #EF4444 !important;
+    border: 1px solid rgba(239, 68, 68, 0.2) !important;
+  }
+
+  .successMessage {
+    background-color: rgba(34, 197, 94, 0.1) !important;
+    color: #16A34A !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+  }
+
+  /* Başvuru gerekmez mesajı */
+  .noRegistration {
+    color: #059669 !important;
+    font-weight: 600 !important;
+    background: #D1FAE5 !important;
+    padding: 6px 10px !important;
+    border-radius: 6px !important;
+    margin: 6px 0 !important;
+    font-size: 0.85rem !important;
+  }
+
+  .darkMode .noRegistration {
+    background: #064E3B !important;
+    color: #6EE7B7 !important;
+  }
+
+  /* iOS Safari özel düzeltmeler */
+  @supports (-webkit-touch-callout: none) {
+    .examSelectionContainer {
+      height: auto !important;
+      min-height: auto !important;
+      overflow: visible !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      touch-action: pan-y !important;
+      -webkit-transform: translateZ(0) !important;
+    }
+
+    .examList {
+      overflow: visible !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+  }
+}
+
+/* Daha küçük ekranlar için */
+@media (max-width: 360px) {
+  .examSelectionContainer {
+    padding: 0.8rem !important;
+  }
 
   .title {
-    font-size: 2rem;
+    font-size: 1.8rem !important;
+  }
+
+  .examCard {
+    padding: 0.8rem !important;
+  }
+
+  .examCard h2 {
+    font-size: 1rem !important;
+  }
+
+  .examInfo p {
+    font-size: 0.8rem !important;
   }
 }
 /* Theme Toggle Button Styles */
