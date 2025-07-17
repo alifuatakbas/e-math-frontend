@@ -100,7 +100,62 @@ const ExamSelection: React.FC<{ onSelect: (examId: number) => void }> = ({ onSel
 
     fetchExams();
   }, []);
+useEffect(() => {
+  const fixScroll = () => {
+    const container = document.querySelector('.examSelectionContainer') as HTMLElement;
+    if (container) {
+      // CSS stillerini object olarak tanımla
+      const scrollStyles = {
+        overflow: 'visible',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        webkitOverflowScrolling: 'touch',
+        touchAction: 'auto',
+        height: 'auto',
+        minHeight: 'auto',
+        maxHeight: 'none',
+        position: 'relative',
+        webkitTransform: 'translateZ(0)'
+      };
 
+      // Object'i style'a uygula
+      Object.assign(container.style, scrollStyles);
+    }
+
+    // Body için
+    const bodyStyles = {
+      overflow: 'visible',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      webkitOverflowScrolling: 'touch',
+      touchAction: 'auto'
+    };
+
+    Object.assign(document.body.style, bodyStyles);
+  };
+
+  fixScroll();
+
+  if (exams.length > 0) {
+    setTimeout(fixScroll, 100);
+    setTimeout(fixScroll, 500);
+  }
+
+  window.addEventListener('resize', fixScroll);
+  window.addEventListener('orientationchange', fixScroll);
+
+  return () => {
+    window.removeEventListener('resize', fixScroll);
+    window.removeEventListener('orientationchange', fixScroll);
+  };
+}, [exams]);
+
+  // Debug için
+  useEffect(() => {
+    console.log('Container height:', document.querySelector('.examSelectionContainer')?.scrollHeight);
+    console.log('Window height:', window.innerHeight);
+    console.log('Scroll working:', document.querySelector('.examSelectionContainer')?.scrollTop);
+  }, [exams]);
   const toggleTheme = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark-theme');

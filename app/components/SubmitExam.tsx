@@ -307,26 +307,74 @@ const SubmitExam: React.FC<{ examId: number }> = ({ examId }) => {
 
 // Diğer useEffect'lerin yanına ekleyin
 useEffect(() => {
-  // Mobil scroll davranışını düzeltmek için
+  // iOS Safari scroll davranışını düzeltmek için
   const fixMobileScroll = () => {
-    if (window.innerWidth <= 768 && examStarted) {
-      const container = document.querySelector(`.${styles.submitExamContainer}`);
+    if (window.innerWidth <= 768) {
+      // Ana container için scroll düzeltmeleri
+      const container = document.querySelector(`.${styles.submitExamContainer}`) as HTMLElement;
       if (container) {
+        const scrollStyles = {
+          overflow: 'visible',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          webkitOverflowScrolling: 'touch',
+          touchAction: 'auto',
+          height: 'auto',
+          minHeight: 'auto',
+          maxHeight: 'none',
+          position: 'relative',
+          webkitTransform: 'translateZ(0)'
+        };
+
+        Object.assign(container.style, scrollStyles);
+
+        // Touch event'leri düzelt
         container.addEventListener('touchmove', (e) => {
           e.stopPropagation();
         }, { passive: true });
       }
 
-      // Bottom padding ayarla
-      const questionContainer = document.querySelector(`.${styles.questionContainer}`);
+      // Question container için padding ayarla
+      const questionContainer = document.querySelector(`.${styles.questionContainer}`) as HTMLElement;
       if (questionContainer) {
         const buttonHeight = document.querySelector(`.${styles.buttonContainer}`)?.clientHeight || 0;
-        (questionContainer as HTMLElement).style.paddingBottom = `${buttonHeight + 40}px`;
+        questionContainer.style.paddingBottom = `${buttonHeight + 40}px`;
+
+        // Question container scroll düzeltmeleri
+        const questionScrollStyles = {
+          overflow: 'visible',
+          overflowY: 'auto',
+          webkitOverflowScrolling: 'touch',
+          touchAction: 'auto'
+        };
+
+        Object.assign(questionContainer.style, questionScrollStyles);
       }
+
+      // Body için genel scroll düzeltmeleri
+      const bodyStyles = {
+        overflow: 'visible',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        webkitOverflowScrolling: 'touch',
+        touchAction: 'auto'
+      };
+
+      Object.assign(document.body.style, bodyStyles);
     }
   };
 
   fixMobileScroll();
+
+  // Sayfa yüklendiğinde ve orientation değiştiğinde tekrar çalıştır
+  window.addEventListener('resize', fixMobileScroll);
+  window.addEventListener('orientationchange', fixMobileScroll);
+
+  // Exam başladığında da tekrar çalıştır
+  if (examStarted) {
+    setTimeout(fixMobileScroll, 100);
+    setTimeout(fixMobileScroll, 500);
+  }
 
   // Cleanup
   return () => {
@@ -336,8 +384,10 @@ useEffect(() => {
         e.stopPropagation();
       });
     }
+    window.removeEventListener('resize', fixMobileScroll);
+    window.removeEventListener('orientationchange', fixMobileScroll);
   };
-}, [examStarted]); // examStarted değiştiğinde tekrar çalışsın
+}, [examStarted, exam]); // examStarted ve exam değiştiğinde tekrar çalışsın // examStarted değiştiğinde tekrar çalışsın
 
  const handleStartExam = async () => {
   try {

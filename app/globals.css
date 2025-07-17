@@ -25,3 +25,7 @@ body {
   --background: #0A0A0B;
   --foreground: #FFFFFF;
 }
+html, body {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
